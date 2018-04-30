@@ -1,7 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import {Router} from "@angular/router";
-
-
+import { AuthService } from '../auth.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
@@ -9,6 +8,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
+  providers: [AuthService]
   
 })
 export class RegisterComponent implements OnInit {
@@ -19,12 +19,24 @@ export class RegisterComponent implements OnInit {
   public user={}
   constructor(
     private router: Router,  
-    private modalService: BsModalService) {}
+    private modalService: BsModalService,private authService: AuthService) {}
  
    ngOnInit() {}
 
-  register(userObject){
-    console.log(userObject)
+  register(registerObject){
+       console.log(registerObject);
+       this.authService.registerUser(registerObject).subscribe(
+       data => {
+          console.log("in api")
+         
+       },
+       error => {
+         console.log("Error saving food!");
+         
+       
+       }
+    );
+    
   }
 
 

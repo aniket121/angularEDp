@@ -9,15 +9,15 @@ import { AuthService } from '../auth.service';
   styleUrls:['./forgot.component.css']
 })
 export class ForgotComponent implements OnInit {
-  public forgotUserEmail={}
+  public userEmail={}
   constructor(private router: Router,private authService: AuthService) { }
 
   ngOnInit() {
   }
 
-  submit(forgotUserEmail){
-    console.log(forgotUserEmail);
-       this.authService.login(forgotUserEmail).subscribe(
+  submit(userEmail){
+    console.log(userEmail);
+       this.authService.forgotPassword(userEmail).subscribe(
        data => {
           console.log("in api")
          

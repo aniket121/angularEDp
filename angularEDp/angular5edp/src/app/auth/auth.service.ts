@@ -11,10 +11,10 @@ export class AuthService {
 
 
   registerUser(data) {
-  return this.http.post(environment.API_URL + '/user-register/', data).map(res => res);
+  return this.http.post(environment.API_URL + '/register', data).map(res => res);
   }
   login(data) {
-  return this.http.post(environment.API_URL + '/user-login/', data).map(res => res);
+  return this.http.post(environment.API_URL + '/loginnew', data).map(res => res);
   }
   forgotPassword(data) {
   return this.http.post(environment.API_URL + '/user-forgot/', data).map(res => res);

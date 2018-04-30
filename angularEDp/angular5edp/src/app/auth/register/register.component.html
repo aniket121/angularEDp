@@ -20,79 +20,90 @@
       <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
         <div class="well no-padding">
 
-          <form id="smart-form-register" class="smart-form client-form">
+          <form id="smart-form-register" class="smart-form client-form" #registerForm="ngForm">
             <header>
               Registration is FREE*
             </header>
 
             <fieldset>
+            
+            <div class="row">
+                <section class="col col-6">
+                  <label class="input">
+                    <input type="text" name="firstname" pattern="^[a-zA-Z]+$" required [(ngModel)]="user.firstName" placeholder="First name" #firstname="ngModel">
+                  </label>
+                <div *ngIf="firstname.errors && (firstname.dirty || firstname.touched)" class="alert alert-danger" >
+                    <div [hidden]="!firstname.errors.required">
+                      firstname is required!
+                    </div>
+                    <div [hidden]="firstname.errors.required">
+                      Please enter valid input
+                   </div>
+                </div>
+                </section>
+                <section class="col col-6">
+                  <label class="input">
+                    <input type="text" name="lastname" pattern="^[a-zA-Z]+$" required [(ngModel)]="user.lastName" placeholder="Last name" #lastname="ngModel">
+                  </label>
+                  <div *ngIf="lastname.errors && (lastname.dirty || lastname.touched)" class="alert alert-danger" >
+                    <div [hidden]="!lastname.errors.required">
+                      lastname is required!
+                    </div>
+                    <div [hidden]="lastname.errors.required">
+                      Please enter valid input
+                   </div>
+                </div>
+                </section>
+              </div>
+            
               <section>
                 <label class="input"> <i class="icon-append fa fa-user"></i>
-                  <input type="text" [(ngModel)]="user.username" name="username" placeholder="Username">
-                  <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+                  <input type="text" required [(ngModel)]="user.clientName" name="clientName" placeholder="Company Name" #clientName="ngModel">
+                  <b class="tooltip tooltip-bottom-right">Needed to enter the Company Name</b> </label>
               </section>
 
               <section>
                 <label class="input"> <i class="icon-append fa fa-envelope"></i>
-                  <input type="email" [(ngModel)]="user.email" name="email" placeholder="Email address">
-                  <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                  <input type="text" required [(ngModel)]="user.businessUnit" name="bussiness_unit" placeholder="Bussiness Unit" #bussiness_unit="ngModel">
+                  <b class="tooltip tooltip-bottom-right">Needed to verify Bussiness Unit</b> </label>
+              </section>
+              <section>
+                <label class="input"> <i class="icon-append fa fa-lock"></i>
+                  <input type="text" required [(ngModel)]="user.phone"  name="phone" placeholder="Phone" id="phone" #phone="ngModel">
+                  <b class="tooltip tooltip-bottom-right">Don't forget your phone</b> </label>
               </section>
 
               <section>
                 <label class="input"> <i class="icon-append fa fa-lock"></i>
-                  <input type="password" [(ngModel)]="user.password"  name="password" placeholder="Password" id="password">
-                  <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
+                  <input type="email" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required [(ngModel)]="user.email"  name="email" placeholder="Email" id="email" #email="ngModel">
+                  <b class="tooltip tooltip-bottom-right">Don't forget your Email</b> </label>
+                  <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger" >
+                    <div [hidden]="!email.errors.required">
+                      Email is required!
+                    </div>
+                    <div [hidden]="email.errors.required">
+                      Please enter valid emailID
+                    </div>
+                </div>
               </section>
 
               <section>
                 <label class="input"> <i class="icon-append fa fa-lock"></i>
-                  <input type="password" [(ngModel)]="user.confirmPassword" name="passwordConfirm" placeholder="Confirm password">
+                  <input type="password" required [(ngModel)]="user.password" name="password" placeholder="password" #password="ngModel">
                   <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
               </section>
             </fieldset>
 
             <fieldset>
-              <div class="row">
-                <section class="col col-6">
-                  <label class="input">
-                    <input type="text" name="firstname" [(ngModel)]="user.firstname" placeholder="First name">
-                  </label>
-                </section>
-                <section class="col col-6">
-                  <label class="input">
-                    <input type="text" name="lastname" [(ngModel)]="user.lastname" placeholder="Last name">
-                  </label>
-                </section>
-              </div>
-
-              <div class="row">
-                <section class="col col-6">
-                  <label class="select">
-                    <select name="gender" [(ngModel)]="user.gender">
-                      <option value="0" selected disabled>Gender</option>
-                      <option value="1">Male</option>
-                      <option value="2">Female</option>
-                      <option value="3">Prefer not to answer</option>
-                    </select> <i></i> </label>
-                </section>
-                <section class="col col-6">
-                  <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                    <input type="text" [(ngModel)]="user.dob" name="request" placeholder="Request activation on" class="datepicker" data-dateformat="dd/mm/yy">
-                  </label>
-                </section>
-              </div>
-
               <section>
+               
                 <label class="checkbox">
-                  <input type="checkbox" name="subscription" id="subscription">
-                  <i></i>I want to receive news and special offers</label>
-                <label class="checkbox">
-                  <input type="checkbox" name="terms" id="terms" [(ngModel)]="termsAgreed">
+                  <input type="checkbox" name="terms" required id="terms" [(ngModel)]="termsAgreed">
                   <i></i>I agree with the <a href="#" (click)="openModal($event, termsModal)"> Terms and Conditions </a></label>
               </section>
             </fieldset>
             <footer>
-              <button (click)="register(user)" class="btn btn-primary">
+              <button (click)="register(user)" [disabled]="!registerForm.form.valid" class="btn btn-primary">
                 Register
               </button>
             </footer>
