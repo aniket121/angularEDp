@@ -1,0 +1,43 @@
+<div class="project-context hidden-xs dropdown" dropdown>
+
+  <span class="label"></span>
+    <span class="project-selector dropdown-toggle" dropdownToggle>Menu1<i ng-if="projects.length" class="fa fa-angle-down"></i></span>
+
+  <ul *dropdownMenu class="dropdown-menu">
+    <li *ngFor="let project of Menu1">
+      <a href="{{project.href}}">{{project.title}}</a>
+    </li>
+    
+    
+  </ul>
+
+</div>
+<!--menu2-->
+<div class="project-context hidden-xs dropdown" dropdown>
+
+  <span class="label"></span>
+    <span class="project-selector dropdown-toggle" dropdownToggle>Menu2<i ng-if="projects.length" class="fa fa-angle-down"></i></span>
+
+  <ul *dropdownMenu class="dropdown-menu">
+    <li *ngFor="let project of Menu2">
+      <a href="{{project.href}}">{{project.title}}</a>
+    </li>
+    
+    
+  </ul>
+
+</div>
+<!---logout-->
+<div class=" project-context hidden-xs logout pull-right">
+  <a    (click)="logout()" class="padding-10 padding-top-5 padding-bottom-5 logout" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <u>L</u>ogout</a>
+</div>  
+
+
+
+
+
+
+
+
+
+

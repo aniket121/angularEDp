@@ -1,0 +1,134 @@
+<header id="header" class="animated fadeInDown">
+
+  <div id="logo-group">
+    <span id="logo">Insight Lake</span>
+  </div>
+
+  <span id="extr-page-header-space">
+        <span class="hidden-mobile hiddex-xs">Already registered?</span> <a routerLink="/auth/login" class="btn btn-danger">Sign In</a> </span>
+
+</header>
+<div id="main" role="main" class="animated fadeInDown bgimg">
+
+  <!-- MAIN CONTENT -->
+  <div id="content" class="container">
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 hidden-xs hidden-sm">
+        
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        <div class="well no-padding">
+
+          <form id="smart-form-register" class="smart-form client-form">
+            <header>
+              Registration is FREE*
+            </header>
+
+            <fieldset>
+              <section>
+                <label class="input"> <i class="icon-append fa fa-user"></i>
+                  <input type="text" [(ngModel)]="user.username" name="username" placeholder="Username">
+                  <b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
+              </section>
+
+              <section>
+                <label class="input"> <i class="icon-append fa fa-envelope"></i>
+                  <input type="email" [(ngModel)]="user.email" name="email" placeholder="Email address">
+                  <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+              </section>
+
+              <section>
+                <label class="input"> <i class="icon-append fa fa-lock"></i>
+                  <input type="password" [(ngModel)]="user.password"  name="password" placeholder="Password" id="password">
+                  <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
+              </section>
+
+              <section>
+                <label class="input"> <i class="icon-append fa fa-lock"></i>
+                  <input type="password" [(ngModel)]="user.confirmPassword" name="passwordConfirm" placeholder="Confirm password">
+                  <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
+              </section>
+            </fieldset>
+
+            <fieldset>
+              <div class="row">
+                <section class="col col-6">
+                  <label class="input">
+                    <input type="text" name="firstname" [(ngModel)]="user.firstname" placeholder="First name">
+                  </label>
+                </section>
+                <section class="col col-6">
+                  <label class="input">
+                    <input type="text" name="lastname" [(ngModel)]="user.lastname" placeholder="Last name">
+                  </label>
+                </section>
+              </div>
+
+              <div class="row">
+                <section class="col col-6">
+                  <label class="select">
+                    <select name="gender" [(ngModel)]="user.gender">
+                      <option value="0" selected disabled>Gender</option>
+                      <option value="1">Male</option>
+                      <option value="2">Female</option>
+                      <option value="3">Prefer not to answer</option>
+                    </select> <i></i> </label>
+                </section>
+                <section class="col col-6">
+                  <label class="input"> <i class="icon-append fa fa-calendar"></i>
+                    <input type="text" [(ngModel)]="user.dob" name="request" placeholder="Request activation on" class="datepicker" data-dateformat="dd/mm/yy">
+                  </label>
+                </section>
+              </div>
+
+              <section>
+                <label class="checkbox">
+                  <input type="checkbox" name="subscription" id="subscription">
+                  <i></i>I want to receive news and special offers</label>
+                <label class="checkbox">
+                  <input type="checkbox" name="terms" id="terms" [(ngModel)]="termsAgreed">
+                  <i></i>I agree with the <a href="#" (click)="openModal($event, termsModal)"> Terms and Conditions </a></label>
+              </section>
+            </fieldset>
+            <footer>
+              <button (click)="register(user)" class="btn btn-primary">
+                Register
+              </button>
+            </footer>
+
+            <div class="message">
+              <i class="fa fa-check"></i>
+              <p>
+                Thank you for your registration!
+              </p>
+            </div>
+          </form>
+
+        </div>
+        <p class="note text-center">*FREE Registration ends on October 2015.</p>
+        <h5 class="text-center">- Or sign in using -</h5>
+        <ul class="list-inline text-center">
+          <li>
+            <a (click)="(null)" class="btn btn-primary btn-circle"><i class="fa fa-facebook"></i></a>
+          </li>
+          <li>
+            <a (click)="(null)" class="btn btn-info btn-circle"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a (click)="(null)" class="btn btn-warning btn-circle"><i class="fa fa-linkedin"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- <ng-container  *ngComponentOutlet="TermsModalComponent"></ng-container> -->
+
+<ng-template #termsModal>
+  <smart-terms-modal (agree)="onTermsAgree()" (close)="onTermsClose()"></smart-terms-modal>
+
+</ng-template>

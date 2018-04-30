@@ -1,0 +1,13 @@
+.bgimg {
+    background-image: url('/assets/img/vebigdata.jpg') !important;
+    
+}
+#logo
+{
+	width: 175px;
+margin-top: 13px;
+margin-left: 9px;
+color:#510807;
+font-size: 21px !important;
+font-weight: 700 !important;
+}
