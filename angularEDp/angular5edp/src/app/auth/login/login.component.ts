@@ -10,7 +10,8 @@ import { AuthService } from '../auth.service';
 
 })
 export class LoginComponent implements OnInit {
-  public loginData={}
+  public loginData={};
+  public loginError:boolean=false
   constructor(private router: Router,private authService: AuthService) { }
 
   ngOnInit() {
@@ -20,12 +21,14 @@ export class LoginComponent implements OnInit {
        console.log(loginData);
        this.authService.login(loginData).subscribe(
        data => {
-          console.log("in api")
+          console.log("in api",data)
+          this.router.navigate(["home"])
          
        },
        error => {
-         console.log("Error saving food!");
-         this.router.navigate(["home"])
+         console.log("Error");
+         this.loginError=true;
+         
        
        }
     );

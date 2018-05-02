@@ -29,4 +29,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/miscellaneous/search']);
 
   }
+  logout()
+  {
+    localStorage.clear();
+    this.router.navigate(["/auth/login"])
+    
+  }
 }

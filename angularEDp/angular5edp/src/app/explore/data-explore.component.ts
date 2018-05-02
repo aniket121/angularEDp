@@ -11,5 +11,8 @@ export class DataExploreComponent implements OnInit {
 
   ngOnInit() {
   }
+  getRow(){
+   console.log("row selected");
+  }
 
 }

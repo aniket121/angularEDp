@@ -1,4 +1,19 @@
 <header id="header">
+<div class="project-context hidden-xs dropdown  userImage alignMenu" dropdown>
+
+  <span class="label"></span>
+    <span class="project-selector dropdown-toggle topAlign" dropdownToggle><img src="http://34.207.110.53:16000/insightlake///user/photo" alt="" title="InsightLake" width="45px"><i ng-if="projects.length" class="fa fa-angle-down"></i></span>
+
+  <ul *dropdownMenu class="dropdown-menu">
+    <li>
+      <a href="#">Upload Photo</a>
+      <a (click)="logout()">Logout</a>
+    </li>
+    
+    
+  </ul>
+
+</div>
   <div id="logo-group">
 
     <!-- PLACE YOUR LOGO HERE -->
@@ -14,45 +29,7 @@
   <sa-recent-Menu></sa-recent-Menu>
     
   <!-- pulled right: nav area -->
-  <div class="pull-right">
-
-    <!-- <sa-collapse-menu></sa-collapse-menu> -->
-
-    <!-- #MOBILE -->
-    <!-- Top menu profile link : this shows only when top menu is active -->
-    
-
-
-    <!-- search mobile button (this is hidden till mobile view port) -->
-    <!-- <div id="search-mobile" class="btn-header transparent pull-right">
-      <span> <a (click)="toggleSearchMobile()" title="Search"><i class="fa fa-search"></i></a> </span>
-    </div> -->
-    <!-- end search mobile button -->
-
-    <!-- input: search field -->
-   <!--  <form #searchForm="ngForm" (ngSubmit)="onSubmit()" class="header-search pull-right">
-      <input id="search-fld" type="text" name="param" required
-             placeholder="Find reports and more">
-      <button type="submit">
-        <i class="fa fa-search"></i>
-      </button>
-      <a id="cancel-search-js" (click)="toggleSearchMobile()" title="Cancel Search"><i class="fa fa-times"></i></a>
-    </form> -->
-    <!-- end input: search field -->
-
-    <!-- fullscreen button 
-    <sa-full-screen></sa-full-screen>
-    <!-- end fullscreen button -->
-
-
-
-    <!-- multiple lang dropdown : find all flags in the flags page 
-    <sa-language-selector></sa-language-selector>
-    <!-- end multiple lang -->
-
-
-
-  </div>
+  
   <!-- end pulled right: nav area -->
 
 </header>

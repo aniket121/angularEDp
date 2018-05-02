@@ -17,6 +17,8 @@ export class RegisterComponent implements OnInit {
   bsModalRef: BsModalRef;
   public termsAgreed = false
   public user={}
+  public registerError:boolean=false;
+  public registerSuccess:boolean=false;
   constructor(
     private router: Router,  
     private modalService: BsModalService,private authService: AuthService) {}
@@ -28,10 +30,12 @@ export class RegisterComponent implements OnInit {
        this.authService.registerUser(registerObject).subscribe(
        data => {
           console.log("in api")
+          this.registerSuccess=true;
          
        },
        error => {
-         console.log("Error saving food!");
+         console.log("Error");
+         this.registerError=true;
          
        
        }

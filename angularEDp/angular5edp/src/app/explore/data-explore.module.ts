@@ -8,8 +8,8 @@ import {SmartadminDatatableModule} from "../shared/ui/datatable/smartadmin-datat
   imports: [
     CommonModule,
     DataExploreRouting,
-      SmartadminModule,
-      SmartadminDatatableModule
+    SmartadminModule,
+    SmartadminDatatableModule
   ],
   declarations: [DataExploreComponent]
 })

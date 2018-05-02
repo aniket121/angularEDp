@@ -24,7 +24,14 @@
             <header>
               Registration is FREE*
             </header>
-
+             <div  *ngIf="registerError" class="alert alert-danger fade in">
+                   <i class="fa-fw fa fa-times"></i>
+                   <strong>Error!</strong> occured While Registration
+            </div>
+            <div  *ngIf="registerSuccess" class="alert alert-success fade in">
+                   <i class="fa-fw fa fa-times"></i>
+                   <strong>Success!</strong> Please Login to verifly
+            </div>
             <fieldset>
             
             <div class="row">

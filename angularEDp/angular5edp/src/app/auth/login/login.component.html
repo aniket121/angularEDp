@@ -19,6 +19,10 @@
               Sign In
             </header>
             <fieldset>
+            <div  *ngIf="loginError" class="alert alert-danger fade in">
+                   <i class="fa-fw fa fa-times"></i>
+                   <strong>Error!</strong> Invalid username or password
+            </div>
               <section>
                 <label class="label">E-mail</label>
                 <label class="input"> <i class="icon-append fa fa-user"></i>

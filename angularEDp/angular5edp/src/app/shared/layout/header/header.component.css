@@ -1,9 +1,18 @@
 #logo
 {
-	width: 175px;
+	width: auto;
 margin-top: 13px;
 margin-left: 9px;
 color:#510807;
 font-size: 17px !important;
 font-weight: 700 !important;
 }
+
+.userImage{
+    width:auto !important;
+    margin-left: 1%;
+
+}
+.topAlign{
+  margin-top: -21%;
+  }

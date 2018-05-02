@@ -20,12 +20,7 @@ export class RecentMenuComponent implements OnInit {
     this.Menu1 = this.projectsService.getMenu1()
     this.Menu2 = this.projectsService.getMenu2()
   }
-  logout()
-  {
-    localStorage.clear();
-    this.router.navigate(["/auth/login"])
-    
-  }
+  
 
  
 
