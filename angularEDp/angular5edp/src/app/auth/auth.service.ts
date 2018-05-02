@@ -21,17 +21,16 @@ export class AuthService {
     .set('clientName', data.clientName);
   return this.http.post(environment.API_URL + '/register', body).map(res => res);
   }
+
   login(data) {
   const body = new HttpParams()
     .set('email', data.email)
     .set('password', data.password);
   return this.http.post(environment.API_URL + '/loginnew', body).map(res => res);
   }
+
   forgotPassword(data) {
-  return this.http.post(environment.API_URL + '/user-forgot/', data).map(res => res);
+  return this.http.post(environment.API_URL + '/forgot/', data).map(res => res);
   }
 
-  logout(): void {
-    this.isLoggedIn = false;
-  }
 }
