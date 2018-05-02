@@ -15,20 +15,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
   }
-
-
-  searchMobileActive = false;
-
-  toggleSearchMobile(){
-    this.searchMobileActive = !this.searchMobileActive;
-
-    $('body').toggleClass('search-mobile', this.searchMobileActive);
-  }
-
-  onSubmit() {
-    this.router.navigate(['/miscellaneous/search']);
-
-  }
   logout()
   {
     localStorage.clear();

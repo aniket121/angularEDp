@@ -2,7 +2,7 @@
 {
 	width: auto;
 margin-top: 13px;
-margin-left: 9px;
+margin-left:auto;
 color:#510807;
 font-size: 17px !important;
 font-weight: 700 !important;
@@ -16,3 +16,7 @@ font-weight: 700 !important;
 .topAlign{
   margin-top: -21%;
   }
+#header{
+
+   background-image: linear-gradient(to bottom,#4caae2,#4caae2);
+}
