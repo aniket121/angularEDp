@@ -10,9 +10,11 @@ export class Interceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         console.log("intercepted request ... ");
-         var token="token here"
+
+         var token=localStorage.getItem('token');
+         if(!token){token=""}
          const headers = new HttpHeaders({
-              'Content-Type': 'application/x-www-form-urlencoded',
+              'Authorization':token,
 
              
          });

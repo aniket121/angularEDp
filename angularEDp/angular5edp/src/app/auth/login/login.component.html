@@ -26,14 +26,14 @@
               <section>
                 <label class="label">E-mail</label>
                 <label class="input"> <i class="icon-append fa fa-user"></i>
-                  <input type="email" [(ngModel)]="loginData.email" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" name="email" data-smart-validate-input="" data-required="" required data-email="" data-message-required="Please enter your email address" data-message-email="Please enter a VALID email address" #email="ngModel">
+                  <input type="email" [(ngModel)]="loginData.username" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" name="username" data-smart-validate-input="" data-required="" required data-email="" data-message-required="Please enter your email address" data-message-email="Please enter a VALID email address" #username="ngModel">
                   <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i>
                     Please enter email address/username</b></label>
-                <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger" >
-                    <div [hidden]="!email.errors.required">
+                <div *ngIf="username.errors && (username.dirty || username.touched)" class="alert alert-danger" >
+                    <div [hidden]="!username.errors.required">
                       Email is required!
                     </div>
-                    <div [hidden]="email.errors.required">
+                    <div [hidden]="username.errors.required">
                       Please enter valid emailID
                     </div>
                 </div>
