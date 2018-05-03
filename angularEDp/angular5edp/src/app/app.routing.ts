@@ -8,13 +8,14 @@ import {MainLayoutComponent} from "./shared/layout/app-layouts/main-layout.compo
 import {AuthLayoutComponent} from "./shared/layout/app-layouts/auth-layout.component";
 import {EmptyLayoutComponent} from "./shared/layout/app-layouts/empty-layout.component";
 import {EdpLayoutComponent} from "./shared/layout/app-layouts/edp-layout.component";
-
+import { AppState} from "./app.service"
 import {ModuleWithProviders} from "@angular/core";
 
 export const routes: Routes = [
     {
         path: 'home',
         component: EdpLayoutComponent,
+        canActivate:[AppState],
         children: [
             {
                 path: '', redirectTo: 'home', pathMatch: 'full'
@@ -28,6 +29,7 @@ export const routes: Routes = [
     {
         path: 'data-explore',
         component: EdpLayoutComponent,
+        canActivate:[AppState],
         loadChildren: 'app/explore/data-explore.module#DataExploreModule',
         data: {pageTitle: 'Smartadmin'}
     },

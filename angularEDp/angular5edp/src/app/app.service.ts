@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-
+import { CanActivate, Router } from '@angular/router';
 export type InternalStateType = {
   [key: string]: any
 };
 
 @Injectable()
-export class AppState {
+export class AppState implements CanActivate {
   _state: InternalStateType = { };
 
-  constructor() {
+  constructor(private router: Router) {
 
   }
 
@@ -37,5 +37,11 @@ export class AppState {
   private _clone(object: InternalStateType) {
     // simple object clone
     return JSON.parse(JSON.stringify( object ));
+  }
+  canActivate() {
+    var token=localStorage.getItem('token');
+    if (token) { return true; }
+    this.router.navigate(['auth/login']);
+    return false;
   }
 }
