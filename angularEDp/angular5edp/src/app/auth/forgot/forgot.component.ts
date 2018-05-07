@@ -10,11 +10,19 @@ import { AuthService } from '../auth.service';
 })
 export class ForgotComponent implements OnInit {
   public userEmail={}
+  public forgotPasswordSceen:boolean=true;
+  public passwordMismatch:boolean=false;
+  public forgotUserEmail={}
+  public restPassword={}
   constructor(private router: Router,private authService: AuthService) { }
 
   ngOnInit() {
+   var tokenPresentCheck=window.location.href.split("?");
+   if(tokenPresentCheck.length!=1){
+     this.forgotPasswordSceen=false
+     console.log(tokenPresentCheck[tokenPresentCheck.length-1])
+   }
   }
-
   submit(userEmail){
     console.log(userEmail);
        this.authService.forgotPassword(userEmail).subscribe(
@@ -29,4 +37,25 @@ export class ForgotComponent implements OnInit {
        }
     );
   }
+   restUserPassword(restPasswordData){
+      console.log(restPasswordData.password);
+      if(restPasswordData.password==restPasswordData.confirmPassword){
+       this.passwordMismatch=false;
+       this.authService.resetPassword(restPasswordData.password).subscribe(
+       data => {
+          
+          
+       },
+       error => {
+         console.log("Error");
+       
+       }
+     );
+    }
+    else{
+        this.passwordMismatch=true;
+    }
+   
+  }
+
 }

@@ -27,5 +27,8 @@ export class AuthService {
   forgotPassword(data) {
   return this.http.post(environment.API_URL + '/forgot/', data).map(res => res);
   }
+  resetPassword(data) {
+  return this.http.post(environment.API_URL + '/rest-password/', data).map(res => res);
+  }
 
 }

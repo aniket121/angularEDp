@@ -17,6 +17,10 @@ export const routes:Routes = [
     loadChildren: './forgot/forgot.module#ForgotModule'
   },
   {
+    path: 'forgot-password/:token',
+    loadChildren: './forgot/forgot.module#ForgotModule'
+  },
+  {
     path: 'locked',
     loadChildren: './locked/locked.module#LockedModule'
   }
