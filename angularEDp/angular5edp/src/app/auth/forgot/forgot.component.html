@@ -26,6 +26,12 @@
               <div class="alert alert-danger" *ngIf="passwordMismatch">
                  password and confirm password should be same
               </div>
+              <div class="alert alert-danger" *ngIf="resetFail">
+                 Reset password token is expired
+              </div>
+              <div class="alert alert-success" *ngIf="resetSuccess">
+                 Reset password successfully Please login to verfiy
+              </div>
               <section>
                 <label class="label">New Password</label>
                 <label class="input"> <i class="icon-append fa fa-envelope"></i>
@@ -39,7 +45,7 @@
                </div> 
               </section>
               <section>
-                <label class="label">Conform Password</label>
+                <label class="label">Confirm Password</label>
                 <label class="input"> <i class="icon-append fa fa-envelope"></i>
                   <input type="password" #confirmPassword="ngModel" [(ngModel)]="restPassword.confirmPassword" validateEqual="password" required name="confirmPassword" required>
                   <b class="tooltip tooltip-top-right"><i class="fa fa-envelope txt-color-teal"></i> Please enter ConfirmPassword password</b></label>
@@ -73,11 +79,16 @@
             </header>
 
             <fieldset>
-
+             <div class="alert alert-danger" *ngIf="inValidUser">
+                 User with this email not associated
+              </div>
+              <div class="alert alert-success" *ngIf="ValidUser">
+                 Please check email inbox to reset password
+              </div>
               <section>
                 <label class="label">Enter your email address</label>
                 <label class="input"> <i class="icon-append fa fa-envelope"></i>
-                  <input type="email" #email="ngModel" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" [(ngModel)]="userEmail.email" required name="email">
+                  <input type="email" #email="ngModel" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" [(ngModel)]="userEmail.username" required name="email">
                   <b class="tooltip tooltip-top-right"><i class="fa fa-envelope txt-color-teal"></i> Please enter email address for password reset</b></label>
               <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger" >
                     <div [hidden]="!email.errors.required">

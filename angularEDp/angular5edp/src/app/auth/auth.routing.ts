@@ -17,7 +17,7 @@ export const routes:Routes = [
     loadChildren: './forgot/forgot.module#ForgotModule'
   },
   {
-    path: 'forgot-password/:token',
+    path: 'forgot-password/:token/:resettoken',
     loadChildren: './forgot/forgot.module#ForgotModule'
   },
   {

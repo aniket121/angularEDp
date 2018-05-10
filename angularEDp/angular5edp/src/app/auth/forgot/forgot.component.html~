@@ -1,0 +1,123 @@
+<header id="header" class="animated fadeInDown">
+
+  <div id="logo-group">
+    <span id="logo">Insight Lake </span>
+  </div>
+
+  <span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">Need an account?</span> <a routerLink="/auth/register" class="btn btn-danger">Create account</a> </span>
+
+</header>
+<div id="main" role="main" class="animated fadeInDown bgimg">
+
+  <div id="content" class="container">
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-4 hidden-xs hidden-sm">
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+      <div *ngIf="!forgotPasswordSceen">
+
+             <form  id="login-form" class="smart-form client-form" #ResetpasswordForm="ngForm">
+            <header>
+              Reset Password
+            </header>
+
+            <fieldset>
+              <div class="alert alert-danger" *ngIf="passwordMismatch">
+                 password and confirm password should be same
+              </div>
+              <section>
+                <label class="label">New Password</label>
+                <label class="input"> <i class="icon-append fa fa-envelope"></i>
+                  <input type="password" #password="ngModel" [(ngModel)]="restPassword.password" required name="password" required>
+                  <b class="tooltip tooltip-top-right"><i class="fa fa-envelope txt-color-teal"></i> Please enter password reset</b></label>
+              <div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger" >
+                    <div [hidden]="!password.errors.required">
+                      password is required!
+                    </div>
+                        
+               </div> 
+              </section>
+              <section>
+                <label class="label">Confirm Password</label>
+                <label class="input"> <i class="icon-append fa fa-envelope"></i>
+                  <input type="password" #confirmPassword="ngModel" [(ngModel)]="restPassword.confirmPassword" validateEqual="password" required name="confirmPassword" required>
+                  <b class="tooltip tooltip-top-right"><i class="fa fa-envelope txt-color-teal"></i> Please enter ConfirmPassword password</b></label>
+              <div *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)" class="alert alert-danger" >
+                    <div [hidden]="!confirmPassword.errors.required">
+                      ConfirmPassword is required!
+                    </div>
+                    <small [hidden]="confirmPassword.valid ||  (confirmPassword.pristine && !ResetpasswordForm.submitted)">
+                      Password mismatch
+                     </small>
+                   
+                    
+               </div> 
+              </section>
+              
+
+            </fieldset>
+            <footer>
+              <button (click)="restUserPassword(restPassword)" [disabled]="!ResetpasswordForm.form.valid" class="btn btn-primary">
+                <i class="fa fa-refresh"></i> Reset Password
+              </button>
+            </footer>
+          </form>
+          </div>
+
+        <div class="well no-padding" *ngIf="forgotPasswordSceen">
+
+          <form id="login-form" class="smart-form client-form" #ForgotpasswordForm="ngForm">
+            <header>
+              Forgot Password
+            </header>
+
+            <fieldset>
+
+              <section>
+                <label class="label">Enter your email address</label>
+                <label class="input"> <i class="icon-append fa fa-envelope"></i>
+                  <input type="email" #email="ngModel" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" [(ngModel)]="userEmail.email" required name="email">
+                  <b class="tooltip tooltip-top-right"><i class="fa fa-envelope txt-color-teal"></i> Please enter email address for password reset</b></label>
+              <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger" >
+                    <div [hidden]="!email.errors.required">
+                      Email is required!
+                    </div>
+                    <div [hidden]="email.errors.required">
+                      Please enter valid emailId
+                    </div>
+                    
+               </div> 
+              </section>
+              
+
+            </fieldset>
+            <footer>
+              <button (click)="submit(userEmail)" [disabled]="!ForgotpasswordForm.form.valid" class="btn btn-primary">
+                <i class="fa fa-refresh"></i> Reset Password
+              </button>
+            </footer>
+          </form>
+
+        </div>
+
+        <h5 class="text-center"> - Or sign in using -</h5>
+
+        <ul class="list-inline text-center">
+          <li>
+            <a (click)="(null)" class="btn btn-primary btn-circle"><i class="fa fa-facebook"></i></a>
+          </li>
+          <li>
+            <a (click)="(null)" class="btn btn-info btn-circle"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a (click)="(null)" class="btn btn-warning btn-circle"><i class="fa fa-linkedin"></i></a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
