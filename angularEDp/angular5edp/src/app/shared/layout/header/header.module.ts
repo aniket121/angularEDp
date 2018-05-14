@@ -8,6 +8,8 @@ import {CollapseMenuComponent} from "./collapse-menu/collapse-menu.component";
 import {RecentMenuComponent} from "./recent-Menu/recent-Menu.component";
 import {FullScreenComponent} from "./full-screen/full-screen.component";
 
+import {RecentProjectsComponent} from "./recent-projects/recent-projects.component";
+
 import {ActivitiesComponent} from "./activities/activities.component";
 import {ActivitiesMessageComponent} from "./activities/activities-message/activities-message.component";
 import {ActivitiesNotificationComponent} from "./activities/activities-notification/activities-notification.component";
@@ -39,6 +41,7 @@ import {BsDropdownModule} from "ngx-bootstrap";
     ActivitiesTaskComponent,
     RecentMenuComponent,
     FullScreenComponent,
+    RecentProjectsComponent,
     CollapseMenuComponent,
     ActivitiesComponent,
     HeaderComponent,

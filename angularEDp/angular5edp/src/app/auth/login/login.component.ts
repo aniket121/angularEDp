@@ -14,7 +14,7 @@ interface UserResponse {
 
 })
 export class LoginComponent implements OnInit {
-  public loginData={};
+  public loginData={username:'',password:''};
   public loginError:boolean=false;
   data={}
   constructor(private router: Router,private authService: AuthService) { }

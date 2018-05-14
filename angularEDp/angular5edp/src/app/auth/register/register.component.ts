@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
 
   bsModalRef: BsModalRef;
   public termsAgreed = false
-  public user={}
+  public user={firstName:'',lastName:'',clientName:'',businessUnit:'',phone:'',username:'',password:''}
   public registerError:boolean=false;
   public registerSuccess:boolean=false;
   constructor(

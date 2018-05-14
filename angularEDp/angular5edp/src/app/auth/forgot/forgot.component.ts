@@ -9,7 +9,7 @@ import { AuthService } from '../auth.service';
   styleUrls:['./forgot.component.css']
 })
 export class ForgotComponent implements OnInit {
-  public userEmail={}
+  public userEmail={username:''}
   public forgotPasswordSceen:boolean=true;
   public passwordMismatch:boolean=false;
   public inValidUser:boolean=false;
@@ -17,13 +17,14 @@ export class ForgotComponent implements OnInit {
   public resetSuccess:boolean=false;
   public resetFail:boolean=false;
   public forgotUserEmail={}
-  public restPassword={}
+  public restPassword={password:'',confirmPassword:''}
   public passwordResetToken:any=''
   constructor(private router: Router,private authService: AuthService) { }
 
   ngOnInit() {
    var tokenPresentCheck=window.location.href.split("/");
-   if(tokenPresentCheck.length!=6){
+   console.log(tokenPresentCheck)
+   if(window.location.href.indexOf("token") > -1){
      this.forgotPasswordSceen=false
      console.log(tokenPresentCheck[tokenPresentCheck.length-1])
      this.passwordResetToken=tokenPresentCheck[tokenPresentCheck.length-1]
@@ -61,6 +62,7 @@ export class ForgotComponent implements OnInit {
           else{
             this.resetSuccess=true;
             this.resetFail=false;
+            this.passwordMismatch=false;
           }
           
        },
