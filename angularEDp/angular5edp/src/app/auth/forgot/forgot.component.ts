@@ -16,6 +16,7 @@ export class ForgotComponent implements OnInit {
   public ValidUser:boolean=false;
   public resetSuccess:boolean=false;
   public resetFail:boolean=false;
+  public handleResponse:boolean=false;
   public forgotUserEmail={}
   public restPassword={password:'',confirmPassword:''}
   public passwordResetToken:any=''
@@ -32,19 +33,23 @@ export class ForgotComponent implements OnInit {
   }
   submit(userEmail){
     console.log(userEmail);
+       this.handleResponse=true
        this.authService.forgotPassword(userEmail).subscribe(
        data => {
           console.log("in api")
           if(data.message=="FAIL"){
             this.inValidUser=true;
+            this.handleResponse=false;
           }
           else{
             this.ValidUser=true;
             this.inValidUser=false;
+            this.handleResponse=false;
           }
        },
        error => {
          console.log("Error saving food!");
+         this.handleResponse=false;
          
        
        }

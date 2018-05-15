@@ -79,6 +79,9 @@
             </header>
 
             <fieldset>
+            <div align="center" *ngIf="handleResponse">
+            <i  class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+            </div>
              <div class="alert alert-danger" *ngIf="inValidUser">
                  User with this email not associated
               </div>
@@ -104,7 +107,7 @@
 
             </fieldset>
             <footer>
-              <button (click)="submit(userEmail)" [disabled]="!ForgotpasswordForm.form.valid" class="btn btn-primary">
+              <button (click)="submit(userEmail)" [disabled]="handleResponse" [disabled]="!ForgotpasswordForm.form.valid" class="btn btn-primary">
                 <i class="fa fa-refresh"></i> Reset Password
               </button>
             </footer>
