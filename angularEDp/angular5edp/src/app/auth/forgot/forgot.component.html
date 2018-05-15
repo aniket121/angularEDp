@@ -4,7 +4,7 @@
     <span id="logo">Insight Lake </span>
   </div>
 
-  <span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">Need an account?</span> <a routerLink="/auth/register" class="btn btn-danger">Create account</a> </span>
+  <span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">Need an account?</span> <a routerLink="/auth/register" class="btn btn-danger">Create account</a> <a routerLink="/auth/login" class="btn btn-danger">SingIn</a>  </span>
 
 </header>
 <div id="main" role="main" class="animated fadeInDown bgimg">
@@ -66,9 +66,6 @@
             <footer>
               <button (click)="restUserPassword(restPassword)" [disabled]="!ResetpasswordForm.form.valid" class="btn btn-primary">
                 <i class="fa fa-refresh"></i> Reset Password
-              </button>
-              <button (click)="navigateToLogin()" class="btn btn-primary">
-                <i class="pull-left"></i>SingIn
               </button>
             </footer>
           </form>
