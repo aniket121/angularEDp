@@ -6,6 +6,8 @@ interface UserResponse {
   message: string;
   result: any;
   status:any;
+  token:any;
+  data:any;
 }
 @Injectable()
 export class AuthService {
