@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
        console.log(loginData);
        this.authService.login(loginData).subscribe(
        data => {
-          if(data.message=="SUCCESS"){
+          if(data.status=="SUCCESS"){
             console.log("Login success");
             localStorage.setItem('token','Bearer'+" "+data.result.token);
             this.router.navigate(["home"])

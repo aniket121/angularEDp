@@ -70,18 +70,18 @@
               </section>
 
               <section>
-                <label class="input"> <i class="icon-append fa fa-envelope"></i>
+                <label class="input"> <i class="icon-append fa fa-briefcase"></i>
                   <input type="text" required [(ngModel)]="user.businessUnit" name="bussiness_unit" placeholder="Bussiness Unit" #bussiness_unit="ngModel">
                   <b class="tooltip tooltip-bottom-right">Needed to verify Bussiness Unit</b> </label>
               </section>
               <section>
-                <label class="input"> <i class="icon-append fa fa-lock"></i>
+                <label class="input"> <i class="icon-append fa fa-phone"></i>
                   <input type="text" required [(ngModel)]="user.phone"  name="phone" placeholder="Phone" id="phone" #phone="ngModel">
                   <b class="tooltip tooltip-bottom-right">Don't forget your phone</b> </label>
               </section>
 
               <section>
-                <label class="input"> <i class="icon-append fa fa-lock"></i>
+                <label class="input"> <i class="icon-append fa fa-envelope"></i>
                   <input type="email" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required [(ngModel)]="user.username"  name="username" placeholder="Email" id="email" #username="ngModel">
                   <b class="tooltip tooltip-bottom-right">Don't forget your Email</b> </label>
                   <div *ngIf="username.errors && (username.dirty || username.touched)" class="alert alert-danger" >
@@ -106,7 +106,7 @@
                
                 <label class="checkbox">
                   <input type="checkbox" name="terms" required id="terms" [(ngModel)]="termsAgreed">
-                  <i></i>I agree with the <a href="#"> Terms and Conditions </a></label>
+                  <i></i>I agree with the <a href="#" (click)="openModal($event, termsModal)"> Terms and Conditions </a></label>
               </section>
             </fieldset>
             <footer>

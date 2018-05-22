@@ -34,7 +34,7 @@
               </div>
               <section>
                 <label class="label">New Password</label>
-                <label class="input"> <i class="icon-append fa fa-envelope"></i>
+                <label class="input"> <i class="icon-append fa fa-lock"></i>
                   <input type="password" #password="ngModel" [(ngModel)]="restPassword.password" required name="password" required>
                   <b class="tooltip tooltip-top-right"><i class="fa fa-envelope txt-color-teal"></i> Please enter password reset</b></label>
               <div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger" >
@@ -46,7 +46,7 @@
               </section>
               <section>
                 <label class="label">Confirm Password</label>
-                <label class="input"> <i class="icon-append fa fa-envelope"></i>
+                <label class="input"> <i class="icon-append fa fa-lock"></i>
                   <input type="password" #confirmPassword="ngModel" [(ngModel)]="restPassword.confirmPassword" validateEqual="password" required name="confirmPassword" required>
                   <b class="tooltip tooltip-top-right"><i class="fa fa-envelope txt-color-teal"></i> Please enter ConfirmPassword password</b></label>
               <div *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)" class="alert alert-danger" >

@@ -5,7 +5,7 @@ import { environment } from './../../environments/environment';
 interface UserResponse {
   message: string;
   result: any;
-  
+  status:any;
 }
 @Injectable()
 export class AuthService {

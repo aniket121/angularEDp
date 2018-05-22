@@ -42,6 +42,19 @@ export class RegisterComponent implements OnInit {
     );
     
   }
+   openModal(event, template: TemplateRef<any>) {
+    event.preventDefault();
+    this.bsModalRef = this.modalService.show(template);
+  }
+  onTermsAgree(){
+    this.termsAgreed = true
+    this.bsModalRef.hide()
+  }
+
+  onTermsClose(){
+    this.bsModalRef.hide()
+  }
+
 
 
 
