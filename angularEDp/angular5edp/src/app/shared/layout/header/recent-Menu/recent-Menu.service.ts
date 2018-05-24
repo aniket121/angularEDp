@@ -4,6 +4,8 @@ import {Injectable} from '@angular/core';
 export class RecentMenuService {
   Menu1:any;
   Menu2:any;
+  dataStore:any;
+  explore:any;
 
   constructor() {
     this.Menu1 = [
@@ -34,6 +36,30 @@ export class RecentMenuService {
         "href": "/",
         "title": "subMenu3"
       }
+    ],
+    this.dataStore = [
+      {
+        "href": "/",
+        "title": "DATA STORE"
+      },
+      {
+        "href": "/",
+        "title": "JOIN"
+      },
+      {
+        "href": "/",
+        "title": "UNION"
+      }
+    ],
+     this.explore = [
+      {
+        "href": "/",
+        "title": "DATA"
+      },
+      {
+        "href": "/",
+        "title": "QUERY"
+      }
     ]
   }
 
@@ -43,6 +69,13 @@ export class RecentMenuService {
   getMenu2() {
     return this.Menu2
   }
+  getDataStore() {
+    return this.dataStore
+  }
+  getExplore(){
+    return this.explore
+  }
+
 
   
 

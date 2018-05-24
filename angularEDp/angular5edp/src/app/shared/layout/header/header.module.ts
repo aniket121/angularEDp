@@ -22,11 +22,15 @@ import {UserModule} from "../../user/user.module";
 import {VoiceControlModule} from "../../voice-control/voice-control.module";
 import {BsDropdownModule} from "ngx-bootstrap";
 
+import { RouterModule } from '@angular/router';
+
+
+
 
 @NgModule({
   imports: [
     CommonModule,
-
+    RouterModule,
     FormsModule,
 
     VoiceControlModule,

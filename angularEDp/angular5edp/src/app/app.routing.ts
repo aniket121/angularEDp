@@ -35,6 +35,7 @@ export const routes: Routes = [
     },
 
      {path: 'auth', component: AuthLayoutComponent, loadChildren: 'app/auth/auth.module#AuthModule'},
+      {path: 'data', component: EdpLayoutComponent, loadChildren: 'app/data/data.module#DataModule'},
 
   {path: '', redirectTo: 'auth/login',pathMatch: 'full'}
 

@@ -9,11 +9,12 @@ declare var $: any;
   styleUrls:['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
+  public activeMenu:any;
   constructor(private router: Router) {
   }
 
   ngOnInit() {
+  this.activeMenu=localStorage.getItem("ActiveMenu");
   }
   logout()
   {

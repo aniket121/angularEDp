@@ -41,7 +41,7 @@ export class AppState implements CanActivate {
   canActivate() {
     var token=localStorage.getItem('token');
     if (token) { return true; }
-    this.router.navigate(['auth/login']);
-    return false;
+    //this.router.navigate(['auth/login']);
+    return true;
   }
 }

@@ -1,7 +1,8 @@
-<div class="project-context hidden-xs dropdown menuAlign" dropdown>
+
+<!-- <div class="project-context hidden-xs dropdown menuAlign font" *ngIf="activeMenu==='DATA'" dropdown >
 
   <span class="label"></span>
-    <span class="project-selector dropdown-toggle menu-color" dropdownToggle>Menu1<i ng-if="projects.length" class="fa fa-angle-down"></i></span>
+    <span class="project-selector dropdown-toggle menu-color font" dropdownToggle>Menu1<i ng-if="projects.length" class="fa fa-angle-down"></i></span>
 
   <ul *dropdownMenu class="dropdown-menu">
     <li *ngFor="let project of Menu1">
@@ -12,11 +13,11 @@
   </ul>
 
 </div>
-<!--menu2-->
-<div class="project-context hidden-xs dropdown" dropdown>
+menu2
+<div class="project-context hidden-xs dropdown font"  *ngIf="activeMenu==='DATA'" dropdown >
 
   <span class="label"></span>
-    <span class="project-selector dropdown-toggle menu-color" dropdownToggle>Menu2<i ng-if="projects.length" class="fa fa-angle-down"></i></span>
+    <span class="project-selector dropdown-toggle menu-color font" dropdownToggle>Menu2<i ng-if="projects.length" class="fa fa-angle-down"></i></span>
 
   <ul *dropdownMenu class="dropdown-menu">
     <li *ngFor="let project of Menu2">
@@ -26,8 +27,77 @@
     
   </ul>
 
-</div>
+</div> -->
+
 <!---logout-->
+<!-----------Meta---------------------->
+
+<div class="project-context hidden-xs  font menuAlign" *ngIf="activeMenu==='META'">
+
+  <span class="label"></span>
+    <a class="project-selector  menu-color font" [routerLink]="['/data/location']" routerLinkActive="active">DATA LOCATION</a>
+
+  
+
+</div>
+<!--menu2-->
+<div class="project-context hidden-xs dropdown font"  *ngIf="activeMenu==='META'" dropdown>
+
+  <span class="label"></span>
+    <span class="project-selector dropdown-toggle menu-color font" dropdownToggle>DATA STORE<i ng-if="projects.length" class="fa fa-angle-down"></i></span>
+
+  <ul *dropdownMenu class="dropdown-menu">
+    <li *ngFor="let project of getDataStore">
+      <a href="{{project.href}}">{{project.title}}</a>
+    </li>
+    
+    
+  </ul>
+
+</div>
+<div class="project-context hidden-xs dropdown font" *ngIf="activeMenu==='META'" dropdown>
+
+  <span class="label"></span>
+    <a class="project-selector dropdown-toggle menu-color font" [routerLink]="['/data/format']" routerLinkActive="active">DATA FORMAT</a>
+
+  
+</div>
+<!--menu2-->
+<div class="project-context hidden-xs dropdown font" *ngIf="activeMenu==='META'" dropdown>
+
+  <span class="label"></span>
+    <span class="project-selector dropdown-toggle menu-color font" dropdownToggle>EXPLORE<i ng-if="projects.length" class="fa fa-angle-down"></i></span>
+
+  <ul *dropdownMenu class="dropdown-menu">
+    <li *ngFor="let project of getExplore">
+      <a href="{{project.href}}">{{project.title}}</a>
+    </li>
+    
+    
+  </ul>
+
+</div>
+<div class="project-context hidden-xs dropdown font" *ngIf="activeMenu==='META'" dropdown>
+
+  <span class="label"></span>
+    <span class="project-selector dropdown-toggle menu-color font " dropdownToggle>SETTINGS<i ng-if="projects.length" class="fa fa-angle-down"></i></span>
+
+  <ul *dropdownMenu class="dropdown-menu tab">
+    <li *ngFor="let project of Menu2">
+      <a href="{{project.href}}">{{project.title}}</a>
+    </li>
+    
+    
+  </ul>
+
+</div>
+
+
+
+
+
+
+<!-----------------end meta------------------->
   
 
 
