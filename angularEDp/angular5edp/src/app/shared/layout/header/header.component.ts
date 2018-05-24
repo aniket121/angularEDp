@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-  this.activeMenu=localStorage.getItem("ActiveMenu");
+    this.activeMenu=localStorage.getItem("ActiveMenu");
   }
   logout()
   {
