@@ -14,9 +14,7 @@ interface UserResponse {
 
 })
 export class StoreComponent implements OnInit {
-  public loginData={username:'',password:''};
-  public loginError:boolean=false;
-  data={}
+  
   constructor(private router: Router,private dataService: DataService) { }
 
   ngOnInit() {

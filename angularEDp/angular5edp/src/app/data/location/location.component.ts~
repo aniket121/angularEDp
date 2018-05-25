@@ -9,17 +9,7 @@ import { DataService } from '../data.service';
   styleUrls:['./location.component.css']
 })
 export class LocationComponent implements OnInit {
-  public userEmail={username:''}
-  public forgotPasswordSceen:boolean=true;
-  public passwordMismatch:boolean=false;
-  public inValidUser:boolean=false;
-  public ValidUser:boolean=false;
-  public resetSuccess:boolean=false;
-  public resetFail:boolean=false;
-  public handleResponse:boolean=false;
-  public forgotUserEmail={}
-  public restPassword={password:'',confirmPassword:''}
-  public passwordResetToken:any=''
+  
   constructor(private router: Router,private dataService: DataService) { }
 
   ngOnInit() {

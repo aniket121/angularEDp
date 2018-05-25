@@ -16,9 +16,7 @@ export class ExploreComponent implements OnInit {
 
   bsModalRef: BsModalRef;
   public termsAgreed = false
-  public user={firstName:'',lastName:'',clientName:'',businessUnit:'',phone:'',username:'',password:''}
-  public registerError:boolean=false;
-  public registerSuccess:boolean=false;
+  
   constructor(private router: Router,private modalService: BsModalService,private dataService: DataService) {}
  
    ngOnInit() {}

@@ -16,21 +16,6 @@ export class DataService {
    redirectUrl: string;
 
 
-  registerUser(data) {
- 
-  return this.http.post(environment.API_URL + '/register', data).map(res => res);
-  }
-
-  login(data) {
   
-  return this.http.post<UserResponse>(environment.API_URL + '/login', data).map(res => res);
-  }
-
-  forgotPassword(data) {
-  return this.http.post<UserResponse>(environment.API_URL + '/forgot', data).map(res => res);
-  }
-  resetPassword(data) {
-  return this.http.post<UserResponse>(environment.API_URL + '/reset', data).map(res => res);
-  }
 
 }
