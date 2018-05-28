@@ -7,12 +7,14 @@ import {SmartadminDatatableModule} from "../../shared/ui/datatable/smartadmin-da
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {SmartadminModule} from "../../shared/smartadmin.module";
 import {AccordionModule, CarouselModule,ModalModule} from "ngx-bootstrap";
+import {SmartadminWizardsModule} from "../../shared/forms/wizards/smartadmin-wizards.module";
 @NgModule({
   imports: [
     CommonModule,
     LocationRoutingModule,
     FormsModule,
     SmartadminModule,
+    SmartadminWizardsModule,
       NgxDatatableModule,
       SmartadminDatatableModule,
       AccordionModule.forRoot(),

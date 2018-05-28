@@ -33,7 +33,7 @@ export class LocationComponent implements OnInit {
 
     // filter our data
     const temp = this.temp.filter(function(d) {
-      return !val || ['name', 'age', 'office'].some((field: any)=>{
+      return !val || ['name', 'host', 'type'].some((field: any)=>{
         return d[field].toLowerCase().indexOf(val) !== -1
       }) 
     });

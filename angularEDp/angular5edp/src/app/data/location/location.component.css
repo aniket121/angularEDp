@@ -6,7 +6,7 @@
 {
 	width: 175px;
 margin-top: 13px;
-margin-left: 9px;
+margin-left: 9px;-
 color:#510807;
 font-size: 21px !important;
 font-weight: 700 !important;
@@ -15,14 +15,20 @@ font-weight: 700 !important;
 	align:center;
 }
 .addLocation{
-	color:white;
+	color:#333;
 	padding:9px;
 }
 .addLocation:hover{
-	color:white;
+	color:#333;
 
 }
 .align-left{
 	margin-left:75%;
 
 }
+.propertiesBox{
+
+	width: 200px;
+margin-top: 10px;
+margin-left: 60px;
+	}

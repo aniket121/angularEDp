@@ -1,0 +1,20 @@
+{
+  "data": [
+    {	"status":"active",
+    	"type":"table",
+    	
+      "name": "Tiger Nixon",
+      "host": "amazonnews.com",
+      "bucket": "",
+      "url": "www.google.com",
+      "user": "admin",
+      "driver": "demo",
+      "tags":"demo",
+      "schema":"demo",
+      "description":"demo",
+      "button1":"sync",
+      "button2":"test"
+    },
+    
+  ]
+}
