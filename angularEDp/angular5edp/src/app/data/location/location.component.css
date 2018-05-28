@@ -14,3 +14,15 @@ font-weight: 700 !important;
 .center-align{
 	align:center;
 }
+.addLocation{
+	color:white;
+	padding:9px;
+}
+.addLocation:hover{
+	color:white;
+
+}
+.align-left{
+	margin-left:75%;
+
+}
