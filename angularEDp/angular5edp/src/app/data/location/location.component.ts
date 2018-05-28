@@ -16,6 +16,7 @@ export class LocationComponent implements OnInit {
   rows: any[] = [];
   temp:any[]=[]
   controls={filter:''}
+  public information={dburl:'',driver:'',name:''}
   constructor(private jsonApiService:JsonApiService) { }
    @ViewChild('myTable') table: any;
    @ViewChild('staticModal') public staticModal:ModalDirective;

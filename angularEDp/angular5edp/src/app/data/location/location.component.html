@@ -267,10 +267,81 @@
           </div>
         </div>
         <div class="step-content">
-          <form class="form-horizontal" class="form-control">
+          <form class="form-horizontal" >
 
             <div class="step-pane active" data-step="1">
-							<h1>General Information</h1>
+							 <form id="smart-form-register" class="smart-form client-form" #generalForm="ngForm">
+           
+             
+            <fieldset>
+            
+            <div class="row">
+                <section class="col col-6">
+                  <label class="select">
+                    <select name="type"> Select type
+                      <option value="0" selected disabled>Select type</option>
+                      <option value="1">DB</option>
+                      <option value="2">FTP</option>
+                      <option value="3">SMTP</option>
+                    </select> <i></i> </label>
+                </section>
+                <section class="col col-6">
+                  <label class="input">
+                    <input type="text" name="name" pattern="^[a-zA-Z]+$" required [(ngModel)]="information.name" placeholder="Name" #name="ngModel">
+                  </label>
+                  <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger" >
+                    <div [hidden]="!name.errors.required">
+                      name is required!
+                    </div>
+                    <div [hidden]="name.errors.required">
+                      Please enter valid input
+                   </div>
+                </div>
+                </section>
+              </div>
+            
+              <section >
+                  <label class="select"> Select DB
+                    <select name="db">
+                      <option value="0" selected disabled>Select DB</option>
+                      <option value="1">MYSQL</option>
+                      <option value="2">SQL SERVER</option>
+                      <option value="3">ORACLE</option>
+                    </select> </label>
+                </section>
+
+              <section>
+                <label class="input"> Driver
+                  <input type="text" required [(ngModel)]="information.driver" name="driver" placeholder="Driver" #driver="ngModel">
+                 </label> 
+              </section>
+              <section>
+                <label class="input"> DB url
+                  <input type="text" required [(ngModel)]="information.dburl"  name="dburl" placeholder="DB URL" id="dburl" #dburl="ngModel">
+                 </label>  
+              </section>
+
+              <section>
+                <label class="input"> Description 
+                  <input type="text" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required [(ngModel)]="information.desc"  name="desc" placeholder="Description" id="desc" #desc="ngModel">
+                 </label> 
+                  
+              </section>
+
+              
+            </fieldset>
+
+            <fieldset>
+              
+            </fieldset>
+            <footer>
+              <!-- <button (click)="register(user)" [disabled]="!generalForm.form.valid" class="btn btn-primary">
+                
+              </button> -->
+            </footer>
+
+            
+          </form>
 			
 						</div>
 						<div class="step-pane active" data-step="2">
