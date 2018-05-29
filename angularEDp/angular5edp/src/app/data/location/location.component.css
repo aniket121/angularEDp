@@ -32,3 +32,9 @@ font-weight: 700 !important;
 margin-top: 10px;
 margin-left: 60px;
 	}
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}

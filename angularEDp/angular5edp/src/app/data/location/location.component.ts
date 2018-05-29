@@ -19,10 +19,10 @@ export class LocationComponent implements OnInit {
   
   rows: any[] = [];
   temp:any[]=[];
-  driver:string[];
+  driver:any=[];
   controls={filter:''}
-  public information={dburl:'',driver:'',name:''}
-  constructor(private jsonApiService:JsonApiService,private httpService: HttpClient) { }
+  public information={url:'',driver:'',name:'',description:'',host:'',password:'',port:'',properties:''}
+  constructor(private jsonApiService:JsonApiService,private httpService: HttpClient,public dataService:DataService) { }
    @ViewChild('myTable') table: any;
    @ViewChild('staticModal') public staticModal:ModalDirective;
   ngOnInit() {
@@ -42,7 +42,7 @@ export class LocationComponent implements OnInit {
       }
     );
 
-  
+  this.getLocations()
   }
 
 
@@ -63,6 +63,42 @@ export class LocationComponent implements OnInit {
   }
   save(locationinfo){
     console.log(locationinfo);
+       this.dataService.addLocation(locationinfo).subscribe(
+       data => {
+          
+          if(data.status=="SUCCESS"){
+            console.log("success");
+           
+            
+          }
+          else{
+             console.log("api failed");
+             
+          }
+
+          
+         
+       }
+    );
+  }
+  getLocations(){
+       this.dataService.getLocation().subscribe(
+       data => {
+          console.log("get location data",data)
+          if(data.status=="SUCCESS"){
+            console.log(" success");
+           
+            
+          }
+          else{
+             console.log("api failed");
+             
+          }
+
+          
+         
+       }
+    );
   }
 
 onChange(newval)

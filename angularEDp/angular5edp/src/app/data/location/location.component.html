@@ -6,7 +6,7 @@
 	</div>
 	<sa-widgets-grid>
 	<div class="row">
-		<article class="col-sm-9 col-md-9 col-lg-9">
+		<article class="col-sm-12 col-md-12 col-lg-12">
 
 			<div sa-widget [editbutton]="false" [fullscreenbutton]="false"
 				color="blueDark">
@@ -364,13 +364,13 @@
               </section>
               <section>
                 <label class="input"> DB URL
-                  <input type="text" required [(ngModel)]="information.dburl" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$" name="dburl" placeholder="DB URL" id="dburl" #dburl="ngModel">
+                  <input type="url" required [(ngModel)]="information.url" pattern="^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$" name="url" placeholder="DB URL" id="url" #url="ngModel">
 				 </label>  
-				 <div *ngIf="dburl.errors && (dburl.dirty || dburl.touched)" class="alert alert-danger" >
-					<div [hidden]="!dburl.errors.required">
-					  port is required!
+				 <div *ngIf="url.errors && (url.dirty || url.touched)" class="alert alert-danger" >
+					<div [hidden]="!url.errors.required">
+					  Url is required!
 					</div>
-					<div [hidden]="dburl.errors.required">
+					<div [hidden]="url.errors.required">
 					  Please enter valid input
 				   </div>
 				</div>
@@ -378,7 +378,7 @@
 
               <section>
                 <label class="input"> DESCRIPTION 
-                  <input type="text" [(ngModel)]="information.desc"  name="desc" placeholder="Description" id="desc" #desc="ngModel">
+                  <input type="text" [(ngModel)]="information.description"  name="description" placeholder="Description" id="desc" #description="ngModel">
                  </label> 
                   
               </section>
@@ -419,7 +419,7 @@
 										
 											<section>
 												<label class="input"> Check connection Query
-													<input type="text" [(ngModel)]="information.query" required name="query" placeholder="Check Connection Query" id="query" #query="ngModel">
+													<input type="text" [(ngModel)]="information.properties" required name="query" placeholder="Check Connection Query" id="query" #properties="ngModel">
 												 </label> 
 													
 											</section>

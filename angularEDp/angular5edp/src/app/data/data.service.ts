@@ -14,7 +14,12 @@ export class DataService {
    isLoggedIn: boolean = false;
    constructor(private http: HttpClient) {}
    redirectUrl: string;
-
+   addLocation(data) {
+      return this.http.post<UserResponse>(environment.API_URL + '/datalocation/add', data).map(res => res);
+   }
+   getLocation() {
+      return this.http.get<UserResponse>(environment.API_URL + '/datalocation/list').map(res => res);
+   }
 
   
 

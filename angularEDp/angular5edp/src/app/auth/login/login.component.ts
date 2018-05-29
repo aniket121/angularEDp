@@ -14,7 +14,7 @@ interface UserResponse {
 
 })
 export class LoginComponent implements OnInit {
-  public loginData={username:'',password:''};
+  public loginData={password:'',email:''};
   public loginError:boolean=false;
   data={}
   constructor(private router: Router,private authService: AuthService) { }
@@ -27,11 +27,14 @@ export class LoginComponent implements OnInit {
        this.authService.login(loginData).subscribe(
        data => {
           
+          this.router.navigate(["home"]); 
           if(data.status=="SUCCESS"){
             console.log("Login success");
             localStorage.setItem('token','Bearer'+" "+data.data.token);
             this.router.navigate(["home"])
           }
+           
+            
           else{
              console.log("Login failed");
              this.loginError=true;

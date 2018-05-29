@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  API_URL : 'http://192.168.0.74:8182',
+  API_URL : 'http://54.226.23.229:16000/insightlake//',
 };

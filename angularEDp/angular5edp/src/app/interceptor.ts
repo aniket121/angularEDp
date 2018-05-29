@@ -14,13 +14,12 @@ export class Interceptor implements HttpInterceptor {
          var token=localStorage.getItem('token');
          if(!token){token=""}
          const headers = new HttpHeaders({
-              'Authorization':token,
-
+           
              
          });
 
 
-       const cloneReq = req.clone({headers});
+       const cloneReq = req.clone({headers, withCredentials: true});
        return next.handle(cloneReq);
 
          
