@@ -44,6 +44,9 @@ export class LocationComponent implements OnInit {
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
   }
+  save(locationinfo){
+    console.log(locationinfo);
+  }
 
   
 

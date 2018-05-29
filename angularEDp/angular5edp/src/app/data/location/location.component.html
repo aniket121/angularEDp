@@ -244,7 +244,7 @@
 		
     <!-- widget content -->
     <div class="widget-body fuelux">
-      <fuel-ux-wizard (complete)="onWizardComplete($event)">
+      <fuel-ux-wizard >
         <div class="wizard">
           <div class="steps-container">
             <ul class="steps">
@@ -257,27 +257,21 @@
              
             </ul>
           </div>
-          <div class="actions">
-            <button type="button" class="btn btn-sm btn-primary btn-prev">
-              <i class="fa fa-arrow-left"></i>Prev
-            </button>
-            <button type="button" class="btn btn-sm btn-success btn-next" data-last="Finish">
-              Next<i class="fa fa-arrow-right"></i>
-            </button>
-          </div>
+         
         </div>
         <div class="step-content">
           <form class="form-horizontal" >
 
+						<!-- ...................	General information tab..................... -->
             <div class="step-pane active" data-step="1">
-							 <form id="smart-form-register" class="smart-form client-form" #generalForm="ngForm">
+							 <form id="smart-form-information" class="smart-form client-form" #generalForm="ngForm">
            
              
             <fieldset>
             
             <div class="row">
                 <section class="col col-6">
-                  <label class="select">
+                  <label class="select">TYPE
                     <select name="type"> Select type
                       <option value="0" selected disabled>Select type</option>
                       <option value="1">DB</option>
@@ -286,7 +280,7 @@
                     </select> <i></i> </label>
                 </section>
                 <section class="col col-6">
-                  <label class="input">
+                  <label class="input">NAME
                     <input type="text" name="name" pattern="^[a-zA-Z]+$" required [(ngModel)]="information.name" placeholder="Name" #name="ngModel">
                   </label>
                   <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger" >
@@ -301,29 +295,58 @@
               </div>
             
               <section >
-                  <label class="select"> Select DB
+                  <label class="select">  DB
                     <select name="db">
                       <option value="0" selected disabled>Select DB</option>
                       <option value="1">MYSQL</option>
                       <option value="2">SQL SERVER</option>
                       <option value="3">ORACLE</option>
                     </select> </label>
-                </section>
+								</section>
+								
+								<div class="row">
+										<section class="col col-6">
+											<label class="input">HOST
+													<input type="text" required [(ngModel)]="information.host" name="host" placeholder="Host" #host="ngModel">
+													</label>
+												</section>
+												<section class="col col-6">
+														<label class="input">PORT
+																<input type="text" required [(ngModel)]="information.port" name="port" placeholder="Port" #port="ngModel">
+																</label>
+															</section>
+									</div>
+									<div class="row">
+											<section class="col col-6">
+												<label class="input">USER
+														<input type="text" required [(ngModel)]="information.user" name="user" placeholder="user" #user="ngModel">
+														</label>
+													</section>
+													<section class="col col-6">
+															<label class="input">PASSWORD
+																	<input type="password" required [(ngModel)]="information.password" pattern="[0-9]" name="password" placeholder="password" #password="ngModel">
+																	</label>
+																</section>
+										</div>
+									
+	
+								
+
 
               <section>
-                <label class="input"> Driver
+                <label class="input"> DRIVER
                   <input type="text" required [(ngModel)]="information.driver" name="driver" placeholder="Driver" #driver="ngModel">
                  </label> 
               </section>
               <section>
-                <label class="input"> DB url
+                <label class="input"> DB URL
                   <input type="text" required [(ngModel)]="information.dburl"  name="dburl" placeholder="DB URL" id="dburl" #dburl="ngModel">
                  </label>  
               </section>
 
               <section>
-                <label class="input"> Description 
-                  <input type="text" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required [(ngModel)]="information.desc"  name="desc" placeholder="Description" id="desc" #desc="ngModel">
+                <label class="input"> DESCRIPTION 
+                  <input type="text" [(ngModel)]="information.desc"  name="desc" placeholder="Description" id="desc" #desc="ngModel">
                  </label> 
                   
               </section>
@@ -335,18 +358,62 @@
               
             </fieldset>
             <footer>
-              <!-- <button (click)="register(user)" [disabled]="!generalForm.form.valid" class="btn btn-primary">
-                
-              </button> -->
+								<div class="actions">
+										
+										<button type="button" class="btn btn-sm btn-success btn-next" [disabled]="!generalForm.form.valid" >
+											Next<i class="fa fa-arrow-right"></i>
+										</button>
+										<button type="button" class="btn btn-sm btn-primary btn-prev">
+											<i class="fa fa-arrow-left"></i>Prev
+										</button>
+									</div>
+            
             </footer>
 
             
           </form>
 			
 						</div>
+
+					<!-- ...................	Properties tab..................... -->
+
 						<div class="step-pane active" data-step="2">
 								<h1>Properties</h1>
+								<form id="smart-form-properties" class="smart-form client-form" #generalForm2="ngForm">
+           
+             
+										<fieldset>
+										
+										
+											<section>
+												<label class="input"> Check connection Query
+													<input type="text" [(ngModel)]="information.query" required name="query" placeholder="Check Connection Query" id="query" #query="ngModel">
+												 </label> 
+													
+											</section>
 				
+											
+										</fieldset>
+				
+									
+										<footer>
+												<div class="actions">
+														
+														<button type="button" (click)="save(information)" class="btn btn-sm btn-success btn-next" [disabled]="!generalForm2.form.valid" >
+														Finish
+														</button>
+														<button type="button" class="btn btn-sm btn-primary btn-prev">
+															<i class="fa fa-arrow-left"></i>Prev
+														</button>
+
+												</div>
+										
+										</footer>
+				
+										
+									</form>
+
+						
 							</div>
           </form>
         </div>
