@@ -1,0 +1,9 @@
+
+    {
+        "MYSQL": "com.mysql.jdbc.Driver",
+        "SQLSERVER":" com.microsoft.sqlserver.jdbc.SqlServerDriver",
+        "ORACLE":"oracle.jdbc.OracleDriver",
+        "HIVE":"org.apache.hadoop.hive.jdbc.HiveDrive",
+        "SPARKSQL":"org.databricks.sparksql"
+     }
+    

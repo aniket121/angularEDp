@@ -3,6 +3,10 @@ import {Router} from "@angular/router";
 import { DataService } from '../data.service';
 import { JsonApiService } from "app/core/api/json-api.service";
 import {ModalDirective} from "ngx-bootstrap";
+import { HttpClient } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
+
+
 @Component({
   selector: 'app-loction',
   templateUrl: './location.component.html',
@@ -14,10 +18,11 @@ import {ModalDirective} from "ngx-bootstrap";
 export class LocationComponent implements OnInit {
   
   rows: any[] = [];
-  temp:any[]=[]
+  temp:any[]=[];
+  driver:string[];
   controls={filter:''}
   public information={dburl:'',driver:'',name:''}
-  constructor(private jsonApiService:JsonApiService) { }
+  constructor(private jsonApiService:JsonApiService,private httpService: HttpClient) { }
    @ViewChild('myTable') table: any;
    @ViewChild('staticModal') public staticModal:ModalDirective;
   ngOnInit() {
@@ -26,6 +31,18 @@ export class LocationComponent implements OnInit {
       this.temp=data;
       console.log(data)
     })
+    this.httpService.get('./assets/dbDriver.json').subscribe(
+      data => {
+        console.log(data);
+        this.driver = data;	 // FILL THE ARRAY WITH DATA.
+          console.log(this.driver);
+      },
+      (err: HttpErrorResponse) => {
+        console.log (err.message);
+      }
+    );
+
+  
   }
 
 
@@ -48,7 +65,10 @@ export class LocationComponent implements OnInit {
     console.log(locationinfo);
   }
 
-  
+onChange(newval)
+{
+  console.log(newval);
+}
 
 
   toggleExpandRow(row) {

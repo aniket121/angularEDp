@@ -271,13 +271,21 @@
             
             <div class="row">
                 <section class="col col-6">
-                  <label class="select">TYPE
-                    <select name="type"> Select type
+                  <label class="select" >TYPE
+                    <select name="type"  [(ngModel)]="information.type"  #type="ngModel"> Select type
                       <option value="0" selected disabled>Select type</option>
-                      <option value="1">DB</option>
-                      <option value="2">FTP</option>
-                      <option value="3">SMTP</option>
-                    </select> <i></i> </label>
+                      <option value="DB">DB</option>
+                      <option value="FTP">FTP</option>
+                      <option value="SFTP">SFTP</option>
+					  <option value="FILE">FILE</option>
+					  <option value="API">API</option>
+					  <option value="S3">S3</option>
+					  <option value="KAFKA">KAFKA</option>
+					  <option value="ELASTIC SEARCH">ELASTIC SEARCH</option>
+					  <option value="SOLR">SOLR</option>
+					  <option value="HDFS">HDFS</option>
+                   
+					</select> </label>
                 </section>
                 <section class="col col-6">
                   <label class="input">NAME
@@ -296,11 +304,19 @@
             
               <section >
                   <label class="select">  DB
-                    <select name="db">
+                    <select name="db" [(ngModel)]="information.db" #db="ngModel" (ngModelChange)="onChange(db)" >
                       <option value="0" selected disabled>Select DB</option>
-                      <option value="1">MYSQL</option>
-                      <option value="2">SQL SERVER</option>
-                      <option value="3">ORACLE</option>
+                      <option value="MYSQL">MYSQL</option>
+                      <option value="SQL SERVER">SQL SERVER</option>
+					  <option value="ORACLE">ORACLE</option>
+					  <option value="HIVE">HIVE</option>
+					  <option value="REDSHIFT">REDSHIFT</option>
+					  <option value="PERSTO">PERSTO</option>
+					  <option value="DRILL">DRILL</option>
+					  <option value="SPARK SQL">SPARK SQL</option>
+					  <option value="AS400">AS400</option>
+					  <option value="MONGO">MONGO</option>
+                   
                     </select> </label>
 								</section>
 								
@@ -312,8 +328,16 @@
 												</section>
 												<section class="col col-6">
 														<label class="input">PORT
-																<input type="text" required [(ngModel)]="information.port" name="port" placeholder="Port" #port="ngModel">
+																<input type="text" required [(ngModel)]="information.port" pattern="^[0-9]+$" name="port" placeholder="Port" #port="ngModel">
 																</label>
+																<div *ngIf="port.errors && (port.dirty || port.touched)" class="alert alert-danger" >
+																	<div [hidden]="!port.errors.required">
+																	  port is required!
+																	</div>
+																	<div [hidden]="port.errors.required">
+																	  Please enter valid input
+																   </div>
+																</div>
 															</section>
 									</div>
 									<div class="row">
@@ -324,7 +348,7 @@
 													</section>
 													<section class="col col-6">
 															<label class="input">PASSWORD
-																	<input type="password" required [(ngModel)]="information.password" pattern="[0-9]" name="password" placeholder="password" #password="ngModel">
+																	<input type="password" required [(ngModel)]="information.password" name="password" placeholder="password" #password="ngModel">
 																	</label>
 																</section>
 										</div>
@@ -340,8 +364,16 @@
               </section>
               <section>
                 <label class="input"> DB URL
-                  <input type="text" required [(ngModel)]="information.dburl"  name="dburl" placeholder="DB URL" id="dburl" #dburl="ngModel">
-                 </label>  
+                  <input type="text" required [(ngModel)]="information.dburl" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$" name="dburl" placeholder="DB URL" id="dburl" #dburl="ngModel">
+				 </label>  
+				 <div *ngIf="dburl.errors && (dburl.dirty || dburl.touched)" class="alert alert-danger" >
+					<div [hidden]="!dburl.errors.required">
+					  port is required!
+					</div>
+					<div [hidden]="dburl.errors.required">
+					  Please enter valid input
+				   </div>
+				</div>
               </section>
 
               <section>
