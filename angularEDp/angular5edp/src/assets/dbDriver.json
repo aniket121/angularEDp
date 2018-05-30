@@ -1,9 +1,51 @@
-
+[
     {
-        "MYSQL": "com.mysql.jdbc.Driver",
-        "SQLSERVER":" com.microsoft.sqlserver.jdbc.SqlServerDriver",
-        "ORACLE":"oracle.jdbc.OracleDriver",
-        "HIVE":"org.apache.hadoop.hive.jdbc.HiveDrive",
-        "SPARKSQL":"org.databricks.sparksql"
-     }
-    
+        "key": "MYSQL",
+        "value": "com.mysql.jdbc.Driver"
+    },
+    {
+        "key": "SQLSERVER",
+        "value": "com.microsoft.sqlserver.jdbc.SqlServerDriver"
+       
+    },
+    {
+        "key": "ORACLE",
+        "value": "oracle.jdbc.OracleDriver"
+       
+    },
+    {
+        "key": "HIVE",
+        "value": "org.apache.hadoop.hive.jdbc.HiveDrive"
+        
+    },
+    {
+        "key": "SPARKSQL",
+        "value": "org.databricks.sparksql"
+        
+    },
+    {
+        "key": "REDSHIFT",
+        "value": "com.amazon.redshift.jdbc.Driver"
+        
+    },
+    {
+        "key": "PRESTO",
+        "value": "com.facebook.presto.jdbc.PrestoDriver"
+        
+    },
+    {
+        "key": "DRILL",
+        "value": "org.apache.drill.jdbc.Driver"
+        
+    },
+    {
+        "key": "IMPALA",
+        "value": "org.cloudera.impala"
+        
+    },
+    {
+        "key": "AS400",
+        "value": "org.ibm.as400.access.As400JDBCDriver"
+        
+    }
+]

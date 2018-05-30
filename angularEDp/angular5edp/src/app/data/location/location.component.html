@@ -46,8 +46,8 @@
 							</div>
 							<ngx-datatable style="height: 50vh" #myTable
 								class='table-striped' [columnMode]="'force'" [headerHeight]="40"
-								[footerHeight]="45" [rowHeight]="35" [scrollbarV]="35"
-								[rows]="rows"
+								[footerHeight]="45" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true"
+								[rows]="locationData"
 								[cssClasses]="{
             sortAscending: 'fa fa-sort-up',
             sortDescending: 'fa fa-sort-down',
@@ -59,20 +59,21 @@
 
 							<!-- Column Templates --> 
 								<ngx-datatable-column name="Action" [resizeable]="true"
-								[sortable]="true" [draggable]="true" [canAutoResize]="true">
+								[sortable]="true" [draggable]="true" [width]="55" [canAutoResize]="true">
 							<ng-template let-row="row" let-value="value"
 								ngx-datatable-cell-template>
 							<div>
-								<i class="fa fa-edit" (click)="edit(row)"></i> &nbsp;&nbsp;<i
+								<i class="fa fa-edit" (click)="edit(row)" (click)="lgModal.show()"></i> &nbsp;&nbsp;<i
 									class="fa fa-trash" (click)="delete(row)"></i>
 							</div>
 							</ng-template> </ngx-datatable-column>
 							<ngx-datatable-column name="Status"
-								[resizeable]="true" [sortable]="true" [draggable]="true"
+								[resizeable]="true" [sortable]="true" [width]="100" [draggable]="true"
 								[canAutoResize]="true"> <ng-template
 								let-row="row" ngx-datatable-cell-template><div>
 								
-									<span class="btn bg-color-green txt-color-white btn-xs" (click)="Active(row)">Active</span> 
+									<span  *ngIf="row.status===1" class="activestatus font" >Active</span> 
+									<span *ngIf="row.status===0" class="font disabledstatus">Disabled</span> 
 									
 									
 							</div>
@@ -81,89 +82,105 @@
 							<ngx-datatable-column name="Type" [resizeable]="true"
 								[sortable]="true" [draggable]="true" [canAutoResize]="true">
 							<ng-template let-row="row" ngx-datatable-cell-template>
-							<strong>{{row.type}}</strong> </ng-template> </ngx-datatable-column> 
+							
+                             <span *ngIf="row.type==='TABLE'" class="fa fa-table fa-2x location-icons">    {{row.type}} </span> 
+                             <span *ngIf="row.type==='S3'" class="fa fa-cloud fa-2x location-icons">    {{row.type}}</span> 
+                             <span *ngIf="row.type==='HDFS'" class="fa fa-files-o fa-2x location-icons">    {{row.type}}</span>
+                             <span *ngIf="row.type==='DB'" class="fa fa-database fa-2x location-icons">   {{row.type}}</span>
+                             <span *ngIf="row.type==='API'" class="fa fa-gear fa-2x location-icons">    {{row.type}}</span>
+                             <span *ngIf="row.type==='KAFKA'" class="fa fa-files-o fa-2x location-icons">    {{row.type}}</span>
+                             <span *ngIf="row.type==='FILE'" class="fa fa-file-text-o fa-2x location-icons">    {{row.type}}</span>
+                             <span *ngIf="row.type==='WEBHDFS'" class="fa fa-files-o fa-2x location-icons">    {{row.type}}</span>
+                             <span *ngIf="row.type==='FTP'" class="fa fa-folder fa-2x location-icons">     {{row.type}}</span>
+                             <span *ngIf="row.type==='STREAM'" class="fa fa-files-o fa-2x location-icons">    KAFKA</span>
+                              <span *ngIf="row.type==='SFTP'" class="fa fa-folder fa-2x  location-icons">    {{row.type}}</span>
+                              <span *ngIf="row.type==='HBASE'" class="fa fa-files-o fa-2x  location-icons">    {{row.type}}</span>
+                              <span *ngIf="row.type==='SOLR'" class="fa fa-files-o fa-2x  location-icons">    {{row.type}}</span>
+                              
+                             
+							 </ng-template> </ngx-datatable-column> 
 						
 							<ngx-datatable-column
 								name="Name" [resizeable]="true" [sortable]="true"
 								[draggable]="true" [canAutoResize]="true">
 							<ng-template let-row="row" ngx-datatable-cell-template>
-							<strong (click)="get(row)">{{row.name}}</strong> </ng-template> </ngx-datatable-column>
+							{{row.name}}</ng-template> </ngx-datatable-column>
 							
 							 <ngx-datatable-column
 								name="Host" [resizeable]="true" [sortable]="true"
 								[draggable]="true" [canAutoResize]="true">
 							<ng-template let-row="row" let-value="value"
-								ngx-datatable-cell-template> <strong>{{row.host}}</strong>
+								ngx-datatable-cell-template> {{row.host}}
 							</ng-template> </ngx-datatable-column> 
 							
 							<ngx-datatable-column
 								name="Bucket" [resizeable]="true" [sortable]="true"
 								[draggable]="true" [canAutoResize]="true">
 							<ng-template let-row="row" let-value="value"
-								ngx-datatable-cell-template> <strong>{{row.bucket}}</strong>
+								ngx-datatable-cell-template>{{row.bucket}}
 							</ng-template> </ngx-datatable-column>
 							
 							<ngx-datatable-column
 								name="URL" [resizeable]="true" [sortable]="true"
 								[draggable]="true" [canAutoResize]="true">
 							<ng-template let-row="row" let-value="value"
-								ngx-datatable-cell-template> <strong>{{row.url}}</strong>
+								ngx-datatable-cell-template> {{row.url}}
 							</ng-template> </ngx-datatable-column>
 							
 							<ngx-datatable-column
 								name="User" [resizeable]="true" [sortable]="true"
 								[draggable]="true" [canAutoResize]="true">
 							<ng-template let-row="row" let-value="value"
-								ngx-datatable-cell-template> <strong>{{row.user}}</strong>
+								ngx-datatable-cell-template> {{row.user}}
 							</ng-template> </ngx-datatable-column>
 							
 							<ngx-datatable-column
 								name="Driver" [resizeable]="true" [sortable]="true"
 								[draggable]="true" [canAutoResize]="true">
 							<ng-template let-row="row" let-value="value"
-								ngx-datatable-cell-template> <strong>{{row.driver}}</strong>
+								ngx-datatable-cell-template> {{row.driver}}
 							</ng-template> </ngx-datatable-column>
 							
 							<ngx-datatable-column
 								name="Tags" [resizeable]="true" [sortable]="true"
 								[draggable]="true" [canAutoResize]="true">
 							<ng-template let-row="row" let-value="value"
-								ngx-datatable-cell-template> <strong>{{row.tags}}</strong>
+								ngx-datatable-cell-template> {{row.tags}}
 							</ng-template> </ngx-datatable-column>
 							
 							<ngx-datatable-column
 								name="Schema" [resizeable]="true" [sortable]="true"
 								[draggable]="true" [canAutoResize]="true">
 							<ng-template let-row="row" let-value="value"
-								ngx-datatable-cell-template> <strong>{{row.schema}}</strong>
+								ngx-datatable-cell-template> {{row.schema}}
 							</ng-template> </ngx-datatable-column>
 							
 							<ngx-datatable-column
 								name="Description" [resizeable]="true" [sortable]="true"
 								[draggable]="true" [canAutoResize]="true">
 							<ng-template let-row="row" let-value="value"
-								ngx-datatable-cell-template> <strong>{{row.description}}</strong>
+								ngx-datatable-cell-template> {{row.description}}
 							</ng-template> </ngx-datatable-column>
 							
 							<ngx-datatable-column
 								name="Sync" [resizeable]="true" [sortable]="true"
-								[draggable]="true" [canAutoResize]="true">
+								[draggable]="true"  [width]=100 [canAutoResize]="true">
 							<ng-template let-row="row" let-value="value"
 								ngx-datatable-cell-template> <div>
 								
-									<span class="btn bg-color-green txt-color-white btn-xs" (click)="Sync(row)">Sync</span> 
+									<span class="btn bg-color-green txt-color-white btn-xs" (click)="syncData(row.name)">Sync</span> 
 									
 									
 							</div>
 							</ng-template> </ngx-datatable-column>
 							
 							<ngx-datatable-column
-								name="Test" [resizeable]="true" [sortable]="true"
+								name="Test" [resizeable]="true" [width]=100 [sortable]="true"
 								[draggable]="true" [canAutoResize]="true">
 							<ng-template let-row="row" let-value="value"
 								ngx-datatable-cell-template> <div>
 								
-								<span class="btn bg-color-green txt-color-white btn-xs" (click)="Test(row)">Test</span> 
+								<span class="btn bg-color-green txt-color-white btn-xs" (click)="testData(row.name)">Test</span> 
 									
 							</div>
 							</ng-template> </ngx-datatable-column>
@@ -224,7 +241,7 @@
 
 
 <!--add -->
-<div class="">
+<div class="lgmodel" id="lgmodel" #lgmodel >
 	<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1"
 		role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
@@ -234,7 +251,7 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">Add Data Location</h4>
+					<h4 class="modal-title">Add/Edit Data Location</h4>
 				</div>
 				<div class="modal-body">
 				
@@ -284,6 +301,7 @@
 					  <option value="ELASTIC SEARCH">ELASTIC SEARCH</option>
 					  <option value="SOLR">SOLR</option>
 					  <option value="HDFS">HDFS</option>
+					  <option value="TABLE">TABLE</option>
                    
 					</select> </label>
                 </section>
@@ -304,19 +322,9 @@
             
               <section >
                   <label class="select">  DB
-                    <select name="db" [(ngModel)]="information.db" #db="ngModel" (ngModelChange)="onChange(db)" >
-                      <option value="0" selected disabled>Select DB</option>
-                      <option value="MYSQL">MYSQL</option>
-                      <option value="SQL SERVER">SQL SERVER</option>
-					  <option value="ORACLE">ORACLE</option>
-					  <option value="HIVE">HIVE</option>
-					  <option value="REDSHIFT">REDSHIFT</option>
-					  <option value="PERSTO">PERSTO</option>
-					  <option value="DRILL">DRILL</option>
-					  <option value="SPARK SQL">SPARK SQL</option>
-					  <option value="AS400">AS400</option>
-					  <option value="MONGO">MONGO</option>
-                   
+                    <select name="db" [(ngModel)]="information.db" #db="ngModel" (ngModelChange)="onChange()" >
+                      <option  *ngFor="let drivers of driverData" [value]="drivers.value">{{drivers.key}}</option>
+                      
                     </select> </label>
 								</section>
 								
@@ -364,7 +372,7 @@
               </section>
               <section>
                 <label class="input"> DB URL
-                  <input type="url" required [(ngModel)]="information.url" pattern="^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$" name="url" placeholder="DB URL" id="url" #url="ngModel">
+                  <input type="url" required [(ngModel)]="information.url"  name="url" placeholder="DB URL" id="url" #url="ngModel">
 				 </label>  
 				 <div *ngIf="url.errors && (url.dirty || url.touched)" class="alert alert-danger" >
 					<div [hidden]="!url.errors.required">
@@ -431,7 +439,7 @@
 										<footer>
 												<div class="actions">
 														
-														<button type="button" (click)="save(information)" class="btn btn-sm btn-success btn-next" [disabled]="!generalForm2.form.valid" >
+														<button type="button" (click)="save(information)" class="btn btn-sm btn-success btn-next" [disabled]="!generalForm2.form.valid" (click)="lgModal.hide()" >
 														Finish
 														</button>
 														<button type="button" class="btn btn-sm btn-primary btn-prev">
@@ -464,6 +472,11 @@
 
 
 </div>
+<!--delete-->
+<p-confirmDialog></p-confirmDialog>
+
+<!--delete-->
+
 <!--add-->
 <!--add tag-->
 <div class="">

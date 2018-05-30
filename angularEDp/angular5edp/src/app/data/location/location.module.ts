@@ -8,11 +8,14 @@ import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {SmartadminModule} from "../../shared/smartadmin.module";
 import {AccordionModule, CarouselModule,ModalModule} from "ngx-bootstrap";
 import {SmartadminWizardsModule} from "../../shared/forms/wizards/smartadmin-wizards.module";
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
 @NgModule({
   imports: [
     CommonModule,
     LocationRoutingModule,
     FormsModule,
+    ConfirmDialogModule,
     SmartadminModule,
     SmartadminWizardsModule,
       NgxDatatableModule,
