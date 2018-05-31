@@ -15,10 +15,7 @@
 					<div class="align-left">
 					   <a class="addLocation" (click)="lgModal.show()"> <i
 						  class="fa fa-plus"></i> <span class="hidden-mobile">Add</span>
-					   </a> <a class="addLocation" (click)="tagModal.show()"> <i
-						  class="fa fa-plus"></i> <span class="hidden-mobile">Add/Edit
-					   Tag</span>
-					   </a>
+					   </a> 
 					</div>
 				 </header>
 				 <div>
@@ -38,7 +35,7 @@
 								</div>
 							 </div>
 						  </div>
-						  <ngx-datatable style="height: 50vh" #myTable
+						  <ngx-datatable   style="height: 50vh" #myTable
 						  class='table-striped' [columnMode]="'force'" [headerHeight]="40"
 						  [footerHeight]="45" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true"
 						  [rows]="locationData"
@@ -51,6 +48,16 @@
 						  pagerNext: 'fa fa-angle-double-right'
 						  }">
 						  <!-- Column Templates --> 
+						   <ngx-datatable-column name="Add/edit Tag" [resizeable]="true"
+						  [sortable]="true" [draggable]="true" [width]="100" [canAutoResize]="true">
+						  <ng-template let-row="row" let-value="value"
+							 ngx-datatable-cell-template>
+							 <div>
+								<i class="fa fa-edit" (click)="edit(row)" (click)="tagModal.show()"></i> 
+							 </div>
+						  </ng-template>
+						  </ngx-datatable-column>
+
 						  <ngx-datatable-column name="Action" [resizeable]="true"
 						  [sortable]="true" [draggable]="true" [width]="55" [canAutoResize]="true">
 						  <ng-template let-row="row" let-value="value"
@@ -64,8 +71,7 @@
 						  <ngx-datatable-column name="Status"
 						  [resizeable]="true" [sortable]="true" [width]="100" [draggable]="true"
 						  [canAutoResize]="true"> 
-						  <ng-template
-							 let-row="row" ngx-datatable-cell-template>
+						  <ng-template let-row="row" ngx-datatable-cell-template>
 							 <div>
 								<span  *ngIf="row.status===1" class="activestatus font" >Active</span> 
 								<span *ngIf="row.status===0" class="font disabledstatus">Disabled</span> 
@@ -88,69 +94,70 @@
 							 <span *ngIf="row.type==='SFTP'" class="fa fa-folder fa-2x  location-icons">    {{row.type}}</span>
 							 <span *ngIf="row.type==='HBASE'" class="fa fa-files-o fa-2x  location-icons">    {{row.type}}</span>
 							 <span *ngIf="row.type==='SOLR'" class="fa fa-files-o fa-2x  location-icons">    {{row.type}}</span>
+
 						  </ng-template>
 						  </ngx-datatable-column> 
 						  <ngx-datatable-column
-						  name="Name" [resizeable]="true" [sortable]="true"
+						  name="Name"  [resizeable]="true" [sortable]="true"
 						  [draggable]="true" [canAutoResize]="true">
 						  <ng-template let-row="row" ngx-datatable-cell-template>
-							 {{row.name}}
+							 <p (click)="getRowData(row)">{{row.name}}</p>
 						  </ng-template>
 						  </ngx-datatable-column>
 						  <ngx-datatable-column
 						  name="Host" [resizeable]="true" [sortable]="true"
 						  [draggable]="true" [canAutoResize]="true">
 						  <ng-template let-row="row" let-value="value"
-							 ngx-datatable-cell-template> {{row.host}}
+							 ngx-datatable-cell-template><p (click)="getRowData(row)"> {{row.host}}</p>
 						  </ng-template>
 						  </ngx-datatable-column> 
 						  <ngx-datatable-column
 						  name="Bucket" [resizeable]="true" [sortable]="true"
 						  [draggable]="true" [canAutoResize]="true">
 						  <ng-template let-row="row" let-value="value"
-							 ngx-datatable-cell-template>{{row.bucket}}
+							 ngx-datatable-cell-template><p (click)="getRowData(row)">{{row.bucket}}</p>
 						  </ng-template>
 						  </ngx-datatable-column>
 						  <ngx-datatable-column
 						  name="URL" [resizeable]="true" [sortable]="true"
 						  [draggable]="true" [canAutoResize]="true">
 						  <ng-template let-row="row" let-value="value"
-							 ngx-datatable-cell-template> {{row.url}}
+							 ngx-datatable-cell-template> <p (click)="getRowData(row)">{{row.url}}</p>
 						  </ng-template>
 						  </ngx-datatable-column>
 						  <ngx-datatable-column
 						  name="User" [resizeable]="true" [sortable]="true"
 						  [draggable]="true" [canAutoResize]="true">
 						  <ng-template let-row="row" let-value="value"
-							 ngx-datatable-cell-template> {{row.user}}
+							 ngx-datatable-cell-template><p (click)="getRowData(row)"> {{row.user}}</p>
 						  </ng-template>
 						  </ngx-datatable-column>
 						  <ngx-datatable-column
 						  name="Driver" [resizeable]="true" [sortable]="true"
 						  [draggable]="true" [canAutoResize]="true">
 						  <ng-template let-row="row" let-value="value"
-							 ngx-datatable-cell-template> {{row.driver}}
+							 ngx-datatable-cell-template><p (click)="getRowData(row)"> {{row.driver}}</p>
 						  </ng-template>
 						  </ngx-datatable-column>
 						  <ngx-datatable-column
 						  name="Tags" [resizeable]="true" [sortable]="true"
 						  [draggable]="true" [canAutoResize]="true">
 						  <ng-template let-row="row" let-value="value"
-							 ngx-datatable-cell-template> {{row.tags}}
+							 ngx-datatable-cell-template> <p (click)="getRowData(row)">{{row.tags}}</p>
 						  </ng-template>
 						  </ngx-datatable-column>
 						  <ngx-datatable-column
 						  name="Schema" [resizeable]="true" [sortable]="true"
 						  [draggable]="true" [canAutoResize]="true">
 						  <ng-template let-row="row" let-value="value"
-							 ngx-datatable-cell-template> {{row.schema}}
+							 ngx-datatable-cell-template><p (click)="getRowData(row)"> {{row.schema}}</p>
 						  </ng-template>
 						  </ngx-datatable-column>
 						  <ngx-datatable-column
 						  name="Description" [resizeable]="true" [sortable]="true"
 						  [draggable]="true" [canAutoResize]="true">
 						  <ng-template let-row="row" let-value="value"
-							 ngx-datatable-cell-template> {{row.description}}
+							 ngx-datatable-cell-template><p (click)="getRowData(row)"> {{row.description}}</p>
 						  </ng-template>
 						  </ngx-datatable-column>
 						  <ngx-datatable-column
@@ -346,9 +353,9 @@
 								</section>
 								<section *ngIf="ftp || s3">
 									<label class="select" >AUTH TYPE
-									<select name="type"  [(ngModel)]="information.authtype"  #authtype="ngModel"> Select type
+									<select name="authtype"  [(ngModel)]="information.auth_type"  #authtype="ngModel"> Select type
 									<option value="0" selected disabled>Select Auth type</option>
-									<option value="Auth1">Auth1</option>								
+									<option value="Auth1">OAuth1</option>								
 									</select> </label>
 								</section>
 								<section *ngIf="ftp">
@@ -435,12 +442,68 @@
 								<div class="step-pane active" data-step="2">
 								   <h1>Properties</h1>
 								   <form id="smart-form-properties" class="smart-form client-form" #generalForm2="ngForm">
-									  <fieldset>
-										 <section *ngIf="db">
+									 	  <fieldset>
+												<!-- #### DB COMPONENT ####  -->
+										<section *ngIf="db">
 											<label class="input"> Check connection Query
 											<input type="text" [(ngModel)]="information.properties" required name="query" placeholder="Check Connection Query" id="query" #properties="ngModel">
 											</label> 
 										 </section>
+										 		<!-- #### END DB COMPONENT ####  -->
+										 		<!-- ####  API COMPONENT ####  -->
+										 <section  *ngIf="api">
+										<label class="select" >API TYPE
+										<select name="type"  [(ngModel)]="information.api_type"  #api_type="ngModel" > Select Auth type
+										<option value="0" selected disabled>Select Auth type</option>
+										<option value="simple">Simple</option>
+										<option value="oAuth">oAuth</option>
+								
+										</select> </label>
+										</section>
+										<section *ngIf="api">
+											<label class="select" >OAUTH VERSION
+											<select name="type"  [(ngModel)]="information.oauth_version"  #oauth_version="ngModel" > Select OAuth Version
+											<option value="0" selected disabled>Select OAuth version</option>
+											<option value="simple">oAuth1</option>
+											<option value="oAuth">oAuth2</option>
+									
+											</select> </label>
+											</section>
+											<section *ngIf="api">
+												<label class="input"> CALLBACK
+												<input type="text" [(ngModel)]="information.callback" required name="callback" placeholder="Callback" id="callback" #callback="ngModel">
+												</label> 
+											 </section>
+											 <section *ngIf="api">
+												<label class="input"> CALLBACK
+												<input type="text" [(ngModel)]="information.callback" required name="callback" placeholder="Callback" id="callback" #callback="ngModel">
+												</label> 
+											 </section>
+											 <section *ngIf="api">
+												<label class="input"> REFERENCE URL
+												<input type="text" [(ngModel)]="information.reference_url" required name="reference_url" placeholder="Reference Url" id="reference_url" #reference_url="ngModel">
+												</label> 
+											 </section>
+											 <section *ngIf="api">
+												<label class="input"> TOKEN
+												<input type="text" [(ngModel)]="information.token" required name="token" placeholder="Token" id="token" #token="ngModel">
+												</label> 
+											 </section>
+											 <section *ngIf="api">
+												<label class="input"> SELECT TOKEN
+												<input type="text" [(ngModel)]="information.select_token" required name="select_token" placeholder="Select Token" id="select_token" #select_token="ngModel">
+												</label> 
+											 </section>
+											 
+												 <!-- #### END API COMPONENT ####  -->
+
+												 <!-- #### KAFKA AND SOLR COMPONENT ####  -->
+												 <section *ngIf="kafka || solr">
+													<label class="input"> ZOOKEEPER
+													<input type="text" [(ngModel)]="information.zookeeper" required name="zookeeper" placeholder="Zookeeper" id="zookeeper" #zookeeper="ngModel">
+													</label> 
+												 </section>
+												 <!-- #### END KAFKA AND SOLR COMPONENT ####  -->
 									  </fieldset>
 									  <footer>
 										 <div class="actions">

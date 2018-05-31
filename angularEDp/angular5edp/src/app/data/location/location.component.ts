@@ -68,8 +68,6 @@ export class LocationComponent implements OnInit {
 
     const temp = this.temp.filter(function(d) {
       return !val || ['name'].some((field: any)=>{
-        console.log(d[field])
-        console.log("val=======>",val)
         return (d[field].indexOf(val)) !== -1
       }) 
     });
@@ -85,6 +83,7 @@ export class LocationComponent implements OnInit {
          console.log("update api")
          this.dataService.updateLocation(locationinfo).subscribe(
        data => {
+              this.information={}
               this.ngOnInit();
               this.notificationService.smallBox({
                title: "Success",
@@ -158,6 +157,11 @@ export class LocationComponent implements OnInit {
        }
     );
   }
+
+getRowData(row:any){
+  
+  console.log(row);
+}
 
 onChange()
 {
