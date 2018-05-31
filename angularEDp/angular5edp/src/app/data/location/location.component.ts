@@ -21,7 +21,11 @@ export class LocationComponent implements OnInit {
   
   rows: any[] = [];
   temp:any[]=[];
-  db:boolean=false;
+  dbAdd:boolean=false;
+  dbCheck:boolean=false;
+  apiCheck:boolean=false;
+  kafkaCheck:boolean=false;
+  solrCheck:boolean=false;
   s3:boolean=false;
   ftp:boolean=false;
   file:boolean=false;
@@ -44,7 +48,8 @@ export class LocationComponent implements OnInit {
    @ViewChild('myTable') table: any;
    @ViewChild('staticModal') public staticModal:ModalDirective;
   ngOnInit() {
-    this.db=true;
+    this.dbAdd=true;
+    this.dbCheck=true;
     this.ftp=false;
     this.file=false;
     this.httpService.get('./assets/dbDriver.json').subscribe(
@@ -164,90 +169,99 @@ getRowData(row:any){
   console.log(row.type );
   console.log(row.properties);
   console.log(row.id);
+  this.information.db=row.db; 
+  this.information.driver=row.driver;
+  this.information.host=row.host;
+  this.information.name=row.name;
+  this.information.password=row.password;
+  this.information.port=row.port;
+  this.information.url=row.url; 
+  this.information.type=row.type;
+  this.information.user=row.user;
+  this.information.description=row.description;
+  this.information.properties=row.properties;
+  this.information.id=row.id;
+  this.information.created=row.created;
+  this.information.member=row.member;
+  this.information.modified=row.modified;
+  this.information.status=row.status;
+  
 
   if(row.type=='TABLE'){
-    this.db=true;
-    this.api=false;
-    this.kafka=false;
-    this.solr=false;
-    this.information.db=row.db; 
-    this.information.driver=row.driver;
-    this.information.host=row.host;
-    this.information.name=row.name;
-    this.information.password=row.password;
-    this.information.port=row.port;
-    this.information.url=row.url; 
-    this.information.type=row.type;
-    this.information.user=row.user;
-    this.information.description=row.description;
-    this.information.properties=row.properties;
-    this.information.id=row.id;
-    this.information.created=row.created;
-    this.information.member=row.member;
-    this.information.modified=row.modified;
-    this.information.status=row.status;
+    this.dbCheck=true;
+    this.apiCheck=false;
+    this.kafkaCheck=false;
+    this.solrCheck=false;
+   
    
   }
   if(row.type=='DB'){
-    this.db=true;
-    this.api=false;
-    this.kafka=false;
-    this.solr=false;
-    this.information.db=row.db; 
-    this.information.driver=row.driver;
-    this.information.host=row.host;
-    this.information.name=row.name;
-    this.information.password=row.password;
-    this.information.port=row.port;
-    this.information.url=row.url; 
-    this.information.type=row.type;
-    this.information.user=row.user;
-    this.information.description=row.description;
-    this.information.properties=row.properties;
-    this.information.id=row.id;
-    this.information.created=row.created;
-    this.information.member=row.member;
-    this.information.modified=row.modified;
-    this.information.status=row.status;
-    
+    this.dbCheck=true;
+    this.apiCheck=false;
+    this.kafkaCheck=false;
+    this.solrCheck=false;
+
   }
   if(row.type=='FILE'){
-    this.db=false;
-    this.api=false;
-    this.kafka=false;
-    this.solr=false;
+    this.dbCheck=false;
+    this.apiCheck=false;
+    this.kafkaCheck=false;
+    this.solrCheck=false;
   }
   if(row.type=='HDFS'){
-    this.db=false;
-    this.api=false;
-    this.kafka=false;
-    this.solr=false;
+    this.dbCheck=false;
+    this.apiCheck=false;
+    this.kafkaCheck=false;
+    this.solrCheck=false;
   }
   if(row.type=='FTP'){
-    this.db=false;
-    this.api=false;
-    this.kafka=false;
-    this.solr=false;
+    this.dbCheck=false;
+    this.apiCheck=false;
+    this.kafkaCheck=false;
+    this.solrCheck=false;
+  }
+  if(row.type=='HBASE'){
+    this.dbCheck=false;
+    this.apiCheck=false;
+    this.kafkaCheck=false;
+    this.solrCheck=false;
+  }
+  if(row.type=='S3'){
+    this.dbCheck=false;
+    this.apiCheck=false;
+    this.kafkaCheck=false;
+    this.solrCheck=false;
   }
   if(row.type=='SFTP'){
-    this.db=false;
-    this.api=false;
-    this.kafka=false;
-    this.solr=false;
+    this.dbCheck=false;
+    this.apiCheck=false;
+    this.kafkaCheck=false;
+    this.solrCheck=false;
   }
   if(row.type=='API'){
-    this.api=true;
-    this.db=false;
-    this.kafka=false;
-    this.solr=false;
+    this.apiCheck=true;
+    this.dbCheck=false;
+    this.kafkaCheck=false;
+    this.solrCheck=false;
   }
   if(row.type=='STREAM'){
-    this.kafka=true;
-    this.api=false;
-    this.db=false;
-    this.solr=false;
+    this.kafkaCheck=true;
+    this.apiCheck=false;
+    this.dbCheck=false;
+    this.solrCheck=false;
   }
-
+  if(row.type=='SOLR'){
+    this.kafkaCheck=true;
+    this.apiCheck=false;
+    this.dbCheck=false;
+    this.solrCheck=false;
+  }
+  if(row.type=='ELASTIC SEARCH'){
+    this.kafkaCheck=true;
+    this.apiCheck=false;
+    this.dbCheck=false;
+    this.solrCheck=false;
+  }
 }
 
 onChange()
@@ -258,7 +272,7 @@ onChange()
 locationFormChange(type:any){
  console.log(type)
   if(type=='DB'){
-    this.db=true;
+    this.dbAdd=true;
     this.ftp=false;
     this.file=false;
     this.api=false;
@@ -267,7 +281,7 @@ locationFormChange(type:any){
     this.elasticsearch=false
   }
   if(type=='FTP' ){
-    this.db=false;
+    this.dbAdd=false;
     this.ftp=true;
     this.file=false;
     this.api=false;
@@ -277,7 +291,7 @@ locationFormChange(type:any){
   }
   if(type=='FILE'){
     this.file=true;
-    this.db=false;
+    this.dbAdd=false;
     this.ftp=false;
     this.api=false;
     this.s3=false;
@@ -285,7 +299,7 @@ locationFormChange(type:any){
     this.elasticsearch=false
   }
   if(type=='SFTP'){
-    this.db=false;
+    this.dbAdd=false;
     this.ftp=true;
     this.file=false;
     this.api=false;
@@ -296,7 +310,7 @@ locationFormChange(type:any){
   if(type=='API'){
     this.api=true;
     this.file=false;
-    this.db=false;
+    this.dbAdd=false;
     this.ftp=false;
     this.s3=false;
     this.kafka=false;
@@ -306,7 +320,7 @@ locationFormChange(type:any){
     this.s3=true;
     this.api=false;
     this.file=false;
-    this.db=false;
+    this.dbAdd=false;
     this.ftp=false;
     this.kafka=false;
     this.elasticsearch=false
@@ -317,14 +331,14 @@ locationFormChange(type:any){
     this.s3=false;
     this.api=false;
     this.file=false;
-    this.db=false;
+    this.dbAdd=false;
     this.ftp=false;
     this.elasticsearch=false;
    
   }
   if(type=='ELASTIC SEARCH'){
     this.file=false;
-    this.db=false;
+    this.dbAdd=false;
     this.ftp=false;
     this.api=false;
     this.s3=false;
@@ -334,7 +348,7 @@ locationFormChange(type:any){
   }
    if(type=='SOLR'){
     this.file=false;
-    this.db=false;
+    this.dbAdd=false;
     this.ftp=false;
     this.api=false;
     this.s3=false;
@@ -345,7 +359,7 @@ locationFormChange(type:any){
   }
    if(type=='HDFS'){
      this.file=false;
-    this.db=false;
+    this.dbAdd=false;
     this.ftp=false;
     this.api=false;
     this.s3=false;
