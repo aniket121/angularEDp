@@ -21,6 +21,19 @@ export class LocationComponent implements OnInit {
   
   rows: any[] = [];
   temp:any[]=[];
+  dbfield:boolean=false;
+  ftp:boolean=false;
+  file:boolean=false;
+  api:boolean=false;
+  kafka:boolean=false;
+  elasticsearch:boolean=false;
+  solr:boolean=false;
+  hdfs:boolean=false;
+  hbase:boolean=false;
+  mongo:boolean=false;
+  salesforce:boolean=false;
+  geode:boolean=false;
+  redis:boolean=false;
   driverData:any=[];
   locationData:any[] = [];
   controls={filter:''}
@@ -29,7 +42,9 @@ export class LocationComponent implements OnInit {
    @ViewChild('myTable') table: any;
    @ViewChild('staticModal') public staticModal:ModalDirective;
   ngOnInit() {
-    
+    this.dbfield=true;
+    this.ftp=false;
+    this.file=false;
     this.httpService.get('./assets/dbDriver.json').subscribe(
       data => {
        
@@ -49,14 +64,17 @@ export class LocationComponent implements OnInit {
     const val = event.target.value.toLowerCase();
 
     // filter our data
+
     const temp = this.temp.filter(function(d) {
-      return !val || ['name', 'host', 'type'].some((field: any)=>{
-        return d[field].toLowerCase().indexOf(val) !== -1
+      return !val || ['name'].some((field: any)=>{
+        console.log(d[field])
+        console.log("val=======>",val)
+        return (d[field].indexOf(val)) !== -1
       }) 
     });
 
     // update the rows
-    this.rows = temp;
+    this.locationData = temp;
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
   }
@@ -102,6 +120,7 @@ export class LocationComponent implements OnInit {
        this.dataService.getLocation().subscribe(
        data => {
           this.locationData=data.data;
+          this.temp=data.data;
           console.log(this.locationData);
         
        }
@@ -110,7 +129,8 @@ export class LocationComponent implements OnInit {
   syncData(name:any){
        this.dataService.sync(name).subscribe(
        data => {
-          console.log("sync worked"); 
+           console.log("sync worked"); 
+           this.ngOnInit();
            this.notificationService.smallBox({
       title: "Success",
       content: "Data has been synced Successfully !",
@@ -125,7 +145,8 @@ export class LocationComponent implements OnInit {
    testData(name:any){
        this.dataService.test(name).subscribe(
        data => {
-          console.log("test worked"); 
+           console.log("test worked"); 
+           this.ngOnInit();
            this.notificationService.smallBox({
       title: "Success",
       content: "Connect Successfully",
@@ -140,6 +161,36 @@ export class LocationComponent implements OnInit {
 onChange()
 {
   this.information.driver=this.information.db;
+}
+locationFormChange(type:any){
+ console.log(type)
+  if(type=='DB'){
+    this.dbfield=true;
+    this.ftp=false;
+    this.file=false;
+    this.api=false;
+
+    console.log(this.dbfield)
+  }
+  if(type=='FTP' || 'SFTP'){
+    this.dbfield=false;
+    this.ftp=true;
+    this.file=false;
+    this.api=false;
+  }
+  if(type=='FILE'){
+    this.file=true;
+    this.dbfield=false;
+    this.ftp=false;
+    this.api=false;
+  }
+  if(type=='API'){
+    this.api=true;
+    this.file=false;
+    this.dbfield=false;
+    this.ftp=false;
+  }
+
 }
 
 

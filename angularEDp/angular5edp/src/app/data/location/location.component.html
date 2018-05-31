@@ -225,6 +225,7 @@
 				 <div class="modal-body">
 					<!-- widget div-->
 					<div>
+
 					   <!-- widget content -->
 					   <div class="widget-body fuelux">
 						  <fuel-ux-wizard >
@@ -241,15 +242,19 @@
 								</div>
 							 </div>
 							 <div class="step-content">
+							  {{dbfield}} {{ftp}} {{api}} {{file}}
+							  <div *ngIf="dbfield">
+							  <p>hello</p>
+							  </div>
 								<form class="form-horizontal" >
 								   <!-- ...................	General information tab..................... -->
 								   <div class="step-pane active" data-step="1">
 								<form id="smart-form-information" class="smart-form client-form" #generalForm="ngForm">
-								<fieldset>
+								<fieldset >
 								<div class="row">
-								<section class="col col-6">
+								<section class="col col-6" >
 								<label class="select" >TYPE
-								<select name="type"  [(ngModel)]="information.type"  #type="ngModel"> Select type
+								<select name="type"  [(ngModel)]="information.type"  #type="ngModel" (ngModelChange)="locationFormChange(information.type)"> Select type
 								<option value="0" selected disabled>Select type</option>
 								<option value="DB">DB</option>
 								<option value="FTP">FTP</option>
@@ -263,7 +268,7 @@
 								<option value="HDFS">HDFS</option>
 								</select> </label>
 								</section>
-								<section class="col col-6">
+								<section class="col col-6" *ngIf="db || ftp || file">
 								<label class="input">NAME
 								<input type="text" name="name" pattern="^[a-zA-Z]+$" required [(ngModel)]="information.name" placeholder="Name" #name="ngModel">
 								</label>
@@ -277,19 +282,19 @@
 								</div>
 								</section>
 								</div>
-								<section >
+								<section *ngIf="db">
 								<label class="select">  DB
 								<select name="db" [(ngModel)]="information.db" #db="ngModel" (ngModelChange)="onChange()" >
 								<option  *ngFor="let drivers of driverData" [value]="drivers.value">{{drivers.key}}</option>
 								</select> </label>
 								</section>
 								<div class="row">
-								<section class="col col-6">
+								<section class="col col-6" *ngIf="db">
 								<label class="input">HOST
 								<input type="text" required [(ngModel)]="information.host" name="host" placeholder="Host" #host="ngModel">
 								</label>
 								</section>
-								<section class="col col-6">
+								<section class="col col-6" *ngIf="db">
 								<label class="input">PORT
 								<input type="text" required [(ngModel)]="information.port" pattern="^[0-9]+$" name="port" placeholder="Port" #port="ngModel">
 								</label>
@@ -303,57 +308,57 @@
 								</div>
 								</section>
 								</div>
-								<div class="row">
-								<section class="col col-6">
+								<div class="row" >
+								<section class="col col-6" *ngIf="db || ftp || !file && !api">
 								<label class="input">USER
 								<input type="text" required [(ngModel)]="information.user" name="user" placeholder="user" #user="ngModel">
 								</label>
 								</section>
-								<section class="col col-6">
+								<section class="col col-6" *ngIf="db || ftp || !file && !api">
 								<label class="input">PASSWORD
 								<input type="password" required [(ngModel)]="information.password" name="password" placeholder="password" #password="ngModel">
 								</label>
 								</section>
 								</div>
-								<section>
+								<section *ngIf="db">
 								<label class="input"> DRIVER
 								<input type="text" required [(ngModel)]="information.driver" name="driver" placeholder="Driver" #driver="ngModel">
 								</label> 
 								</section>
 								<!-- ########  FTP COMPONENT ######## -->
-								<section>
+								<section *ngIf="ftp && !db">
 									<label class="input"> FOLDER
 									<input type="text" required [(ngModel)]="information.folder" name="folder" placeholder="Folder" #folder="ngModel">
 									</label> 
 								</section>
-								<section>
+								<section *ngIf="ftp  && !db">
 									<label class="input"> ENCRYPTION KEY
 									<input type="text" required [(ngModel)]="information.encryption_key" name="encryption_key" placeholder="Encryption key" #encryption_key="ngModel">
 									</label> 
 								</section>
-								<section>
+								<section *ngIf="ftp  && !db">
 									<label class="input"> ENCRYPTION DIGEST
 									<input type="text" required [(ngModel)]="information.encryption_digest" name="encryption_digest" placeholder="Encryption Digest" #encryption_digest="ngModel">
 									</label> 
 								</section>
-								<section>
+								<section *ngIf="ftp">
 									<label class="input"> SSL
 									<input type="text" required [(ngModel)]="information.ssl" name="ssl" placeholder="SSL" #ssl="ngModel">
 									</label> 
 								</section>
-								<section>
+								<section *ngIf="ftp">
 									<label class="select" >AUTH TYPE
 									<select name="type"  [(ngModel)]="information.authtype"  #authtype="ngModel"> Select type
 									<option value="0" selected disabled>Select Auth type</option>
 									<option value="Auth1">Auth1</option>								
 									</select> </label>
 								</section>
-								<section>
+								<section *ngIf="ftp">
 									<label class="input"> PRIVATE KEY
 									<input type="text" required [(ngModel)]="information.private_key" name="private_key" placeholder="Private key" #private_key="ngModel">
 									</label> 
 								</section>
-								<section>
+								<section *ngIf="ftp">
 									<label class="input"> PARAPHRASE
 									<input type="text" required [(ngModel)]="information.paraphrase" name="paraphrase" placeholder="paraphrase" #paraphrase="ngModel">
 									</label> 
@@ -362,19 +367,19 @@
 								<!-- ######## End FTP COMPONENT ######## -->
 								 
 								<!-- ########  API COMPONENT ######## -->
-								<div class="row">
+								<div class="row" *ngIf="!db && !ftp && !file || api">
 									<section class="col col-6">
 										<label class="input">ACCESS/API KEY
 										<input type="text" required [(ngModel)]="information.access_key" name="access_key" placeholder="Access key" #access_key="ngModel">
 										</label>
 									</section>
-									<section class="col col-6">
+									<section class="col col-6" *ngIf="!db || !ftp || api">
 										<label class="input">SECRET KEY
 										<input type="text" required [(ngModel)]="information.secret_key"  name="secret_key" placeholder="Secret key" #secret_key="ngModel">
 										</label>
 									</section>
 								</div>
-								<section >
+								<section *ngIf="!db && !ftp && !file || api ">
 									<label class="input">SCHEMA
 									<input type="text" required [(ngModel)]="information.schema"  name="schema" placeholder="Schema" #schema="ngModel">
 									</label>
@@ -386,7 +391,7 @@
 								<!-- ########  S3 COMPONENT ######## -->
 								
 									
-								<section >
+								<section *ngIf="!db && !ftp && !file && !api">
 									<label class="input">BUCKET
 									<input type="text" required [(ngModel)]="information.bucket"  name="bucket" placeholder="Bucket" #bucket="ngModel">
 									</label>
@@ -394,7 +399,7 @@
 
 									
 								<!-- ######## End S3 COMPONENT ######## -->
-								<section>
+								<section *ngIf="db || api">
 								<label class="input">URL
 								<input type="url" required [(ngModel)]="information.url"  name="url" placeholder="DB URL" id="url" #url="ngModel">
 								</label>  
@@ -407,7 +412,7 @@
 								</div>
 								</div>
 								</section>
-								<section>
+								<section *ngIf="db || ftp || file">
 								<label class="input"> DESCRIPTION 
 								<input type="text" [(ngModel)]="information.description"  name="description" placeholder="Description" id="desc" #description="ngModel">
 								</label> 
@@ -432,7 +437,7 @@
 								   <h1>Properties</h1>
 								   <form id="smart-form-properties" class="smart-form client-form" #generalForm2="ngForm">
 									  <fieldset>
-										 <section>
+										 <section *ngIf="db">
 											<label class="input"> Check connection Query
 											<input type="text" [(ngModel)]="information.properties" required name="query" placeholder="Check Connection Query" id="query" #properties="ngModel">
 											</label> 
