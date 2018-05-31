@@ -24,7 +24,7 @@ export class LocationComponent implements OnInit {
   driverData:any=[];
   locationData:any[] = [];
   controls={filter:''}
-  public information={url:'',id:'',type:'',status:'',driver:'',user:'',db:'',member:'',modified:'',name:'',description:'',host:'',password:'',port:'',created:'',properties:''}
+  public information={url:'',id:'',type:'',status:'',driver:'',user:'',db:'',member:'',modified:'',name:'',description:'',host:'',password:'',port:'',created:'',properties:'',folder:'',bucket:'',access_key:'', schema:'',secret_key:''}
   constructor(private jsonApiService:JsonApiService,private httpService: HttpClient,public dataService:DataService,private notificationService: NotificationService,private confirmationService: ConfirmationService) { }
    @ViewChild('myTable') table: any;
    @ViewChild('staticModal') public staticModal:ModalDirective;
@@ -66,7 +66,7 @@ export class LocationComponent implements OnInit {
          console.log("update api")
          this.dataService.updateLocation(locationinfo).subscribe(
        data => {
-          
+              this.ngOnInit();
               this.notificationService.smallBox({
                title: "Success",
                content: "Data has been updated Successfully",
@@ -82,7 +82,7 @@ export class LocationComponent implements OnInit {
        }else{
        this.dataService.addLocation(locationinfo).subscribe(
        data => {
-          
+               this.ngOnInit();
               this.notificationService.smallBox({
                title: "Success",
                content: "Data created Successfully",
@@ -102,6 +102,7 @@ export class LocationComponent implements OnInit {
        this.dataService.getLocation().subscribe(
        data => {
           this.locationData=data.data;
+          console.log(this.locationData);
         
        }
     );
