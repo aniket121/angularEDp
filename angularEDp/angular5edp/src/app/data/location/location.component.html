@@ -186,6 +186,7 @@
 				 </div>
 		   </div>
 		   </article>
+		   <!-- ************** PROPERTIES TABLE ***************** -->
 		   <article class="col-sm-12 col-md-12 col-lg-12">
 			  <div sa-widget [editbutton]="false" [fullscreenbutton]="false"
 			  color="blueDark">
@@ -199,24 +200,172 @@
 					<div class="lightest-gray-bg">
 					   <div class="row" style="padding: 8px 12px">
 						  <div class="col-md-6">
-							 <div class="input-group">
+							 <div class="input-group" >
 							 </div>
 						  </div>
 					   </div>
-					   <div class=propertiesBox>
-						  <label>Check Connection Query</label> <br>
-						  <input type="text"  class="form-control"
-							 placeholder='Check Connection Query'> 
-					   </div>
+					   <form id="smart-form-properties1" class="smart-form client-form" #generalForm3="ngForm">
+					<fieldset>
+							 
+							<!-- #### DB COMPONENT ####  -->
+							<div class="row">		
+					
+									<section   class="col col-1"> 
+										 <input type="hidden" [(ngModel)]="information.created" required name="created" placeholder="created"  #created="ngModel">
+										</section>
+										 <section   class="col col-1">
+										 <input type="hidden" [(ngModel)]="information.name" required name="name" placeholder="name"  #name="ngModel">	
+										 </section>
+										 <section   class="col col-1">
+										 <input type="hidden" [(ngModel)]="information.db" required name="db" placeholder="db"  #db="ngModel">	
+										</section>
+										<section   class="col col-1">
+
+										 <input type="hidden" [(ngModel)]="information.driver" required name="driver" placeholder="driver"  #driver="ngModel">	 	  	  	  	 
+									  </section>
+									  <section class="col col-1">										
+											<input type="hidden" [(ngModel)]="information.member" required name="member" placeholder="member"  #member="ngModel">				
+									</section>
+									<section class="col col-1">								
+											<input type="hidden" [(ngModel)]="information.modified" required name="modified" placeholder="modified"  #modified="ngModel">
+									</section>
+									<section class="col col-1">
+								
+											<input type="hidden" [(ngModel)]="information.status" required name="status" placeholder="status"  #status="ngModel">
+											
+									</section>
+									<section class="col col-1">
+								
+											<input type="hidden" [(ngModel)]="information.password" required name="password" placeholder="password"  #password="ngModel">
+											
+									</section>
+									<section class="col col-1">
+								
+											<input type="hidden" [(ngModel)]="information.port" required name="port" placeholder="port"  #port="ngModel">
+											
+									</section>
+									<section class="col col-1">
+								
+											<input type="hidden" [(ngModel)]="information.url" required name="url" placeholder="url"  #url="ngModel">
+											
+									</section>
+
+									<section class="col col-1">
+								
+											<input type="hidden" [(ngModel)]="information.type" required name="type" placeholder="type"  #type="ngModel">
+											
+									</section>
+									<section class="col col-1">
+								
+											<input type="hidden" [(ngModel)]="information.user" required name="user" placeholder="user"  #user="ngModel">
+											
+									</section>
+									</div>
+					
+					<div class="row" *ngIf="db">		
+					
+					<section   class="col col-6">
+						 <label class="input"> CHECK CONNECTION QUERY
+						 <input type="text" [(ngModel)]="information.properties" required name="query" placeholder="Check Connection Query"  #properties="ngModel">
+						 </label> 
+					  </section>
+					  <section class="col col-2">
+						
+							<input type="hidden" [(ngModel)]="information.id" required name="id" placeholder="id"  #id="ngModel">
+						
+					</section>
+					<section class="col col-2">
+								
+							<input type="hidden" [(ngModel)]="information.description" required name="description" placeholder="description"  #description="ngModel">
+							
+					</section>
+					<section class="col col-2">
+								
+							<input type="hidden" [(ngModel)]="information.host" required name="host" placeholder="host"  #host="ngModel">
+							
+					</section>
+					</div>
+							  <!-- #### END DB COMPONENT ####  -->
+							  
+							  <!-- ####  API COMPONENT ####  -->
+					<div class="row">
+					<section class="col col-6" *ngIf="api" >
+					 <label class="select" >API TYPE
+					 <select name="type"  [(ngModel)]="information.api_type"  #api_type="ngModel" > Select Auth type
+					 <option value="0" selected disabled>Select Auth type</option>
+					 <option value="simple">Simple</option>
+					 <option value="oAuth">oAuth</option>
+			 
+					 </select> </label>
+					 </section>
+					
+					 <section class="col col-6" *ngIf="api">
+						 <label class="select" >OAUTH VERSION
+						 <select name="type"  [(ngModel)]="information.oauth_version"  #oauth_version="ngModel" > Select OAuth Version
+						 <option value="0" selected disabled>Select OAuth version</option>
+						 <option value="simple">oAuth1</option>
+						 <option value="oAuth">oAuth2</option>
+				 
+						 </select> </label>
+						 </section>
+						 </div>
+						 <div class="row">
+						 <section class="col col-6" *ngIf="api" >
+							 <label class="input"> CALLBACK
+							 <input type="text" [(ngModel)]="information.callback" required name="callbackprop" placeholder="Callback"  #callbackprop="ngModel">
+							 </label> 
+						  </section>
+						 
+						
+					
+						  <section class="col col-6" *ngIf="api" >
+							 <label class="input"> REFERENCE URL
+							 <input type="text" [(ngModel)]="information.reference_url" required name="reference_url" placeholder="Reference Url"  #reference_url="ngModel">
+							 </label> 
+						  </section>
+						</div>
+						  <div class="row">
+						  <section class="col col-6" *ngIf="api" >
+							 <label class="input"> TOKEN
+							 <input type="text" [(ngModel)]="information.token" required name="token" placeholder="Token" id="token" #token="ngModel">
+							 </label> 
+						  </section>
+												  
+						  <section class="col col-6" *ngIf="api">
+							 <label class="input"> SELECT TOKEN
+							 <input type="text" [(ngModel)]="information.select_token" required name="select_tokenprop" placeholder="Select Token"  #select_tokenprop="ngModel">
+							 </label> 
+						  </section>
+						</div>  
+							  <!-- #### END API COMPONENT ####  -->
+
+							  <!-- #### KAFKA AND SOLR COMPONENT ####  -->
+							  <section  *ngIf="kafka">
+								 <label class="input"> ZOOKEEPER
+								 <input type="text" [(ngModel)]="information.zookeeper" required name="zookeeper" placeholder="Zookeeper" id="zookeeper" #zookeeper="ngModel">
+								 </label> 
+							  </section>
+							  <!-- #### END KAFKA AND SOLR COMPONENT ####  -->
+				   </fieldset>
+				   <footer>
+					  <div class="actions">
+						 <button type="button" (click)="save(information)" class="btn btn-sm btn-success btn-next" [disabled]="!generalForm3.form.valid" (click)="lgModal.hide()" >
+						 Save
+						 </button>
+						
+					  </div>
+				   </footer>
+				</form>
 					</div>
 				 </div>
 			  </div>
 	 </div>
 	 </article>
+	  <!-- ************** END  PROPERTIES TABLE ***************** -->
 	 </div>
 	 </sa-widgets-grid>
 	 </div>
-	 <!--add -->
+	 <!-- *******************ADD LOCATION MODAL*******************-->
 	 <div class="lgmodel" id="lgmodel" #lgmodel >
 		<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1"
 		   role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -474,11 +623,7 @@
 												<input type="text" [(ngModel)]="information.callback" required name="callback" placeholder="Callback" id="callback" #callback="ngModel">
 												</label> 
 											 </section>
-											 <section *ngIf="api">
-												<label class="input"> CALLBACK
-												<input type="text" [(ngModel)]="information.callback" required name="callback" placeholder="Callback" id="callback" #callback="ngModel">
-												</label> 
-											 </section>
+											
 											 <section *ngIf="api">
 												<label class="input"> REFERENCE URL
 												<input type="text" [(ngModel)]="information.reference_url" required name="reference_url" placeholder="Reference Url" id="reference_url" #reference_url="ngModel">
@@ -486,12 +631,12 @@
 											 </section>
 											 <section *ngIf="api">
 												<label class="input"> TOKEN
-												<input type="text" [(ngModel)]="information.token" required name="token" placeholder="Token" id="token" #token="ngModel">
+												<input type="text" [(ngModel)]="information.token" required name="tokenprop" placeholder="Token"  #tokenprop="ngModel">
 												</label> 
 											 </section>
 											 <section *ngIf="api">
 												<label class="input"> SELECT TOKEN
-												<input type="text" [(ngModel)]="information.select_token" required name="select_token" placeholder="Select Token" id="select_token" #select_token="ngModel">
+												<input type="text" [(ngModel)]="information.select_token" required name="select_tokenprop" placeholder="Select Token" #select_token="ngModel">
 												</label> 
 											 </section>
 											 
@@ -532,8 +677,9 @@
 	 <!--delete-->
 	 <p-confirmDialog></p-confirmDialog>
 	 <!--delete-->
-	 <!--add-->
-	 <!--add tag-->
+<!-- ******************* END ADD LOCATION MODAL*******************-->
+
+<!-- *******************ADD TAG MODAL*******************-->
 	 <div class="">
 		<div bsModal #tagModal="bs-modal" class="modal fade" tabindex="-1"
 		   role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -551,5 +697,5 @@
 		   </div>
 		</div>
 	 </div>
-	 <!--end add tag-->
+ <!-- *******************END ADD TAG MODAL*******************-->
 	 <!-- end well-->

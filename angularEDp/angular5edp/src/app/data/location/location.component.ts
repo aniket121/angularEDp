@@ -35,6 +35,7 @@ export class LocationComponent implements OnInit {
   salesforce:boolean=false;
   geode:boolean=false;
   redis:boolean=false;
+
   driverData:any=[];
   locationData:any[] = [];
   controls={filter:''}
@@ -83,7 +84,7 @@ export class LocationComponent implements OnInit {
          console.log("update api")
          this.dataService.updateLocation(locationinfo).subscribe(
        data => {
-              this.information={}
+             
               this.ngOnInit();
               this.notificationService.smallBox({
                title: "Success",
@@ -159,14 +160,101 @@ export class LocationComponent implements OnInit {
   }
 
 getRowData(row:any){
-  
   console.log(row);
+  console.log(row.type );
+  console.log(row.properties);
+  console.log(row.id);
+
+  if(row.type=='TABLE'){
+    this.db=true;
+    this.api=false;
+    this.kafka=false;
+    this.solr=false;
+    this.information.db=row.db; 
+    this.information.driver=row.driver;
+    this.information.host=row.host;
+    this.information.name=row.name;
+    this.information.password=row.password;
+    this.information.port=row.port;
+    this.information.url=row.url; 
+    this.information.type=row.type;
+    this.information.user=row.user;
+    this.information.description=row.description;
+    this.information.properties=row.properties;
+    this.information.id=row.id;
+    this.information.created=row.created;
+    this.information.member=row.member;
+    this.information.modified=row.modified;
+    this.information.status=row.status;
+   
+  }
+  if(row.type=='DB'){
+    this.db=true;
+    this.api=false;
+    this.kafka=false;
+    this.solr=false;
+    this.information.db=row.db; 
+    this.information.driver=row.driver;
+    this.information.host=row.host;
+    this.information.name=row.name;
+    this.information.password=row.password;
+    this.information.port=row.port;
+    this.information.url=row.url; 
+    this.information.type=row.type;
+    this.information.user=row.user;
+    this.information.description=row.description;
+    this.information.properties=row.properties;
+    this.information.id=row.id;
+    this.information.created=row.created;
+    this.information.member=row.member;
+    this.information.modified=row.modified;
+    this.information.status=row.status;
+    
+  }
+  if(row.type=='FILE'){
+    this.db=false;
+    this.api=false;
+    this.kafka=false;
+    this.solr=false;
+  }
+  if(row.type=='HDFS'){
+    this.db=false;
+    this.api=false;
+    this.kafka=false;
+    this.solr=false;
+  }
+  if(row.type=='FTP'){
+    this.db=false;
+    this.api=false;
+    this.kafka=false;
+    this.solr=false;
+  }
+  if(row.type=='SFTP'){
+    this.db=false;
+    this.api=false;
+    this.kafka=false;
+    this.solr=false;
+  }
+  if(row.type=='API'){
+    this.api=true;
+    this.db=false;
+    this.kafka=false;
+    this.solr=false;
+  }
+  if(row.type=='STREAM'){
+    this.kafka=true;
+    this.api=false;
+    this.db=false;
+    this.solr=false;
+  }
+
 }
 
 onChange()
 {
   this.information.driver=this.information.db;
 }
+
 locationFormChange(type:any){
  console.log(type)
   if(type=='DB'){
