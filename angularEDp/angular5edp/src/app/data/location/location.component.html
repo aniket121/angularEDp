@@ -242,10 +242,8 @@
 								</div>
 							 </div>
 							 <div class="step-content">
-							  {{dbfield}} {{ftp}} {{api}} {{file}}
-							  <div *ngIf="dbfield">
-							  <p>hello</p>
-							  </div>
+							 
+							  
 								<form class="form-horizontal" >
 								   <!-- ...................	General information tab..................... -->
 								   <div class="step-pane active" data-step="1">
@@ -268,7 +266,7 @@
 								<option value="HDFS">HDFS</option>
 								</select> </label>
 								</section>
-								<section class="col col-6" *ngIf="db || ftp || file">
+								<section class="col col-6" *ngIf="db || ftp || file || api || s3 || kafka || elasticsearch || solr || hdfs">
 								<label class="input">NAME
 								<input type="text" name="name" pattern="^[a-zA-Z]+$" required [(ngModel)]="information.name" placeholder="Name" #name="ngModel">
 								</label>
@@ -289,12 +287,12 @@
 								</select> </label>
 								</section>
 								<div class="row">
-								<section class="col col-6" *ngIf="db">
+								<section class="col col-6" *ngIf="db || kafka">
 								<label class="input">HOST
 								<input type="text" required [(ngModel)]="information.host" name="host" placeholder="Host" #host="ngModel">
 								</label>
 								</section>
-								<section class="col col-6" *ngIf="db">
+								<section class="col col-6" *ngIf="db || kafka">
 								<label class="input">PORT
 								<input type="text" required [(ngModel)]="information.port" pattern="^[0-9]+$" name="port" placeholder="Port" #port="ngModel">
 								</label>
@@ -309,12 +307,12 @@
 								</section>
 								</div>
 								<div class="row" >
-								<section class="col col-6" *ngIf="db || ftp || !file && !api">
+								<section class="col col-6" *ngIf="db || ftp || !file && !elasticsearch && !hdfs && !solr && !api && !s3 && !kafka ">
 								<label class="input">USER
 								<input type="text" required [(ngModel)]="information.user" name="user" placeholder="user" #user="ngModel">
 								</label>
 								</section>
-								<section class="col col-6" *ngIf="db || ftp || !file && !api">
+								<section class="col col-6" *ngIf="db || ftp || !file && !elasticsearch && !hdfs && !solr && !api && !s3 && !kafka">
 								<label class="input">PASSWORD
 								<input type="password" required [(ngModel)]="information.password" name="password" placeholder="password" #password="ngModel">
 								</label>
@@ -326,27 +324,27 @@
 								</label> 
 								</section>
 								<!-- ########  FTP COMPONENT ######## -->
-								<section *ngIf="ftp && !db">
+								<section *ngIf="ftp && !db || s3" >
 									<label class="input"> FOLDER
 									<input type="text" required [(ngModel)]="information.folder" name="folder" placeholder="Folder" #folder="ngModel">
 									</label> 
 								</section>
-								<section *ngIf="ftp  && !db">
+								<section *ngIf="ftp  && !db || s3">
 									<label class="input"> ENCRYPTION KEY
 									<input type="text" required [(ngModel)]="information.encryption_key" name="encryption_key" placeholder="Encryption key" #encryption_key="ngModel">
 									</label> 
 								</section>
-								<section *ngIf="ftp  && !db">
+								<section *ngIf="ftp  && !db || s3">
 									<label class="input"> ENCRYPTION DIGEST
 									<input type="text" required [(ngModel)]="information.encryption_digest" name="encryption_digest" placeholder="Encryption Digest" #encryption_digest="ngModel">
 									</label> 
 								</section>
-								<section *ngIf="ftp">
+								<section *ngIf="ftp || s3">
 									<label class="input"> SSL
 									<input type="text" required [(ngModel)]="information.ssl" name="ssl" placeholder="SSL" #ssl="ngModel">
 									</label> 
 								</section>
-								<section *ngIf="ftp">
+								<section *ngIf="ftp || s3">
 									<label class="select" >AUTH TYPE
 									<select name="type"  [(ngModel)]="information.authtype"  #authtype="ngModel"> Select type
 									<option value="0" selected disabled>Select Auth type</option>
@@ -367,19 +365,19 @@
 								<!-- ######## End FTP COMPONENT ######## -->
 								 
 								<!-- ########  API COMPONENT ######## -->
-								<div class="row" *ngIf="!db && !ftp && !file || api">
+								<div class="row" *ngIf="!db && !ftp && !file && !elasticsearch && !hdfs && !solr && !kafka || api || s3">
 									<section class="col col-6">
 										<label class="input">ACCESS/API KEY
 										<input type="text" required [(ngModel)]="information.access_key" name="access_key" placeholder="Access key" #access_key="ngModel">
 										</label>
 									</section>
-									<section class="col col-6" *ngIf="!db || !ftp || api">
+									<section class="col col-6" *ngIf="!db || !ftp || !kafka || api || s3">
 										<label class="input">SECRET KEY
 										<input type="text" required [(ngModel)]="information.secret_key"  name="secret_key" placeholder="Secret key" #secret_key="ngModel">
 										</label>
 									</section>
 								</div>
-								<section *ngIf="!db && !ftp && !file || api ">
+								<section *ngIf="!db && !ftp && !file && !elasticsearch && !hdfs && !solr && !s3 || api || kafka  ">
 									<label class="input">SCHEMA
 									<input type="text" required [(ngModel)]="information.schema"  name="schema" placeholder="Schema" #schema="ngModel">
 									</label>
@@ -391,7 +389,8 @@
 								<!-- ########  S3 COMPONENT ######## -->
 								
 									
-								<section *ngIf="!db && !ftp && !file && !api">
+								<section *ngIf="!db && !ftp && !file && !elasticsearch && !hdfs && !solr && !api && !kafka || 
+								s3">
 									<label class="input">BUCKET
 									<input type="text" required [(ngModel)]="information.bucket"  name="bucket" placeholder="Bucket" #bucket="ngModel">
 									</label>
@@ -412,7 +411,7 @@
 								</div>
 								</div>
 								</section>
-								<section *ngIf="db || ftp || file">
+								<section *ngIf="db || ftp || file || api || kafka || elasticsearch || hdfs || solr">
 								<label class="input"> DESCRIPTION 
 								<input type="text" [(ngModel)]="information.description"  name="description" placeholder="Description" id="desc" #description="ngModel">
 								</label> 

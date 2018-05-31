@@ -21,7 +21,8 @@ export class LocationComponent implements OnInit {
   
   rows: any[] = [];
   temp:any[]=[];
-  dbfield:boolean=false;
+  db:boolean=false;
+  s3:boolean=false;
   ftp:boolean=false;
   file:boolean=false;
   api:boolean=false;
@@ -42,7 +43,7 @@ export class LocationComponent implements OnInit {
    @ViewChild('myTable') table: any;
    @ViewChild('staticModal') public staticModal:ModalDirective;
   ngOnInit() {
-    this.dbfield=true;
+    this.db=true;
     this.ftp=false;
     this.file=false;
     this.httpService.get('./assets/dbDriver.json').subscribe(
@@ -165,30 +166,102 @@ onChange()
 locationFormChange(type:any){
  console.log(type)
   if(type=='DB'){
-    this.dbfield=true;
+    this.db=true;
     this.ftp=false;
     this.file=false;
     this.api=false;
-
-    console.log(this.dbfield)
+    this.s3=false;
+    this.kafka=false;
+    this.elasticsearch=false
   }
-  if(type=='FTP' || 'SFTP'){
-    this.dbfield=false;
+  if(type=='FTP' ){
+    this.db=false;
     this.ftp=true;
     this.file=false;
     this.api=false;
+    this.s3=false;
+    this.kafka=false;
+    this.elasticsearch=false
   }
   if(type=='FILE'){
     this.file=true;
-    this.dbfield=false;
+    this.db=false;
     this.ftp=false;
     this.api=false;
+    this.s3=false;
+    this.kafka=false;
+    this.elasticsearch=false
+  }
+  if(type=='SFTP'){
+    this.db=false;
+    this.ftp=true;
+    this.file=false;
+    this.api=false;
+    this.s3=false;
+    this.kafka=false;
+    this.elasticsearch=false
   }
   if(type=='API'){
     this.api=true;
     this.file=false;
-    this.dbfield=false;
+    this.db=false;
     this.ftp=false;
+    this.s3=false;
+    this.kafka=false;
+    this.elasticsearch=false
+  }
+  if(type=='S3'){
+    this.s3=true;
+    this.api=false;
+    this.file=false;
+    this.db=false;
+    this.ftp=false;
+    this.kafka=false;
+    this.elasticsearch=false
+   
+  }
+  if(type=='KAFKA'){
+    this.kafka=true;
+    this.s3=false;
+    this.api=false;
+    this.file=false;
+    this.db=false;
+    this.ftp=false;
+    this.elasticsearch=false;
+   
+  }
+  if(type=='ELASTIC SEARCH'){
+    this.file=false;
+    this.db=false;
+    this.ftp=false;
+    this.api=false;
+    this.s3=false;
+    this.kafka=false;
+    this.elasticsearch=true;
+   
+  }
+   if(type=='SOLR'){
+    this.file=false;
+    this.db=false;
+    this.ftp=false;
+    this.api=false;
+    this.s3=false;
+    this.kafka=false;
+    this.elasticsearch=false;
+    this.solr=true;
+   
+  }
+   if(type=='HDFS'){
+     this.file=false;
+    this.db=false;
+    this.ftp=false;
+    this.api=false;
+    this.s3=false;
+    this.kafka=false;
+    this.elasticsearch=false;
+    this.solr=false;
+    this.hdfs=true;
+   
   }
 
 }
