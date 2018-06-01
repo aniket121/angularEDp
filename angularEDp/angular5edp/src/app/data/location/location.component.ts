@@ -41,7 +41,9 @@ export class LocationComponent implements OnInit {
   redis:boolean=false;
   source: any[];
   target: any[];
+  targetData:string;
   driverData:any=[];
+  public selectedTags:any;
   locationData:any[] = [];
   controls={filter:''}
   public information={url:'',id:'',type:'',status:'',tags:'',driver:'',user:'',db:'',member:'',modified:'',name:'',description:'',host:'',password:'',port:'',created:'',properties:{check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''},folder:'',bucket:'',access_key:'', schema:'',secret_key:''}
@@ -172,6 +174,9 @@ export class LocationComponent implements OnInit {
   }
 
 getRowData(row:any){
+  if(row.properties.check_query=="null"){
+    row.properties.check_query="NA";
+  }
   console.log(JSON.parse(row.properties))
   console.log(JSON.parse(row.properties));
   var properties={check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''}
@@ -467,11 +472,82 @@ locationFormChange(type:any){
 clearObject()
 {
   this.information={url:'',id:'',type:'',tags:'',status:'',driver:'',user:'',db:'',member:'',modified:'',name:'',description:'',host:'',password:'',port:'',created:'',properties:{check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''},folder:'',bucket:'',access_key:'', schema:'',secret_key:''}
-  console.log(this.information)
+  
 }
-updateTag(){
-   console.log(this.target)
+updateTags(){
+  
+   console.log(typeof(this.target))
+  
+  for(var keys=0;keys<this.target.length;keys++)
+  { 
+   
+    
+      if(keys!=0)
+      {
+      this.selectedTags+=this.target[keys].key+',';
 
+      }
+      
+  }
+  this.getSeletecdData(this.information);
+  this.selectedTags=this.selectedTags.replace(/undefined/g,'')
+  this.information.tags= this.selectedTags;
+  this.addEdittag(this.information);
+  
 
 }
+getSeletecdData(row:any){
+
+  try{
+  var properties={check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''}
+  properties=JSON.parse(row.properties)
+  this.information.db=row.db; 
+  this.information.driver=row.driver;
+  this.information.host=row.host;
+  this.information.name=row.name;
+  this.information.password=row.password;
+  this.information.port=row.port;
+  this.information.url=row.url; 
+  this.information.type=row.type;
+  this.information.user=row.user;
+  this.information.description=row.description;
+  this.information.properties.check_query=properties.check_query;
+  this.information.properties.callback=properties.callback;
+  this.information.properties.reference_url=properties.reference_url;
+  this.information.properties.token=properties.token;
+  this.information.properties.token_sec=properties.token_sec;
+  this.information.properties.zookeeper=properties.zookeeper;
+  this.information.id=row.id;
+  this.information.created=row.created;
+  this.information.member=row.member;
+  this.information.modified=row.modified;
+  this.information.status=row.status;
+  }
+  catch(error) {
+    console.error(error);
+    
+    }
+
+}
+addEdittag(Tagsdata:any){
+  console.log(Tagsdata)
+  //Tagsdata.properties=JSON.stringify(Tagsdata.properties)
+  this.dataService.updateLocation(Tagsdata).subscribe(
+    data => {
+          
+           this.ngOnInit();
+           this.notificationService.smallBox({
+            title: "Success",
+            content: "Tag has been updated Successfully",
+            color: "#739E73",
+            iconSmall: "fa fa-check",
+            timeout: 5000
+        });
+
+       
+      
+    }
+ )
+}
+
 }
