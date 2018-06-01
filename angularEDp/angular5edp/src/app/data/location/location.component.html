@@ -13,7 +13,7 @@
 					</span>
 					<h2>Data Location</h2>
 					<div class="align-left">
-					   <a class="addLocation" (click)="lgModal.show()"> <i
+					   <a class="addLocation" (click)="lgModal.show()" (click)="clearObject()"> <i
 						  class="fa fa-plus"></i> <span class="hidden-mobile">Add</span>
 					   </a> 
 					</div>
@@ -266,7 +266,7 @@
 					<div class="row" >		
 							<section   class="col col-6" *ngIf="dbCheck">
 									<label class="input"> CHECK CONNECTION QUERY
-									<input type="text" [(ngModel)]="information.properties" required name="query" placeholder="Check Connection Query"  #properties="ngModel">
+									<input type="text" [(ngModel)]="information.properties.check_query" required name="query" placeholder="Check Connection Query"  #properties="ngModel">
 									</label> 
 								 </section>
 					
@@ -290,9 +290,10 @@
 							  
 							  <!-- ####  API COMPONENT ####  -->
 					<div class="row">
+
 					<section class="col col-6" *ngIf="apiCheck" >
 					 <label class="select" >API TYPE
-					 <select name="type"  [(ngModel)]="information.api_type"  #api_type="ngModel" > Select Auth type
+					 <select name="type"> Select Auth type
 					 <option value="0" selected disabled>Select Auth type</option>
 					 <option value="simple">Simple</option>
 					 <option value="oAuth">oAuth</option>
@@ -302,7 +303,7 @@
 					
 					 <section class="col col-6" *ngIf="apiCheck">
 						 <label class="select" >OAUTH VERSION
-						 <select name="type"  [(ngModel)]="information.oauth_version"  #oauth_version="ngModel" > Select OAuth Version
+						 <select name="type"   > Select OAuth Version
 						 <option value="0" selected disabled>Select OAuth version</option>
 						 <option value="simple">oAuth1</option>
 						 <option value="oAuth">oAuth2</option>
@@ -313,7 +314,7 @@
 						 <div class="row">
 						 <section class="col col-6" *ngIf="apiCheck" >
 							 <label class="input"> CALLBACK
-							 <input type="text" [(ngModel)]="information.callback" required name="callbackprop" placeholder="Callback"  #callbackprop="ngModel">
+							 <input type="text" [(ngModel)]="information.properties.callback" required name="callbackprop" placeholder="Callback"  #callbackprop="ngModel">
 							 </label> 
 						  </section>
 						 
@@ -321,20 +322,20 @@
 					
 						  <section class="col col-6" *ngIf="apiCheck" >
 							 <label class="input"> REFERENCE URL
-							 <input type="text" [(ngModel)]="information.reference_url" required name="reference_url" placeholder="Reference Url"  #reference_url="ngModel">
+							 <input type="text" [(ngModel)]="information.properties.reference_url" required name="reference_url" placeholder="Reference Url"  #reference_url="ngModel">
 							 </label> 
 						  </section>
 						</div>
 						  <div class="row">
 						  <section class="col col-6" *ngIf="apiCheck" >
 							 <label class="input"> TOKEN
-							 <input type="text" [(ngModel)]="information.token" required name="tokenprop" placeholder="Token"  #tokenprop="ngModel">
+							 <input type="text" [(ngModel)]="information.properties.token" required name="tokenprop" placeholder="Token"  #tokenprop="ngModel">
 							 </label> 
 						  </section>
 												  
 						  <section class="col col-6" *ngIf="apiCheck">
 							 <label class="input"> SELECT TOKEN
-							 <input type="text" [(ngModel)]="information.select_token" required name="select_tokenprop" placeholder="Select Token"  #select_tokenprop="ngModel">
+							 <input type="text" [(ngModel)]="information.properties.token_sec" required name="select_tokenprop" placeholder="Select Token"  #select_tokenprop="ngModel">
 							 </label> 
 						  </section>
 						</div>  
@@ -343,7 +344,7 @@
 							  <!-- #### KAFKA AND SOLR COMPONENT ####  -->
 							  <section  *ngIf="kafkaCheck">
 								 <label class="input"> ZOOKEEPER
-								 <input type="text" [(ngModel)]="information.zookeeper" required name="zookeeperprop" placeholder="Zookeeper" #zookeeperprop="ngModel">
+								 <input type="text" [(ngModel)]="information.properties.zookeeper" required name="zookeeperprop" placeholder="Zookeeper" #zookeeperprop="ngModel">
 								 </label> 
 							  </section>
 							  <!-- #### END KAFKA AND SOLR COMPONENT ####  -->
@@ -406,7 +407,7 @@
 								   <div class="step-pane active" data-step="1">
 								<form id="smart-form-information" class="smart-form client-form" #generalForm="ngForm">
 								<fieldset >
-										<div>{{dbAdd}} {{api}}</div>
+										
 								<div class="row">
 								<section class="col col-6" >
 								<label class="select" >TYPE
@@ -597,14 +598,14 @@
 												<!-- #### DB COMPONENT ####  -->
 										<section *ngIf="dbAdd">
 											<label class="input"> Check connection Query
-											<input type="text" [(ngModel)]="information.properties" required name="query" placeholder="Check Connection Query" id="query" #properties="ngModel">
+											<input type="text" [(ngModel)]="information.properties.check_query"  name="query" placeholder="Check Connection Query" id="query" #properties="ngModel">
 											</label> 
 										 </section>
 										 		<!-- #### END DB COMPONENT ####  -->
 										 		<!-- ####  API COMPONENT ####  -->
 										 <section  *ngIf="api">
 										<label class="select" >API TYPE
-										<select name="type"  [(ngModel)]="information.api_type"  #api_type="ngModel" > Select Auth type
+										<select name="type"  > Select Auth type
 										<option value="0" selected disabled>Select Auth type</option>
 										<option value="simple">Simple</option>
 										<option value="oAuth">oAuth</option>
@@ -613,7 +614,7 @@
 										</section>
 										<section *ngIf="api">
 											<label class="select" >OAUTH VERSION
-											<select name="type"  [(ngModel)]="information.oauth_version"  #oauth_version="ngModel" > Select OAuth Version
+											<select name="type"   > Select OAuth Version
 											<option value="0" selected disabled>Select OAuth version</option>
 											<option value="simple">oAuth1</option>
 											<option value="oAuth">oAuth2</option>
@@ -622,23 +623,23 @@
 											</section>
 											<section *ngIf="api">
 												<label class="input"> CALLBACK
-												<input type="text" [(ngModel)]="information.callback" required name="callback" placeholder="Callback" id="callback" #callback="ngModel">
+												<input type="text" [(ngModel)]="information.properties.callback"  name="callback" placeholder="Callback" id="callback" #callback="ngModel">
 												</label> 
 											 </section>
 											
 											 <section *ngIf="api">
 												<label class="input"> REFERENCE URL
-												<input type="text" [(ngModel)]="information.reference_url" required name="reference_url" placeholder="Reference Url" id="reference_url" #reference_url="ngModel">
+												<input type="text" [(ngModel)]="information.properties.reference_url"  name="reference_url" placeholder="Reference Url" id="reference_url" #reference_url="ngModel">
 												</label> 
 											 </section>
 											 <section *ngIf="api">
 												<label class="input"> TOKEN
-												<input type="text" [(ngModel)]="information.token" required name="tokenprop" placeholder="Token"  #tokenprop="ngModel">
+												<input type="text" [(ngModel)]="information.properties.token"  name="tokenprop" placeholder="Token"  #tokenprop="ngModel">
 												</label> 
 											 </section>
 											 <section *ngIf="api">
 												<label class="input"> SELECT TOKEN
-												<input type="text" [(ngModel)]="information.select_token" required name="select_tokenprop" placeholder="Select Token" #select_token="ngModel">
+												<input type="text" [(ngModel)]="information.properties.token_sec"  name="select_tokenprop" placeholder="Select Token" #select_token="ngModel">
 												</label> 
 											 </section>
 											 
@@ -647,7 +648,7 @@
 												 <!-- #### KAFKA AND SOLR COMPONENT ####  -->
 												 <section *ngIf="kafka || solr">
 													<label class="input"> ZOOKEEPER
-													<input type="text" [(ngModel)]="information.zookeeper" required name="zookeeper" placeholder="Zookeeper" id="zookeeper" #zookeeper="ngModel">
+													<input type="text" [(ngModel)]="information.properties.zookeeper"  name="zookeeper" placeholder="Zookeeper" id="zookeeper" #zookeeper="ngModel">
 													</label> 
 												 </section>
 												 <!-- #### END KAFKA AND SOLR COMPONENT ####  -->

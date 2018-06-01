@@ -43,7 +43,9 @@ export class LocationComponent implements OnInit {
   driverData:any=[];
   locationData:any[] = [];
   controls={filter:''}
-  public information={url:'',id:'',type:'',status:'',driver:'',user:'',db:'',member:'',modified:'',name:'',description:'',host:'',password:'',port:'',created:'',properties:'',folder:'',bucket:'',access_key:'', schema:'',secret_key:''}
+  public information={url:'',id:'',type:'',status:'',driver:'',user:'',db:'',member:'',modified:'',name:'',description:'',host:'',password:'',port:'',created:'',properties:{check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''},folder:'',bucket:'',access_key:'', schema:'',secret_key:''}
+  
+  
   constructor(private jsonApiService:JsonApiService,private httpService: HttpClient,public dataService:DataService,private notificationService: NotificationService,private confirmationService: ConfirmationService) { }
    @ViewChild('myTable') table: any;
    @ViewChild('staticModal') public staticModal:ModalDirective;
@@ -87,6 +89,7 @@ export class LocationComponent implements OnInit {
     console.log(locationinfo);
        if(locationinfo.id){
          console.log("update api")
+         locationinfo.properties=JSON.stringify(locationinfo.properties)
          this.dataService.updateLocation(locationinfo).subscribe(
        data => {
              
@@ -104,6 +107,7 @@ export class LocationComponent implements OnInit {
        }
     );
        }else{
+       locationinfo.properties=JSON.stringify(locationinfo.properties)
        this.dataService.addLocation(locationinfo).subscribe(
        data => {
                this.ngOnInit();
@@ -165,10 +169,10 @@ export class LocationComponent implements OnInit {
   }
 
 getRowData(row:any){
-  console.log(row);
-  console.log(row.type );
-  console.log(row.properties);
-  console.log(row.id);
+  console.log(JSON.parse(row.properties))
+  console.log(JSON.parse(row.properties));
+  var properties={check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''}
+  properties=JSON.parse(row.properties)
   this.information.db=row.db; 
   this.information.driver=row.driver;
   this.information.host=row.host;
@@ -179,14 +183,19 @@ getRowData(row:any){
   this.information.type=row.type;
   this.information.user=row.user;
   this.information.description=row.description;
-  this.information.properties=row.properties;
+  this.information.properties.check_query=properties.check_query;
+  this.information.properties.callback=properties.callback;
+  this.information.properties.reference_url=properties.reference_url;
+  this.information.properties.token=properties.token;
+  this.information.properties.token_sec=properties.token_sec;
+  this.information.properties.zookeeper=properties.zookeeper;
   this.information.id=row.id;
   this.information.created=row.created;
   this.information.member=row.member;
   this.information.modified=row.modified;
   this.information.status=row.status;
   
-
+  console.log(row.type)
   if(row.type=='TABLE'){
     this.dbCheck=true;
     this.apiCheck=false;
@@ -245,6 +254,12 @@ getRowData(row:any){
     this.solrCheck=false;
   }
   if(row.type=='STREAM'){
+    this.kafkaCheck=true;
+    this.apiCheck=false;
+    this.dbCheck=false;
+    this.solrCheck=false;
+  }
+  if(row.type=='KAFKA'){
     this.kafkaCheck=true;
     this.apiCheck=false;
     this.dbCheck=false;
@@ -386,6 +401,7 @@ locationFormChange(type:any){
   }
   edit(row){
      console.log(row)
+
     this.information.db=row.db; 
     this.information.driver=row.driver;
     this.information.host=row.host;
@@ -402,6 +418,7 @@ locationFormChange(type:any){
     this.information.member=row.member;
     this.information.modified=row.modified;
     this.information.status=row.status;
+    this.locationFormChange(row.type)
     
      
 
@@ -431,5 +448,10 @@ locationFormChange(type:any){
             }
         });
 
+}
+clearObject()
+{
+  this.information={url:'',id:'',type:'',status:'',driver:'',user:'',db:'',member:'',modified:'',name:'',description:'',host:'',password:'',port:'',created:'',properties:{check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''},folder:'',bucket:'',access_key:'', schema:'',secret_key:''}
+  console.log(this.information)
 }
 }
