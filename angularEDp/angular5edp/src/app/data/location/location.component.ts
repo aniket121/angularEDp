@@ -401,7 +401,8 @@ locationFormChange(type:any){
   }
   edit(row){
      console.log(row)
-
+    var properties={check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''}
+    properties=JSON.parse(row.properties)
     this.information.db=row.db; 
     this.information.driver=row.driver;
     this.information.host=row.host;
@@ -412,7 +413,12 @@ locationFormChange(type:any){
     this.information.type=row.type;
     this.information.user=row.user;
     this.information.description=row.description;
-    this.information.properties=row.properties;
+    this.information.properties.check_query=properties.check_query;
+    this.information.properties.callback=properties.callback;
+    this.information.properties.reference_url=properties.reference_url;
+    this.information.properties.token=properties.token;
+    this.information.properties.token_sec=properties.token_sec;
+    this.information.properties.zookeeper=properties.zookeeper;
     this.information.id=row.id;
     this.information.created=row.created;
     this.information.member=row.member;
