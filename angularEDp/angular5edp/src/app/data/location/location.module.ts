@@ -10,11 +10,13 @@ import {AccordionModule, CarouselModule,ModalModule} from "ngx-bootstrap";
 import {SmartadminWizardsModule} from "../../shared/forms/wizards/smartadmin-wizards.module";
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
+import {PickListModule} from 'primeng/picklist';
 @NgModule({
   imports: [
     CommonModule,
     LocationRoutingModule,
     FormsModule,
+    PickListModule,
     ConfirmDialogModule,
     SmartadminModule,
     SmartadminWizardsModule,

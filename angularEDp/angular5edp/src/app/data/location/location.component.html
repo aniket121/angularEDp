@@ -53,7 +53,7 @@
 						  <ng-template let-row="row" let-value="value"
 							 ngx-datatable-cell-template>
 							 <div>
-								<i class="fa fa-edit" (click)="edit(row)" (click)="tagModal.show()"></i> 
+								<i class="fa fa-edit"  (click)="tagModal.show()"></i> 
 							 </div>
 						  </ng-template>
 						  </ngx-datatable-column>
@@ -693,11 +693,27 @@
 					   aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">tag modal</h4>
+					<h4 class="modal-title">Add/Edit Tag</h4>
 				 </div>
-				 <div class="modal-body">...</div>
+				 <div class="modal-body">
+				 	
+                <p-pickList sourceHeader="Available"  targetHeader="Selected" [source]="source" [target]="target" dragdrop="true">
+				    <ng-template let-tags pTemplate="item">
+				        <div class="ui-helper-clearfix">
+				            <div>{{tags.key}}</div>
+				        </div>
+				    </ng-template>
+              </p-pickList>
+				 </div>
+				 <div class="alignbutton">
+               <button type="button" class="btn btn-sm btn-primary" (click)="updateTag(information)">Update
+			  </button>
+			   <button type="button" class="btn btn-sm btn-primary" (click)="tagModal.hide()">Cancel
+			   </button>
+               </div>
 			  </div>
 		   </div>
+
 		</div>
 	 </div>
  <!-- *******************END ADD TAG MODAL*******************-->

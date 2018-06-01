@@ -39,17 +39,20 @@ export class LocationComponent implements OnInit {
   salesforce:boolean=false;
   geode:boolean=false;
   redis:boolean=false;
-
+  source: any[];
+  target: any[];
   driverData:any=[];
   locationData:any[] = [];
   controls={filter:''}
-  public information={url:'',id:'',type:'',status:'',driver:'',user:'',db:'',member:'',modified:'',name:'',description:'',host:'',password:'',port:'',created:'',properties:{check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''},folder:'',bucket:'',access_key:'', schema:'',secret_key:''}
+  public information={url:'',id:'',type:'',status:'',tags:'',driver:'',user:'',db:'',member:'',modified:'',name:'',description:'',host:'',password:'',port:'',created:'',properties:{check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''},folder:'',bucket:'',access_key:'', schema:'',secret_key:''}
   
-  
+
   constructor(private jsonApiService:JsonApiService,private httpService: HttpClient,public dataService:DataService,private notificationService: NotificationService,private confirmationService: ConfirmationService) { }
    @ViewChild('myTable') table: any;
    @ViewChild('staticModal') public staticModal:ModalDirective;
   ngOnInit() {
+    this.source = [{key:'test'},{key:'example'},{key:'db'},{key:'important'}]
+    this.target = [{key:''}]
     this.dbAdd=true;
     this.dbCheck=true;
     this.ftp=false;
@@ -400,9 +403,11 @@ locationFormChange(type:any){
     console.log(row)
   }
   edit(row){
+    try{
      console.log(row)
-    var properties={check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''}
+     var properties={check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''}
     properties=JSON.parse(row.properties)
+
     this.information.db=row.db; 
     this.information.driver=row.driver;
     this.information.host=row.host;
@@ -425,7 +430,11 @@ locationFormChange(type:any){
     this.information.modified=row.modified;
     this.information.status=row.status;
     this.locationFormChange(row.type)
-    
+    }
+    catch(error) {
+  console.error(error);
+  this.locationFormChange(row.type)
+  }
      
 
   }
@@ -457,7 +466,12 @@ locationFormChange(type:any){
 }
 clearObject()
 {
-  this.information={url:'',id:'',type:'',status:'',driver:'',user:'',db:'',member:'',modified:'',name:'',description:'',host:'',password:'',port:'',created:'',properties:{check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''},folder:'',bucket:'',access_key:'', schema:'',secret_key:''}
+  this.information={url:'',id:'',type:'',tags:'',status:'',driver:'',user:'',db:'',member:'',modified:'',name:'',description:'',host:'',password:'',port:'',created:'',properties:{check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''},folder:'',bucket:'',access_key:'', schema:'',secret_key:''}
   console.log(this.information)
+}
+updateTag(){
+   console.log(this.target)
+
+
 }
 }
