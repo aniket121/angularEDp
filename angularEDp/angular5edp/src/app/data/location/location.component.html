@@ -7,8 +7,8 @@
 		   <div class="row">
 			  <article class="col-sm-12 col-md-12 col-lg-12">
 				 <div sa-widget [editbutton]="false" [fullscreenbutton]="false"
-				 color="blueDark">
-				 <header>
+				 color="white">
+				 <header >
 					<span class="widget-icon"> <i class="fa fa-table"></i>
 					</span>
 					<h2>Data Location</h2>
@@ -53,7 +53,7 @@
 						  <ng-template let-row="row" let-value="value"
 							 ngx-datatable-cell-template>
 							 <div>
-								<i class="fa fa-edit"  (click)="tagModal.show()" (click)="getSeletecdData(row)"></i> 
+								<i class="fa fa-tags"  (click)="tagModal.show()" (click)="getSeletecdData(row)"></i> 
 							 </div>
 						  </ng-template>
 						  </ngx-datatable-column>
@@ -78,7 +78,7 @@
 							 </div>
 						  </ng-template>
 						  </ngx-datatable-column> 
-						  <ngx-datatable-column name="Type" [resizeable]="true"
+						  <ngx-datatable-column name="Type" [width]="180" [resizeable]="true"
 						  [sortable]="true" [draggable]="true" [canAutoResize]="true">
 						  <ng-template let-row="row" ngx-datatable-cell-template>
 							 <span *ngIf="row.type==='TABLE'" class="fa fa-table fa-2x location-icons">    {{row.type}} </span> 
@@ -94,6 +94,7 @@
 							 <span *ngIf="row.type==='SFTP'" class="fa fa-folder fa-2x  location-icons">    {{row.type}}</span>
 							 <span *ngIf="row.type==='HBASE'" class="fa fa-files-o fa-2x  location-icons">    {{row.type}}</span>
 							 <span *ngIf="row.type==='SOLR'" class="fa fa-files-o fa-2x  location-icons">    {{row.type}}</span>
+							 <span *ngIf="row.type==='ELASTIC SEARCH'" class="fa fa-files-o fa-2x  location-icons">    {{row.type}}</span>
 
 						  </ng-template>
 						  </ngx-datatable-column> 
@@ -490,34 +491,34 @@
 								</section>
 								<section *ngIf="ftp  && !dbAdd || s3">
 									<label class="input"> ENCRYPTION KEY
-									<input type="text" required [(ngModel)]="information.encryption_key" name="encryption_key" placeholder="Encryption key" #encryption_key="ngModel">
+									<input type="text"  name="encryption_key" placeholder="Encryption key" >
 									</label> 
 								</section>
 								<section *ngIf="ftp  && !dbAdd || s3">
 									<label class="input"> ENCRYPTION DIGEST
-									<input type="text" required [(ngModel)]="information.encryption_digest" name="encryption_digest" placeholder="Encryption Digest" #encryption_digest="ngModel">
+									<input type="text"  placeholder="Encryption Digest">
 									</label> 
 								</section>
 								<section *ngIf="ftp || s3">
 									<label class="input"> SSL
-									<input type="text" required [(ngModel)]="information.ssl" name="ssl" placeholder="SSL" #ssl="ngModel">
+									<input type="text" required  placeholder="SSL" >
 									</label> 
 								</section>
 								<section *ngIf="ftp || s3">
 									<label class="select" >AUTH TYPE
-									<select name="authtype"  [(ngModel)]="information.auth_type"  #authtype="ngModel"> Select type
+									<select name="authtype"  > Select type
 									<option value="0" selected disabled>Select Auth type</option>
 									<option value="Auth1">OAuth1</option>								
 									</select> </label>
 								</section>
 								<section *ngIf="ftp">
 									<label class="input"> PRIVATE KEY
-									<input type="text" required [(ngModel)]="information.private_key" name="private_key" placeholder="Private key" #private_key="ngModel">
+									<input type="text"  placeholder="Private key">
 									</label> 
 								</section>
 								<section *ngIf="ftp">
 									<label class="input"> PARAPHRASE
-									<input type="text" required [(ngModel)]="information.paraphrase" name="paraphrase" placeholder="paraphrase" #paraphrase="ngModel">
+									<input type="text" required  name="paraphrase" placeholder="paraphrase" >
 									</label> 
 								</section>
 
@@ -598,7 +599,7 @@
 												<!-- #### DB COMPONENT ####  -->
 										<section *ngIf="dbAdd">
 											<label class="input"> Check connection Query
-											<input type="text" [(ngModel)]="information.properties.check_query"  name="query" placeholder="Check Connection Query" id="query" #properties="ngModel">
+											<input type="text" [(ngModel)]="information.properties.check_query"  name="query" placeholder="Check Connection Query" id="query" >
 											</label> 
 										 </section>
 										 		<!-- #### END DB COMPONENT ####  -->
@@ -623,23 +624,23 @@
 											</section>
 											<section *ngIf="api">
 												<label class="input"> CALLBACK
-												<input type="text" [(ngModel)]="information.properties.callback"  name="callback" placeholder="Callback" id="callback" #callback="ngModel">
+												<input type="text" [(ngModel)]="information.properties.callback"  name="callback" placeholder="Callback" id="callback" >
 												</label> 
 											 </section>
 											
 											 <section *ngIf="api">
 												<label class="input"> REFERENCE URL
-												<input type="text" [(ngModel)]="information.properties.reference_url"  name="reference_url" placeholder="Reference Url" id="reference_url" #reference_url="ngModel">
+												<input type="text" [(ngModel)]="information.properties.reference_url"  name="reference_url" placeholder="Reference Url" id="reference_url" >
 												</label> 
 											 </section>
 											 <section *ngIf="api">
 												<label class="input"> TOKEN
-												<input type="text" [(ngModel)]="information.properties.token"  name="tokenprop" placeholder="Token"  #tokenprop="ngModel">
+												<input type="text" [(ngModel)]="information.properties.token"  name="tokenprop" placeholder="Token"  >
 												</label> 
 											 </section>
 											 <section *ngIf="api">
 												<label class="input"> SELECT TOKEN
-												<input type="text" [(ngModel)]="information.properties.token_sec"  name="select_tokenprop" placeholder="Select Token" #select_token="ngModel">
+												<input type="text" [(ngModel)]="information.properties.token_sec"  name="select_tokenprop" placeholder="Select Token" >
 												</label> 
 											 </section>
 											 
@@ -648,7 +649,7 @@
 												 <!-- #### KAFKA AND SOLR COMPONENT ####  -->
 												 <section *ngIf="kafka || solr">
 													<label class="input"> ZOOKEEPER
-													<input type="text" [(ngModel)]="information.properties.zookeeper"  name="zookeeper" placeholder="Zookeeper" id="zookeeper" #zookeeper="ngModel">
+													<input type="text" [(ngModel)]="information.properties.zookeeper"  name="zookeeper" placeholder="Zookeeper" id="zookeeper" >
 													</label> 
 												 </section>
 												 <!-- #### END KAFKA AND SOLR COMPONENT ####  -->
@@ -683,8 +684,8 @@
 <!-- ******************* END ADD LOCATION MODAL*******************-->
 
 <!-- *******************ADD TAG MODAL*******************-->
-	 <div class="">
-		<div bsModal #tagModal="bs-modal" class="modal fade" tabindex="-1"
+	 <div class="tagmodel ">
+		<div bsModal #tagModal="bs-modal" class="modal fade reduceSize" tabindex="-1"
 		   role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		   <div class="modal-dialog modal-lg">
 			  <div class="modal-content">
@@ -706,7 +707,7 @@
               </p-pickList>
 				 </div>
 				 <div class="alignbutton">
-               <button type="button" class="btn btn-sm btn-primary" (click)="updateTags()" >Update
+               <button type="button" class="btn btn-sm btn-primary" (click)="updateTags()" (click)="tagModal.hide()">Update
 			  </button>
 			   <button type="button" class="btn btn-sm btn-primary" (click)="tagModal.hide()">Cancel
 			   </button>

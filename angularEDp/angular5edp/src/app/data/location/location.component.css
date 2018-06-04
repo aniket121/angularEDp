@@ -68,3 +68,12 @@ margin-left: 60px;
 	margin-left:19%;
 	margin-bottom:3%;
 }
+.reduceSize{
+	width:44% !important;
+	margin-left:26% !important;
+}
+.headerColor{
+	background-color: white !important;
+	color:black !important;
+	border-color:white !important;
+}

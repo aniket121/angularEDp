@@ -95,6 +95,7 @@ export class LocationComponent implements OnInit {
        if(locationinfo.id){
          console.log("update api")
          locationinfo.properties=JSON.stringify(locationinfo.properties)
+         console.log("update api data",locationinfo)
          this.dataService.updateLocation(locationinfo).subscribe(
        data => {
              
@@ -113,6 +114,7 @@ export class LocationComponent implements OnInit {
     );
        }else{
        locationinfo.properties=JSON.stringify(locationinfo.properties)
+
        this.dataService.addLocation(locationinfo).subscribe(
        data => {
                this.ngOnInit();
@@ -173,14 +175,10 @@ export class LocationComponent implements OnInit {
     );
   }
 
-getRowData(row:any){
-  if(row.properties.check_query=="null"){
-    row.properties.check_query="NA";
-  }
-  console.log(JSON.parse(row.properties))
-  console.log(JSON.parse(row.properties));
-  var properties={check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''}
-  properties=JSON.parse(row.properties)
+bindValues(row:any)
+{
+  var propertiesValues={check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''}
+  propertiesValues=JSON.parse(row.properties)
   this.information.db=row.db; 
   this.information.driver=row.driver;
   this.information.host=row.host;
@@ -191,17 +189,18 @@ getRowData(row:any){
   this.information.type=row.type;
   this.information.user=row.user;
   this.information.description=row.description;
-  this.information.properties.check_query=properties.check_query;
-  this.information.properties.callback=properties.callback;
-  this.information.properties.reference_url=properties.reference_url;
-  this.information.properties.token=properties.token;
-  this.information.properties.token_sec=properties.token_sec;
-  this.information.properties.zookeeper=properties.zookeeper;
+  this.information.properties=propertiesValues;
+
   this.information.id=row.id;
   this.information.created=row.created;
   this.information.member=row.member;
   this.information.modified=row.modified;
   this.information.status=row.status;
+}
+
+getRowData(row:any){
+    
+  this.bindValues(row)
   
   console.log(row.type)
   if(row.type=='TABLE'){
@@ -408,39 +407,17 @@ locationFormChange(type:any){
     console.log(row)
   }
   edit(row){
+  this.ngOnInit();
     try{
-     console.log(row)
-     var properties={check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''}
-    properties=JSON.parse(row.properties)
 
-    this.information.db=row.db; 
-    this.information.driver=row.driver;
-    this.information.host=row.host;
-    this.information.name=row.name;
-    this.information.password=row.password;
-    this.information.port=row.port;
-    this.information.url=row.url; 
-    this.information.type=row.type;
-    this.information.user=row.user;
-    this.information.description=row.description;
-    this.information.properties.check_query=properties.check_query;
-    this.information.properties.callback=properties.callback;
-    this.information.properties.reference_url=properties.reference_url;
-    this.information.properties.token=properties.token;
-    this.information.properties.token_sec=properties.token_sec;
-    this.information.properties.zookeeper=properties.zookeeper;
-    this.information.id=row.id;
-    this.information.created=row.created;
-    this.information.member=row.member;
-    this.information.modified=row.modified;
-    this.information.status=row.status;
+    this.bindValues(row)
+    this.information.tags=row.tags;
     this.locationFormChange(row.type)
     }
     catch(error) {
   console.error(error);
   this.locationFormChange(row.type)
   }
-     
 
   }
   delete(row){
@@ -472,6 +449,7 @@ locationFormChange(type:any){
 clearObject()
 {
   this.information={url:'',id:'',type:'',tags:'',status:'',driver:'',user:'',db:'',member:'',modified:'',name:'',description:'',host:'',password:'',port:'',created:'',properties:{check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''},folder:'',bucket:'',access_key:'', schema:'',secret_key:''}
+   this.dbAdd=true;
   
 }
 updateTags(){
@@ -492,36 +470,18 @@ updateTags(){
   this.getSeletecdData(this.information);
   this.selectedTags=this.selectedTags.replace(/undefined/g,'')
   this.information.tags= this.selectedTags;
+  console.log("updatetag",this.information);
   this.addEdittag(this.information);
+
   
 
 }
 getSeletecdData(row:any){
-
+ 
   try{
-  var properties={check_query:'',callback:'',reference_url:'',token:'',token_sec:'',zookeeper:''}
-  properties=JSON.parse(row.properties)
-  this.information.db=row.db; 
-  this.information.driver=row.driver;
-  this.information.host=row.host;
-  this.information.name=row.name;
-  this.information.password=row.password;
-  this.information.port=row.port;
-  this.information.url=row.url; 
-  this.information.type=row.type;
-  this.information.user=row.user;
-  this.information.description=row.description;
-  this.information.properties.check_query=properties.check_query;
-  this.information.properties.callback=properties.callback;
-  this.information.properties.reference_url=properties.reference_url;
-  this.information.properties.token=properties.token;
-  this.information.properties.token_sec=properties.token_sec;
-  this.information.properties.zookeeper=properties.zookeeper;
-  this.information.id=row.id;
-  this.information.created=row.created;
-  this.information.member=row.member;
-  this.information.modified=row.modified;
-  this.information.status=row.status;
+
+     this.bindValues(row)
+    
   }
   catch(error) {
     console.error(error);
@@ -531,14 +491,14 @@ getSeletecdData(row:any){
 }
 addEdittag(Tagsdata:any){
   console.log(Tagsdata)
-  //Tagsdata.properties=JSON.stringify(Tagsdata.properties)
+  Tagsdata.properties=JSON.stringify(Tagsdata.properties)
   this.dataService.updateLocation(Tagsdata).subscribe(
     data => {
           
            this.ngOnInit();
            this.notificationService.smallBox({
             title: "Success",
-            content: "Tag has been updated Successfully",
+            content: "Tags has been updated Successfully",
             color: "#739E73",
             iconSmall: "fa fa-check",
             timeout: 5000
