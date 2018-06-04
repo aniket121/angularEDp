@@ -41,7 +41,7 @@ export class LocationComponent implements OnInit {
   redis:boolean=false;
   source: any[];
   target: any[];
-  targetData:string;
+  targetData:any[];
   driverData:any=[];
   public selectedTags:any;
   locationData:any[] = [];
@@ -56,7 +56,7 @@ export class LocationComponent implements OnInit {
     this.source = [{key:'test'},{key:'example'},{key:'db'},{key:'important'}]
     this.target = [{key:''}]
     this.dbAdd=true;
-    this.dbCheck=true;
+    
     this.ftp=false;
     this.file=false;
     this.httpService.get('./assets/dbDriver.json').subscribe(
@@ -196,11 +196,14 @@ bindValues(row:any)
   this.information.member=row.member;
   this.information.modified=row.modified;
   this.information.status=row.status;
+  
 }
 
 getRowData(row:any){
-    
+    console.log(row);
+    console.log(this.selectedTags)
   this.bindValues(row)
+  this.information.tags=row.tags;
   
   console.log(row.type)
   if(row.type=='TABLE'){
@@ -467,11 +470,14 @@ updateTags(){
       }
       
   }
+ 
   this.getSeletecdData(this.information);
+  this.selectedTags = this.selectedTags.slice(0, -1); 
   this.selectedTags=this.selectedTags.replace(/undefined/g,'')
   this.information.tags= this.selectedTags;
   console.log("updatetag",this.information);
   this.addEdittag(this.information);
+  this.selectedTags='';
 
   
 
@@ -479,8 +485,23 @@ updateTags(){
 getSeletecdData(row:any){
  
   try{
+    
+    // console.log("row tags",row.tags);
+    // this.targetData = row.tags.split(',');
+   
+    
+    // for(var i=0;i<this.targetData.length;i++)
+    // {
+     
+     
 
-     this.bindValues(row)
+     
+    // }
+    
+    // alert(this.target)
+   this.bindValues(row)
+     
+     
     
   }
   catch(error) {

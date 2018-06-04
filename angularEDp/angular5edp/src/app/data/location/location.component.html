@@ -212,53 +212,53 @@
 							<div class="row">		
 					
 									<section   class="col col-1"> 
-										 <input type="hidden" [(ngModel)]="information.created" required name="created" placeholder="created"  #created="ngModel">
+										 <input type="hidden" [(ngModel)]="information.created"  name="created" placeholder="created"  #created="ngModel">
 										</section>
 										 <section   class="col col-1">
-										 <input type="hidden" [(ngModel)]="information.name" required name="name" placeholder="name"  #name="ngModel">	
+										 <input type="hidden" [(ngModel)]="information.name"  name="name" placeholder="name"  #name="ngModel">	
 										 </section>
 										 <section   class="col col-1">
-										 <input type="hidden" [(ngModel)]="information.db" required name="db" placeholder="db"  #db="ngModel">	
+										 <input type="hidden" [(ngModel)]="information.db"  name="db" placeholder="db"  #db="ngModel">	
 										</section>
 										<section   class="col col-1">
 
-										 <input type="hidden" [(ngModel)]="information.driver" required name="driver" placeholder="driver"  #driver="ngModel">	 	  	  	  	 
+										 <input type="hidden" [(ngModel)]="information.driver"  name="driver" placeholder="driver"  #driver="ngModel">	 	  	  	  	 
 									  </section>
 									  <section class="col col-1">										
-											<input type="hidden" [(ngModel)]="information.member" required name="member" placeholder="member"  #member="ngModel">				
+											<input type="hidden" [(ngModel)]="information.member"  name="member" placeholder="member"  #member="ngModel">				
 									</section>
 									<section class="col col-1">								
-											<input type="hidden" [(ngModel)]="information.modified" required name="modified" placeholder="modified"  #modified="ngModel">
+											<input type="hidden" [(ngModel)]="information.modified"  name="modified" placeholder="modified"  #modified="ngModel">
 									</section>
 									<section class="col col-1">
 								
-											<input type="hidden" [(ngModel)]="information.status" required name="status" placeholder="status"  #status="ngModel">
+											<input type="hidden" [(ngModel)]="information.status"  name="status" placeholder="status"  #status="ngModel">
 											
 									</section>
 									<section class="col col-1">
 								
-											<input type="hidden" [(ngModel)]="information.password" required name="password" placeholder="password"  #password="ngModel">
+											<input type="hidden" [(ngModel)]="information.password"  name="password" placeholder="password"  #password="ngModel">
 											
 									</section>
 									<section class="col col-1">
 								
-											<input type="hidden" [(ngModel)]="information.port" required name="port" placeholder="port"  #port="ngModel">
+											<input type="hidden" [(ngModel)]="information.port"  name="port" placeholder="port"  #port="ngModel">
 											
 									</section>
 									<section class="col col-1">
 								
-											<input type="hidden" [(ngModel)]="information.url" required name="url" placeholder="url"  #url="ngModel">
+											<input type="hidden" [(ngModel)]="information.url"  name="url" placeholder="url"  #url="ngModel">
 											
 									</section>
 
 									<section class="col col-1">
 								
-											<input type="hidden" [(ngModel)]="information.type" required name="type" placeholder="type"  #type="ngModel">
+											<input type="hidden" [(ngModel)]="information.type"  name="type" placeholder="type"  #type="ngModel">
 											
 									</section>
 									<section class="col col-1">
 								
-											<input type="hidden" [(ngModel)]="information.user" required name="user" placeholder="user"  #user="ngModel">
+											<input type="hidden" [(ngModel)]="information.user"  name="user" placeholder="user"  #user="ngModel">
 											
 									</section>
 									</div>
@@ -267,23 +267,23 @@
 					<div class="row" >		
 							<section   class="col col-6" *ngIf="dbCheck">
 									<label class="input"> CHECK CONNECTION QUERY
-									<input type="text" [(ngModel)]="information.properties.check_query" required name="query" placeholder="Check Connection Query"  #properties="ngModel">
+									<input type="text" [(ngModel)]="information.properties.check_query"  name="query" placeholder="Check Connection Query"  #properties="ngModel">
 									</label> 
 								 </section>
 					
 					  <section class="col col-2">
 						
-							<input type="hidden" [(ngModel)]="information.id" required name="id" placeholder="id"  #id="ngModel">
+							<input type="hidden" [(ngModel)]="information.id"  name="id" placeholder="id"  #id="ngModel">
 						
 					</section>
 					<section class="col col-2">
 								
-							<input type="hidden" [(ngModel)]="information.description" required name="description" placeholder="description"  #description="ngModel">
+							<input type="hidden" [(ngModel)]="information.description"  name="description" placeholder="description"  #description="ngModel">
 							
 					</section>
 					<section class="col col-2">
 								
-							<input type="hidden" [(ngModel)]="information.host" required name="host" placeholder="host"  #host="ngModel">
+							<input type="hidden" [(ngModel)]="information.host"  name="host" placeholder="host"  #host="ngModel">
 							
 					</section>
 					</div>
@@ -352,7 +352,7 @@
 				   </fieldset>
 				   <footer>
 					  <div class="actions">
-						 <button type="button" (click)="save(information)" class="btn btn-sm btn-success btn-next" [disabled]="!generalForm3.form.valid" (click)="lgModal.hide()" >
+						 <button type="button" (click)="save(information)" class="btn btn-sm btn-success btn-next" [disabled]="!generalForm3.form.valid"  >
 						 Save
 						 </button>
 						
@@ -372,7 +372,7 @@
 	 <div class="lgmodel" id="lgmodel" #lgmodel >
 		<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1"
 		   role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		   <div class="modal-dialog modal-lg">
+		   <div class="modal-dialog-info modal-lg">
 			  <div class="modal-content">
 				 <div class="modal-header">
 					<button type="button" class="close" (click)="lgModal.hide()"
@@ -411,8 +411,8 @@
 										
 								<div class="row">
 								<section class="col col-6" >
-								<label class="select" >TYPE
-								<select name="type"  [(ngModel)]="information.type"  #type="ngModel" (ngModelChange)="locationFormChange(information.type)"> Select type
+								<label class="select" > TYPE <span class="text-danger">*</span>
+								<select name="type" [(ngModel)]="information.type"  #type="ngModel" (ngModelChange)="locationFormChange(information.type)">
 								<option value="0" selected disabled>Select type</option>
 								<option value="DB">DB</option>
 								<option value="FTP">FTP</option>
@@ -423,11 +423,12 @@
 								<option value="KAFKA">KAFKA</option>
 								<option value="ELASTIC SEARCH">ELASTIC SEARCH</option>
 								<option value="SOLR">SOLR</option>
-								<option value="HDFS">HDFS</option>
-								</select> </label>
+								<option value="HDFS">HDFS</option>							
+								</select> </label>					
+								
 								</section>
 								<section class="col col-6" *ngIf="dbAdd || ftp || file || api || s3 || kafka || elasticsearch || solr || hdfs">
-								<label class="input">NAME
+								<label class="input">NAME <span class="text-danger">*</span>
 								<input type="text" name="name" pattern="^[a-zA-Z]+$" required [(ngModel)]="information.name" placeholder="Name" #name="ngModel">
 								</label>
 								<div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger" >
@@ -441,19 +442,20 @@
 								</section>
 								</div>
 								<section *ngIf="dbAdd">
-								<label class="select">  DB
+								<label class="select">  DB <span class="text-danger">*</span>
 								<select name="db" [(ngModel)]="information.db" #db="ngModel" (ngModelChange)="onChange()" >
+								<option  Value="undefined" selected disabled>Select DB</option>
 								<option  *ngFor="let drivers of driverData" [value]="drivers.value">{{drivers.key}}</option>
 								</select> </label>
 								</section>
 								<div class="row">
 								<section class="col col-6" *ngIf="dbAdd || kafka">
-								<label class="input">HOST
+								<label class="input">HOST <span class="text-danger">*</span>
 								<input type="text" required [(ngModel)]="information.host" name="host" placeholder="Host" #host="ngModel">
 								</label>
 								</section>
 								<section class="col col-6" *ngIf="dbAdd || kafka">
-								<label class="input">PORT
+								<label class="input">PORT <span class="text-danger">*</span>
 								<input type="text" required [(ngModel)]="information.port" pattern="^[0-9]+$" name="port" placeholder="Port" #port="ngModel">
 								</label>
 								<div *ngIf="port.errors && (port.dirty || port.touched)" class="alert alert-danger" >
@@ -468,56 +470,56 @@
 								</div>
 								<div class="row" >
 								<section class="col col-6" *ngIf="dbAdd || ftp || !file && !elasticsearch && !hdfs && !solr && !api && !s3 && !kafka ">
-								<label class="input">USER
+								<label class="input">USER <span class="text-danger">*</span>
 								<input type="text" required [(ngModel)]="information.user" name="user" placeholder="user" #user="ngModel">
 								</label>
 								</section>
 								<section class="col col-6" *ngIf="dbAdd || ftp || !file && !elasticsearch && !hdfs && !solr && !api && !s3 && !kafka">
-								<label class="input">PASSWORD
+								<label class="input">PASSWORD <span class="text-danger">*</span>
 								<input type="password" required [(ngModel)]="information.password" name="password" placeholder="password" #password="ngModel">
 								</label>
 								</section>
 								</div>
 								<section *ngIf="dbAdd">
-								<label class="input"> DRIVER
+								<label class="input"> DRIVER <span class="text-danger">*</span>
 								<input type="text" required [(ngModel)]="information.driver" name="driver" placeholder="Driver" #driver="ngModel">
 								</label> 
 								</section>
 								<!-- ########  FTP COMPONENT ######## -->
 								<section *ngIf="ftp && !dbAdd || s3" >
-									<label class="input"> FOLDER
+									<label class="input"> FOLDER <span class="text-danger">*</span>
 									<input type="text" required [(ngModel)]="information.folder" name="folder" placeholder="Folder" #folder="ngModel">
 									</label> 
 								</section>
 								<section *ngIf="ftp  && !dbAdd || s3">
-									<label class="input"> ENCRYPTION KEY
+									<label class="input"> ENCRYPTION KEY <span class="text-danger">*</span>
 									<input type="text"  name="encryption_key" placeholder="Encryption key" >
 									</label> 
 								</section>
 								<section *ngIf="ftp  && !dbAdd || s3">
-									<label class="input"> ENCRYPTION DIGEST
+									<label class="input"> ENCRYPTION DIGEST <span class="text-danger">*</span>
 									<input type="text"  placeholder="Encryption Digest">
 									</label> 
 								</section>
 								<section *ngIf="ftp || s3">
-									<label class="input"> SSL
+									<label class="input"> SSL <span class="text-danger">*</span>
 									<input type="text" required  placeholder="SSL" >
 									</label> 
 								</section>
 								<section *ngIf="ftp || s3">
-									<label class="select" >AUTH TYPE
+									<label class="select" >AUTH TYPE <span class="text-danger">*</span>
 									<select name="authtype"  > Select type
 									<option value="0" selected disabled>Select Auth type</option>
 									<option value="Auth1">OAuth1</option>								
 									</select> </label>
 								</section>
 								<section *ngIf="ftp">
-									<label class="input"> PRIVATE KEY
+									<label class="input"> PRIVATE KEY <span class="text-danger">*</span>
 									<input type="text"  placeholder="Private key">
 									</label> 
 								</section>
-								<section *ngIf="ftp">
-									<label class="input"> PARAPHRASE
+								<section *ngIf="ftp"> 
+									<label class="input"> PARAPHRASE <span class="text-danger">*</span>
 									<input type="text" required  name="paraphrase" placeholder="paraphrase" >
 									</label> 
 								</section>
@@ -527,18 +529,18 @@
 								<!-- ########  API COMPONENT ######## -->
 								<div class="row" *ngIf="!dbAdd && !ftp && !file && !elasticsearch && !hdfs && !solr && !kafka || api || s3">
 									<section class="col col-6">
-										<label class="input">ACCESS/API KEY
+										<label class="input">ACCESS/API KEY <span class="text-danger">*</span>
 										<input type="text" required [(ngModel)]="information.access_key" name="access_key" placeholder="Access key" #access_key="ngModel">
 										</label>
 									</section>
 									<section class="col col-6" *ngIf="!dbAdd || !ftp || !kafka || api || s3">
-										<label class="input">SECRET KEY
+										<label class="input">SECRET KEY <span class="text-danger">*</span>
 										<input type="text" required [(ngModel)]="information.secret_key"  name="secret_key" placeholder="Secret key" #secret_key="ngModel">
 										</label>
 									</section>
 								</div>
 								<section *ngIf="!dbAdd && !ftp && !file && !elasticsearch && !hdfs && !solr && !s3 || api || kafka  ">
-									<label class="input">SCHEMA
+									<label class="input">SCHEMA <span class="text-danger">*</span>
 									<input type="text" required [(ngModel)]="information.schema"  name="schema" placeholder="Schema" #schema="ngModel">
 									</label>
 								</section>
@@ -551,7 +553,7 @@
 									
 								<section *ngIf="!dbAdd && !ftp && !file && !elasticsearch && !hdfs && !solr && !api && !kafka || 
 								s3">
-									<label class="input">BUCKET
+									<label class="input">BUCKET <span class="text-danger">*</span>
 									<input type="text" required [(ngModel)]="information.bucket"  name="bucket" placeholder="Bucket" #bucket="ngModel">
 									</label>
 								</section>
@@ -559,7 +561,7 @@
 									
 								<!-- ######## End S3 COMPONENT ######## -->
 								<section *ngIf="dbAdd || api">
-								<label class="input">URL
+								<label class="input">URL <span class="text-danger">*</span> 
 								<input type="url" required [(ngModel)]="information.url"  name="url" placeholder="DB URL" id="url" #url="ngModel">
 								</label>  
 								<div *ngIf="url.errors && (url.dirty || url.touched)" class="alert alert-danger" >
@@ -572,7 +574,7 @@
 								</div>
 								</section>
 								<section *ngIf="dbAdd || ftp || file || api || kafka || elasticsearch || hdfs || solr">
-								<label class="input"> DESCRIPTION 
+								<label class="input"> DESCRIPTION <span class="text-danger">*</span>
 								<input type="text" [(ngModel)]="information.description"  name="description" placeholder="Description" id="desc" #description="ngModel">
 								</label> 
 								</section>
@@ -598,14 +600,14 @@
 									 	  <fieldset>
 												<!-- #### DB COMPONENT ####  -->
 										<section *ngIf="dbAdd">
-											<label class="input"> Check connection Query
+											<label class="input"> Check connection Query <span class="text-danger">*</span>
 											<input type="text" [(ngModel)]="information.properties.check_query"  name="query" placeholder="Check Connection Query" id="query" >
 											</label> 
 										 </section>
 										 		<!-- #### END DB COMPONENT ####  -->
 										 		<!-- ####  API COMPONENT ####  -->
-										 <section  *ngIf="api">
-										<label class="select" >API TYPE
+										 <section  *ngIf="api"> 
+										<label class="select" >API TYPE <span class="text-danger">*</span>
 										<select name="type"  > Select Auth type
 										<option value="0" selected disabled>Select Auth type</option>
 										<option value="simple">Simple</option>
@@ -614,7 +616,7 @@
 										</select> </label>
 										</section>
 										<section *ngIf="api">
-											<label class="select" >OAUTH VERSION
+											<label class="select" >OAUTH VERSION <span class="text-danger">*</span>
 											<select name="type"   > Select OAuth Version
 											<option value="0" selected disabled>Select OAuth version</option>
 											<option value="simple">oAuth1</option>
@@ -623,23 +625,23 @@
 											</select> </label>
 											</section>
 											<section *ngIf="api">
-												<label class="input"> CALLBACK
+												<label class="input"> CALLBACK <span class="text-danger">*</span>
 												<input type="text" [(ngModel)]="information.properties.callback"  name="callback" placeholder="Callback" id="callback" >
 												</label> 
 											 </section>
 											
 											 <section *ngIf="api">
-												<label class="input"> REFERENCE URL
+												<label class="input"> REFERENCE URL <span class="text-danger">*</span>
 												<input type="text" [(ngModel)]="information.properties.reference_url"  name="reference_url" placeholder="Reference Url" id="reference_url" >
 												</label> 
 											 </section>
 											 <section *ngIf="api">
-												<label class="input"> TOKEN
+												<label class="input"> TOKEN <span class="text-danger">*</span>
 												<input type="text" [(ngModel)]="information.properties.token"  name="tokenprop" placeholder="Token"  >
 												</label> 
 											 </section>
 											 <section *ngIf="api">
-												<label class="input"> SELECT TOKEN
+												<label class="input"> SELECT TOKEN <span class="text-danger">*</span>
 												<input type="text" [(ngModel)]="information.properties.token_sec"  name="select_tokenprop" placeholder="Select Token" >
 												</label> 
 											 </section>
@@ -648,7 +650,7 @@
 
 												 <!-- #### KAFKA AND SOLR COMPONENT ####  -->
 												 <section *ngIf="kafka || solr">
-													<label class="input"> ZOOKEEPER
+													<label class="input"> ZOOKEEPER <span class="text-danger">*</span>
 													<input type="text" [(ngModel)]="information.properties.zookeeper"  name="zookeeper" placeholder="Zookeeper" id="zookeeper" >
 													</label> 
 												 </section>
@@ -687,7 +689,7 @@
 	 <div class="tagmodel ">
 		<div bsModal #tagModal="bs-modal" class="modal fade reduceSize" tabindex="-1"
 		   role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		   <div class="modal-dialog modal-lg">
+		   <div class="modal-dialog-tag modal-lg">
 			  <div class="modal-content">
 				 <div class="modal-header">
 					<button type="button" class="close" (click)="tagModal.hide()"
