@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
   styleUrls:['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-
+  public activeMenu:any;
   constructor(private router: Router) {}
 
   ngOnInit() {
@@ -15,12 +15,17 @@ export class FooterComponent implements OnInit {
 
 
 activeTab(activeMenuName){
+this.ngOnInit();
 console.log(activeMenuName)
 localStorage.setItem('ActiveMenu', activeMenuName);
+this.activeMenu=activeMenuName;
+
 if(activeMenuName=='META'){
+   this.activeMenu=activeMenuName;
    this.router.navigate(["data/location"])
 }
 if(activeMenuName=='DATA'){
+   this.activeMenu=activeMenuName;
    this.router.navigate(["home"])
 }
 

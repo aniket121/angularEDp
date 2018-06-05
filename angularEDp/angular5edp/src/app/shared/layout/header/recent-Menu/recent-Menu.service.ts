@@ -39,7 +39,7 @@ export class RecentMenuService {
     ],
     this.dataStore = [
       {
-        "href": "/",
+        "href": "/#/data/store",
         "title": "DATA STORE"
       },
       {

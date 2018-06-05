@@ -2,10 +2,10 @@
     <div class="row">
         <div class="col-xs-12 col-sm-6">
            <!--  <span class="txt-color-white"></span> -->
-           <button  (click)="activeTab('DATA')" class="btn btn-xs dropdown-toggle bg-color-blue margin-right-5 txt-color-white  ng-binding ng-scope " style="">
+           <button [ngClass]="{'bg-color-green': activeMenu === 'DATA' }" (click)="activeTab('DATA')"  class="btn btn-xs dropdown-toggle bg-color-blue margin-right-5 txt-color-white  ng-binding ng-scope " style="">
                 <i class="fa-fw fa fa-database"></i>DATA
             </button>
-           <button   (click)="activeTab('META')" class="btn btn-xs dropdown-toggle bg-color-blue margin-right-5 txt-color-white  ng-binding ng-scope bg-color-green" style="">
+           <button  [ngClass]="{'bg-color-green': activeMenu === 'META' }" (click)="activeTab('META')"   class="btn btn-xs dropdown-toggle bg-color-blue margin-right-5 txt-color-white  ng-binding ng-scope " style="">
                 <i class="fa-fw fa fa-envelope-o"></i>META
             </button>
              
