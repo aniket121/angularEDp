@@ -6,13 +6,26 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Interceptor } from '../../interceptor';
 import { DataService } from '../data.service';
+import {SmartadminDatatableModule} from "../../shared/ui/datatable/smartadmin-datatable.module";
+import {NgxDatatableModule} from "@swimlane/ngx-datatable";
+import {SmartadminModule} from "../../shared/smartadmin.module";
+import {AccordionModule, CarouselModule,ModalModule} from "ngx-bootstrap";
+import {SmartadminWizardsModule} from "../../shared/forms/wizards/smartadmin-wizards.module";
 
 @NgModule({
-  imports: [
+  imports: [  
     CommonModule,
     StoreRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    SmartadminDatatableModule,
+    NgxDatatableModule,
+    SmartadminModule,
+    AccordionModule,
+    CarouselModule,
+    ModalModule,
+    SmartadminWizardsModule
+
   ],
   providers: [{
         provide: HTTP_INTERCEPTORS,

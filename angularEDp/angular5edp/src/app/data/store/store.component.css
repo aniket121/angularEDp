@@ -11,3 +11,37 @@ color:#510807;
 font-size: 21px !important;
 font-weight: 700 !important;
 }
+.align-left-store{
+	margin-left:30%;
+
+}
+.addLocation-store{
+	color:#333;
+	padding:5px;
+}
+.align-left-store-fields{
+	margin-left:20%;
+
+}
+.addLocation-store-fields{
+	color:#333;
+	padding:5px;
+}
+.align-right-btn{
+	float: right;
+	margin: 1px;
+}
+.modal-dialog-tag{
+	width: 475px;
+	margin: auto;
+  margin-top: 9%;
+}
+.modal-dialog-addedit{
+	width: 400px;
+	
+	margin: auto;
+  margin-top: 4%;
+}
+.align-right{
+	float: right;	
+}

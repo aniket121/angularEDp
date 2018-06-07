@@ -53,8 +53,8 @@ export class LocationComponent implements OnInit {
    @ViewChild('myTable') table: any;
    @ViewChild('staticModal') public staticModal:ModalDirective;
   ngOnInit() {
-    this.source = [{key:'test'},{key:'example'},{key:'db'},{key:'important'}]
-    this.target = [{key:''}]
+    this.source = [{key:'test'},{key:'example'},{key:'db'},{key:'important'}];
+    this.target = [{key:''}];
     this.dbAdd=true;
     
     this.ftp=false;
@@ -476,6 +476,7 @@ updateTags(){
   this.selectedTags=this.selectedTags.replace(/undefined/g,'')
   this.information.tags= this.selectedTags;
   console.log("updatetag",this.information);
+  console.log(this.information.tags)
   this.addEdittag(this.information);
   this.selectedTags='';
 
@@ -486,23 +487,17 @@ getSeletecdData(row:any){
  
   try{
     
-    // console.log("row tags",row.tags);
-    // this.targetData = row.tags.split(',');
-   
-    
-    // for(var i=0;i<this.targetData.length;i++)
-    // {
-     
-     
+   console.log("row tags",row.tags);
+    this.targetData = row.tags.split(',');
+    var prepareJson = []; 
+    this.targetData.forEach(element => {
+      var data = {key:element};
+      prepareJson.push(data);
+});
+   this.target=prepareJson;
+  this.bindValues(row)
 
-     
-    // }
-    
-    // alert(this.target)
-   this.bindValues(row)
-     
-     
-    
+
   }
   catch(error) {
     console.error(error);
