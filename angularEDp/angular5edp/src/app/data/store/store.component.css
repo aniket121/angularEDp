@@ -12,7 +12,7 @@ font-size: 21px !important;
 font-weight: 700 !important;
 }
 .align-left-store{
-	margin-left:30%;
+	margin-left:75%;
 
 }
 .addLocation-store{
@@ -20,7 +20,11 @@ font-weight: 700 !important;
 	padding:5px;
 }
 .align-left-store-fields{
-	margin-left:20%;
+	margin-left:50%;
+
+}
+.align-left-properties{
+	margin-left:80%;
 
 }
 .addLocation-store-fields{
@@ -31,13 +35,11 @@ font-weight: 700 !important;
 	float: right;
 	margin: 1px;
 }
-.modal-dialog-tag{
+
+.modal-dialog-addedit{
 	width: 475px;
 	margin: auto;
   margin-top: 9%;
-}
-.modal-dialog-addedit{
-	width: 400px;
 	
 	margin: auto;
   margin-top: 4%;
@@ -45,3 +47,39 @@ font-weight: 700 !important;
 .align-right{
 	float: right;	
 }
+.location-icons-store{
+	display: inline-flex;
+	color: #57889c;
+	font-size: 14px;
+	margin-right:5px;
+	font-weight:700;
+	display:inline-block;
+   }
+   
+.modal-dialog-store{
+	width: 700px;
+	margin: auto;
+  margin-top: 4%;
+   }
+.modal-dialog-clone{
+	width: 500px;
+	margin: auto;
+  margin-top: 4%;
+   }
+   .alignbuttonstore{
+	margin-left:35%;
+	margin-bottom:4%;
+   }
+
+   .align-left-store-rules{
+	margin-left:75%;
+
+   }
+   .add-store-rules{
+	color:#333;
+   }
+   .modal-dialog-rule{
+	width: 600px;
+	margin: auto;
+  margin-top: 4%;
+   }

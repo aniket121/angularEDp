@@ -53,6 +53,7 @@
     position: relative;
     border: 1px solid #ddd;
     border-left-width: 0;
+    cursor: pointer;
  }
 
  .ngx-datatable  .datatable-header-cell:last-child {
@@ -86,6 +87,7 @@
 
     border-bottom: 1px solid #ddd;
     border-right: 1px solid #ddd;
+    
 }
 
 
@@ -99,6 +101,7 @@
     padding: 1rem 4rem; 
     background:  rgba(200, 200, 200, .2);
     position: relative;
+
     }
 
 
@@ -124,7 +127,7 @@
 
     .datatable-body .datatable-body-row:hover {
     background-color: #969696;
-    
+    cursor: pointer;
     }
   
 
@@ -206,3 +209,4 @@
 .lightest-gray-bg{
     background: #fafafa;
 }
+
