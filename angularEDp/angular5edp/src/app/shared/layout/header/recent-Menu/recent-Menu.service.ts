@@ -53,7 +53,7 @@ export class RecentMenuService {
     ],
      this.explore = [
       {
-        "href": "/",
+        "href": "/#/data/explore",
         "title": "DATA"
       },
       {

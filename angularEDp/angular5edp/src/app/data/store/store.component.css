@@ -20,7 +20,7 @@ font-weight: 700 !important;
 	padding:5px;
 }
 .align-left-store-fields{
-	margin-left:50%;
+	margin-left:55%;
 
 }
 .align-left-properties{
@@ -80,6 +80,11 @@ font-weight: 700 !important;
    }
    .modal-dialog-rule{
 	width: 600px;
+	margin: auto;
+  margin-top: 4%;
+   }
+   .modal-dialog-fields{
+	width: 700px;
 	margin: auto;
   margin-top: 4%;
    }

@@ -43,7 +43,7 @@ export class LocationComponent implements OnInit {
   source: any[];target: any[];
   targetData: any[];
   driverData: any = [];
-  public selectedTags: any;
+   selectedTags: any;
   locationData: any[] = [];
   controls = {filter: ''}
   // tslint:disable-next-line:max-line-length
@@ -486,8 +486,8 @@ getSeletecdData(row: any) {
     console.error(error);
 
     }
-
 }
+
 addEdittag(Tagsdata: any) {
   console.log(Tagsdata)
   Tagsdata.properties = JSON.stringify(Tagsdata.properties)

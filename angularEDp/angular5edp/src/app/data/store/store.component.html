@@ -31,7 +31,7 @@
                        </div>
                     </div>
 
-                     <div align="center" *ngIf="handelResponse"><i class="fa fa-gear fa-4x fa-spin"></i></div>
+                     <div align="center" *ngIf="handelResponse"><i align="center" class="fa fa-gear fa-4x fa-spin"></i></div>
                     <ngx-datatable   style="height: 85vh" #myTable
                     class='table-striped ' [columnMode]="'force'" [headerHeight]="40"
                     [footerHeight]="80" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true"
@@ -127,7 +127,7 @@
                     name="Add/Edit Tag"  [resizeable]="true" [sortable]="true"
                     [draggable]="true" [canAutoResize]="true">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                       <p  class="fa fa-tag padding-10" (click)="lgModalAddEditTag.show()"  (click)="getSeletecdData(row)"></p>
+                       <p  class="fa fa-tag padding-10" (click)="lgModalAddEditTag.show()" (click)="getSelectedTags(row)"></p>
                     </ng-template>
                     </ngx-datatable-column>
                     <ngx-datatable-column
@@ -136,7 +136,7 @@
                     <ng-template let-row="row" ngx-datatable-cell-template>
                        <p  class="fa fa-edit padding-5" (click)="editstore(row)" (click)="lgmodaladd.show()"></p>
                        <p  class="fa fa-trash padding-5" (click)="deleteStore(row)" ></p>
-                       <p  class="fa fa-copy padding-5" (click)="clone(row)" (click)="tagmodelclone.show()" ></p>
+                       <p  class="fa fa-copy padding-5" (click)="cloneStoreBind(row)" (click)="tagmodelclone.show()" ></p>
                   
                     </ng-template>
                     </ngx-datatable-column>
@@ -256,12 +256,10 @@
                        </span>
                        <h2>Data Store Fields</h2>
                        <div class="align-left-store-fields">
-                          <a class="addLocation-store-fields" (click)="tagmodelAddEditFields.show()"> <i
+                          <a class="addLocation-store-fields" (click)="storeFieldsAddEdit.show()" (click)=" clearObject()"> <i
                              class="fa fa-plus"></i> <span class="hidden-mobile">Add </span>
                           </a> 
-                          <a class="addLocation-store-fields" > <i
-                             class="fa fa-copy"></i> <span class="hidden-mobile">Clone </span>
-                          </a> 
+                        
                           <a class="addLocation-store-fields" (click)="tagmodalDerivedFields.show()"> <i
                              class="fa fa-plus"></i> <span class="hidden-mobile">Add Dervied</span>
                           </a> 
@@ -305,34 +303,35 @@
                              name="Add/Edit Tag"  [resizeable]="true" [sortable]="true"
                              [draggable]="true" [canAutoResize]="true">
                              <ng-template let-row="row" ngx-datatable-cell-template>
-                                <p  class="fa fa-tag padding-10" (click)="tagmodelAddEdit.show()"></p>
+                                <p  class="fa fa-tag padding-10" (click)="AddEditTagFields.show()"></p>
                              </ng-template>
                              </ngx-datatable-column>
                              <ngx-datatable-column
                              name="Action"  [resizeable]="true" [sortable]="true"
                              [draggable]="true" [canAutoResize]="true">
                              <ng-template let-row="row" ngx-datatable-cell-template>
-                                <p  class="fa fa-edit padding-5"  (click)="tagmodelAddEditFields.show()"></p>
-                                <p  class="fa fa-trash padding-5" ></p>
+                                <p  class="fa fa-edit padding-5"  (click)="editFields(row)" (click)="storeFieldsAddEdit.show()"></p>
+                                <p  class="fa fa-trash padding-5" (click)="deleteFields(row)"></p>
+                                <p  class="fa fa-copy padding-5"  (click)="cloneFieldBind(row)"  (click)="cloneModalFields.show()" ></p>
                              </ng-template>
                              </ngx-datatable-column>
                              <ngx-datatable-column
                              name="Name"  [resizeable]="true" [sortable]="true"
-                             [draggable]="true" [canAutoResize]="true">
+                             [draggable]="true" [canAutoResize]="true" (click)="getRowFields(row)">
                              <ng-template let-row="row" ngx-datatable-cell-template>
                                 <p >{{row.name}}</p>
                              </ng-template>
                              </ngx-datatable-column>
                              <ngx-datatable-column
                              name="Data Type"  [resizeable]="true" [sortable]="true"
-                             [draggable]="true" [canAutoResize]="true">
+                             [draggable]="true" [canAutoResize]="true" (click)="getRowFields(row)">
                              <ng-template let-row="row" ngx-datatable-cell-template>
                                 <p >{{row.dataType}}</p>
                              </ng-template>
                              </ngx-datatable-column>
                              <ngx-datatable-column
                              name="Length" [resizeable]="true" [sortable]="true"
-                             [draggable]="true" [canAutoResize]="true">
+                             [draggable]="true" [canAutoResize]="true" (click)="getRowFields(row)">
                              <ng-template let-row="row" let-value="value"
                                 ngx-datatable-cell-template>
                                 <p >{{row.length  }}</p>
@@ -340,7 +339,7 @@
                              </ngx-datatable-column> 
                              <ngx-datatable-column
                              name="Mandatory" [resizeable]="true" [sortable]="true"
-                             [draggable]="true" [canAutoResize]="true">
+                             [draggable]="true" [canAutoResize]="true" (click)="getRowFields(row)">
                              <ng-template let-row="row" let-value="value"
                                 ngx-datatable-cell-template>
                                 <p > {{row.isMandatory}}</p>
@@ -348,7 +347,7 @@
                              </ngx-datatable-column>
                              <ngx-datatable-column
                              name="Critical" [resizeable]="true" [sortable]="true"
-                             [draggable]="true" [canAutoResize]="true">
+                             [draggable]="true" [canAutoResize]="true" (click)="getRowFields(row)">
                              <ng-template let-row="row" let-value="value"
                                 ngx-datatable-cell-template>
                                 <p > {{row.critical}}</p>
@@ -356,7 +355,7 @@
                              </ngx-datatable-column>
                              <ngx-datatable-column
                              name="Tags" [resizeable]="true" [sortable]="true"
-                             [draggable]="true" [canAutoResize]="true">
+                             [draggable]="true" [canAutoResize]="true" (click)="getRowFields(row)">
                              <ng-template let-row="row" let-value="value"
                                 ngx-datatable-cell-template>
                                 <p > {{row.tags}}</p>
@@ -447,7 +446,7 @@
                              </fieldset>
                              <footer>
                                 <div class="actions ">
-                                   <button type="button" class="btn btn-sm btn-success btn-next"  (click)="save(storeinformation)" [disabled]="!propertiesForm.form.valid" >
+                                   <button type="button" class="btn btn-sm btn-success btn-next"  (click)="saveStore(storeinformation)" [disabled]="!propertiesForm.form.valid" >
                                    Save
                                    </button>
                                 </div>
@@ -658,10 +657,10 @@
                           </section>
                           <section  >
                           <label class="select" > DATA FORMAT PROFILE <span class="text-danger">*</span>
-                          <select name="format" [(ngModel)]="storeinformation.format"  #format="ngModel">
+                          <select name="format" [(ngModel)]="storeinformation.format"  #format="ngModel" (click)="getFormat($event)">
                           <option value="0" selected disabled>Select format</option>
-                          <option  *ngFor="let formatData of dataFormat" [value]="formatData.value">{{formatData.key}}</option>
-                          </select> </label>					
+                          <option  *ngFor="let item of dataFormat" [value]="item.type">{{item.name}}</option>
+                         </select> </label>					
                           </section>
                           <section *ngIf="fileInfo" >
                           <label class="file">File <span class="text-danger">*</span>
@@ -689,7 +688,7 @@
                              <form id="smart-form-store-properties" class="smart-form client-form" #storepropertiesForm="ngForm">
                                 <footer>
                                    <div class="actions ">
-                                      <button type="button" class="btn btn-sm btn-success " (click)="save(storeinformation)" (click)="lgmodaladd.hide()" [disabled]="!storepropertiesForm.form.valid" >
+                                      <button type="button" class="btn btn-sm btn-success " (click)="saveStore(storeinformation)" (click)="lgmodaladd.hide()" [disabled]="!storepropertiesForm.form.valid" >
                                       Save
                                       </button>
                                       <button type="button" class="btn btn-sm btn-primary btn-prev">
@@ -758,10 +757,10 @@
                   </fieldset>
                   <footer>
                       <div class="actions ">
-                      <button type="button" class="btn btn-sm btn-success"  (click)="cloneStore(row)" >
+                      <button type="button" class="btn btn-sm btn-primary"  (click)="cloneStore(storeinformation)"  (click)="tagmodelclone.hide()">
                       Submit 
                       </button>
-                      <button type="button" class="btn btn-sm btn-primary "  (click)="tagmodelclone.hide()">
+                      <button type="button" class="btn btn-sm  "  (click)="tagmodelclone.hide()">
                           Cancel
                         </button>
                       </div>
@@ -778,46 +777,237 @@
 <!-- ###########******************TABLE 3 MODALS*******************################-->
 
 <!--****************** STORE FIELDS TAG MODAL******************* -->
-<div class="tagmodelAddEdit ">
-  <div bsModal #tagmodelAddEdit="bs-modal" class="modal fade reduceSize" tabindex="-1"
+
+<!-- *******************ADD/Edit Tag MODAL*******************-->
+<div class="AddEditTagFields" id="AddEditTagFields" #AddEditTagFields >
+  <div bsModal #AddEditTagFields="bs-modal" class="modal fade" tabindex="-1"
      role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-     <div class="modal-dialog modal-lg">
+     <div class="modal-dialog-addedit modal-lg">
         <div class="modal-content">
            <div class="modal-header">
-              <button type="button" class="close" (click)="tagmodelAddEdit.hide()"
+              <button type="button" class="close" (click)="AddEditTagFields.hide()"
                  aria-label="Close">
               <span aria-hidden="true">&times;</span>
               </button>
-              <h4 class="modal-title">Add/Edit Tag</h4>
+              <h4 class="modal-title">Add/Edit Data Tag</h4>
            </div>
            <div class="modal-body">
+            <p-pickList sourceHeader="Available"  targetHeader="Selected" [source]="source" [target]="target" dragdrop="true">
+            <ng-template let-tags pTemplate="item">
+               <div class="ui-helper-clearfix">
+                <div>{{tags.key}}</div>
+               </div>
+            </ng-template>
+            </p-pickList>
+           </div>
+           <div class="alignbuttonstore">
+            <button type="button" class="btn btn-sm btn-primary" (click)="addFieldTag()" (click)="AddEditTagFields.hide()">Update
+            </button>
+            <button type="button" class="btn btn-sm btn-primary" (click)="AddEditTagFields.hide()">Cancel
+            </button>
            </div>
         </div>
      </div>
   </div>
 </div>
 <!--****************** END STORE FIELDS TAG MODAL******************* -->
-<!-- *******************STORE FIELDS CLONE MODAL******************* -->
 
-<div class="tagmodelAddEditFields ">
-  <div bsModal #tagmodelAddEditFields="bs-modal" class="modal fade reduceSize" tabindex="-1"
+<!-- ******************* FIELDS ADD/EDIT MODAL******************* -->
+
+<div class="storeFieldsAddEdit ">
+  <div bsModal #storeFieldsAddEdit="bs-modal" class="modal fade " tabindex="-1"
      role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-     <div class="modal-dialog modal-lg">
+     <div class="modal-dialog-fields modal-lg">
         <div class="modal-content">
            <div class="modal-header">
-              <button type="button" class="close" (click)="tagmodelAddEditFields.hide()"
+              <button type="button" class="close" (click)="storeFieldsAddEdit.hide()"
                  aria-label="Close">
               <span aria-hidden="true">&times;</span>
               </button>
               <h4 class="modal-title">Add/Edit Fields</h4>
            </div>
            <div class="modal-body">
+
+              <form id="smart-form-storeFieldsAddEdit" class="smart-form client-form" #StoreFieldsAddEditForm="ngForm">
+                  <fieldset >
+                  
+                  <section>
+                  <label class="input">NAME <span class="text-danger">*</span>
+                  <input type="text" name="name" required [(ngModel)]="storeFieldsInfo.name" placeholder="Name" #name="ngModel">
+                  </label>
+                  </section>
+                  <div class="row">
+                  <section class="col col-6">
+                  <label class="select">VERSION <span class="text-danger">*</span>
+                    <select name="dataStoreVersion" [(ngModel)]="storeFieldsInfo.dataStoreVersion"  #dataStoreVersion="ngModel"  >
+                      <option value="0" selected disabled>Select version</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      </select> 
+                  </label>
+                  </section>
+                  <section class="col col-6">
+                      <label class="select" > POSITION <span class="text-danger">*</span>
+                      <select name="postioni" [(ngModel)]="storeFieldsInfo.position"  #position="ngModel" >
+                      <option value="0" selected disabled>Select position</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      </select> </label>					
+                      </section>
+                  </div>
+              <div class="row">
+                  <section class="col col-6"  >
+                  <label class="select" > DATA TYPE <span class="text-danger">*</span>
+                  <select name="dataType" [(ngModel)]="storeFieldsInfo.dataType"  #dataType="ngModel" (ngModelChange)="dataTypeChanged(storeFieldsInfo)" >
+                  <option value="0" selected disabled>Select Datatype</option>
+                  <option value="CHAR">CHAR</option>
+                  <option value="DATE">DATE</option>
+                  <option value="DOUBLE">DOUBLE</option>
+                  <option value="INTEGER">INTEGER</option>
+                  <option value="STRING">STRING</option>
+                  </select> </label>					
+                  </section>
+                  <section class="col col-6"  >
+                      <label class="select" >LENGTH<span class="text-danger">*</span>
+                      <select name="length" [(ngModel)]="storeFieldsInfo.length"  #length="ngModel" >
+                      <option value="0" selected disabled>Select length</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      </select> </label>					
+                      </section>
+                  </div>
+              <div class=row>
+              <section class="col col-3"  >
+                    <label>MANDATORY<span class="text-danger">*</span>
+                      <input type="checkbox"  [(ngModel)]="storeFieldsInfo.isMandatory" name="isMandatory" value="true"  #isMandatory="ngModel">
+                   </label>					
+                    </section>
+                 
+                  <section class="col col-3"  >
+                      <label>CONFIDENTIAL<span class="text-danger">*</span>
+                        <input type="checkbox"  [(ngModel)]="storeFieldsInfo.isConfidential" name="isConfidential" value="true"  #isConfidential="ngModel">
+                      </label>					
+                   </section>
+                  <section class="col col-2"  >
+                    <label>IS PII <span class="text-danger">*</span>
+                        <input type="checkbox"  [(ngModel)]="storeFieldsInfo.isPiiData" name="isPiiData" value="true"  #isPiiData="ngModel">
+                       </label>					
+                   </section>
+                   <section class="col col-2"  >
+                    <label>IS PHI<span class="text-danger">*</span>
+                     <input type="checkbox"  [(ngModel)]="storeFieldsInfo.isPhiData" name="isPhiData" value="true"  #isPhiData="ngModel">
+                     </label>					
+                    </section>
+                    <section class="col col-2"  >
+                     <label>IS PCI<span class="text-danger">*</span>
+                        <input type="checkbox"  [(ngModel)]="storeFieldsInfo.isPciData" name="isPciData" value="true"  #isPciData="ngModel">
+                       </label>					
+                    </section>
+                   
+              </div>
+            <section *ngIf="date"  >
+                  <label class="select" >FORMAT <span class="text-danger">*</span>
+                  <select name="format" [(ngModel)]="storeFieldsInfo.format"  #format="ngModel" >
+                  <option value="0" selected disabled>Select length</option>
+                  <option value="dd-MMM-yy">dd-MMM-yy</option>
+                  <option value="dd/mm/yyyy">dd/mm/yyyy</option>
+                  <option value="dd/mm/yyyy HH:mm:ss">dd/mm/yyyy HH:mm:ss</option>
+                  <option value="HH:mm:ss">HH:mm:ss</option>
+                  <option value="yyyy-MM-dd">yyyy-MM-dd<option>
+                  <option value="yyyy-MM-dd HH:mm:ss">yyyy-MM-dd HH:mm:ss</option>
+                  <option value="yyyyMMdd">yyyyMMdd</option>
+                  <option value="yyyyMMddHHmmss">yyyyMMddHHmmss</option>
+                </select> </label>					
+                  </section>
+          
+                  <section *ngIf="double">
+                  <label class="input">PRECISION <span class="text-danger">*</span>
+                  <input type="text" required [(ngModel)]="storeFieldsInfo.precision" name="precision" placeholder="precision" #precision="ngModel">
+                  </label>
+                  </section>
+                  <section>
+                      <label class="input">DESCRIPTION <span class="text-danger">*</span>
+                      <input type="text" required [(ngModel)]="storeFieldsInfo.description" name="description" placeholder="description" #description="ngModel">
+                      </label>
+                      </section>
+                  </fieldset>
+                  <footer>
+                  <div class="actions ">
+                     
+                    <button type="button" class="btn btn-sm btn-primary " (click)="saveFields(storeFieldsInfo)" (click)="storeFieldsAddEdit.hide()" [disabled]="!StoreFieldsAddEditForm.form.valid" >
+                  Submit</button>
+                  <button type="button" class="btn btn-sm  "  (click)= "storeFieldsAddEdit.hide()">
+                      Close</button>
+
+                  </div>
+                  </footer>
+                  </form>
            </div>
         </div>
      </div>
   </div>
 </div>
-<!-- ******************* END STORE FIELDS CLONE MODAL******************* -->
+<!-- ******************* END  FIELDS ADD/EDIT MODAL******************* -->
+
+
+<!-- ******************* FIELDS CLONE MODAL******************* -->
+
+<div class="cloneModalFields ">
+  <div bsModal #cloneModalFields="bs-modal" class="modal fade reduceSize" tabindex="-1"
+     role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+     <div class="modal-dialog-clone modal-lg">
+        <div class="modal-content">
+           <div class="modal-header">
+              <button type="button" class="close" (click)="cloneModalFields.hide()"
+                 aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title">Add/Edit Fields</h4>
+           </div>
+           <div class="modal-body">
+
+              <form id="smart-Field-clone" class="smart-form client-form" #cloneFieldForm="ngForm">
+                  <fieldset >
+              <section  >
+                  <label class="input">NAME <span class="text-danger">*</span>
+                  <input type="text" name="name" required [(ngModel)]="storeFieldsInfo.name" placeholder="Name" #name="ngModel">
+                  </label>
+                  </section>
+                  <section>
+                    <label class="input">DESCRIPTION <span class="text-danger">*</span>
+                    <input type="text" required [(ngModel)]="storeFieldsInfo.description" name="description" placeholder="DESCRIPTION" #description="ngModel">
+                      </label>
+                    </section>
+                  </fieldset>
+                  <footer>
+                      <div class="actions ">
+                      <button type="button" class="btn btn-sm btn-primary"  (click)="cloneFields(storeFieldsInfo)"  (click)="cloneModalFields.hide()" >
+                      Submit 
+                      </button>
+                      <button type="button" class="btn btn-sm  "  (click)="cloneModalFields.hide()">
+                          Cancel
+                        </button>
+                      </div>
+                      </footer>
+            </form>
+
+
+
+           </div>
+        </div>
+     </div>
+  </div>
+</div>
+<!-- ******************* END  FIELDS CLONE MODAL******************* -->
 
 <!-- ********************ADD/EDIT DERVIED MODAL**********************-->
 <div class="tagmodalDerivedFields ">
@@ -861,3 +1051,4 @@
 </div>
 <!-- *******************  END ADD RULES MODAL************************ -->
 <!-- end well-->
+

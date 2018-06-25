@@ -1,0 +1,89 @@
+.bgimg {
+    background-image: url('/assets/img/vebigdata.jpg') !important;
+    
+}
+#logo
+{
+	width: 175px;
+margin-top: 13px;
+margin-left: 9px;-
+color:#510807;
+font-size: 21px !important;
+font-weight: 700 !important;
+}
+.center-align{
+	align:center;
+}
+.addLocation{
+	color:#333;
+	padding:9px;
+}
+.addLocation:hover{
+	color:#333;
+
+}
+.align-left{
+	margin-left:85%;
+
+}
+.properties-Box{
+
+	width: 200px;
+margin-top: 10px;
+margin-left: 60px;
+	}
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}
+.bglable{
+	background-color: #999;
+}
+.lightest-gray-bg{
+	font-size:11px;
+}
+.location-icons{
+ display: inline-flex;
+ color: #57889c;
+ font-size: 14px;
+ margin-right:5px;
+ font-weight:700;
+ display:inline-block;
+}
+.font{
+	font-size:11px;
+}
+.activestatus{
+	background-color: #739e73;
+	color:white;
+
+}
+.disabledstatus{
+	background-color: #999;
+	color:white;
+}
+.alignbutton{
+	margin-left:35%;
+	margin-bottom:4%;
+}
+.reduceSize{
+	width:44% !important;
+	margin-left:26% !important;
+}
+.headerColor{
+	background-color: white !important;
+	color:black !important;
+	border-color:white !important;
+}
+.modal-dialog-tag{
+	width: 475px;
+	margin: auto;
+  margin-top: 9%;
+}
+.modal-dialog-info{
+	width: 700px;
+	margin: auto;
+  margin-top: 4%;
+}

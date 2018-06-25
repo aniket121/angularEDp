@@ -4,10 +4,26 @@
 }
 #logo
 {
-	width: 175px;
+width: 175px;
 margin-top: 13px;
 margin-left: 9px;
 color:#510807;
 font-size: 21px !important;
 font-weight: 700 !important;
+}
+.location-icons-explore{
+ display: inline-flex;
+ color: #57889c;
+ font-size: 14px;
+ margin-right:5px;
+ font-weight:700;
+ display:inline-block;
+}
+.btn-group{
+    margin-bottom: 5px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+
 }

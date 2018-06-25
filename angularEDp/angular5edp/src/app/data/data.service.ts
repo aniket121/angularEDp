@@ -38,7 +38,6 @@ export class DataService {
     return this.http.get<UserResponse>(environment.API_URL + '/dataStore/loadByLocation?id=' + data.id).map(res => res);
  }
  getProperties(data: any) {
-
   return this.http.get<UserResponse>(environment.API_URL + '/dataStore/properties/getAll?dataStoreId=' + data.id).map(res => res);
 }
 getFields(data: any) {
@@ -47,17 +46,48 @@ getFields(data: any) {
 }
 
 addStore(data) {
-  
   return this.http.post<UserResponse>(environment.API_URL + '/dataStore/store/create', data).map(res => res);
 }
+getDataFormat() {
+  return this.http.get<any>(environment.API_URL + '/dataformat/getAll').map(res => res);
+}
+deleteStore(data: any) {
+  return this.http.post<UserResponse>(environment.API_URL + '/dataStore/delete?id=' + data.id, data).map(res => res);
 
-deleteStore(data) {
-  return this.http.post<UserResponse>(environment.API_URL + 'dataStore/delete?id=' + data.id, data).map(res => res);
 }
 updateStore(data) {
+
   return this.http.post<UserResponse>(environment.API_URL + '/dataStore/store/updatelite', data).map(res => res);
 }
 cloneStore(data) {
   return this.http.post<UserResponse>(environment.API_URL + '/dataStore/clone', data).map(res => res);
+}
+
+addFields(data) {
+  return this.http.post<UserResponse>(environment.API_URL + '/dataStore/field/create', data).map(res => res);
+}
+updateField(data) {
+  return this.http.post<UserResponse>(environment.API_URL + '/dataStore/field/update', data).map(res => res);
+
+}
+deletefield(data) {
+  return this.http.post<UserResponse>(environment.API_URL + '/dataStore/field/delete?id=' + data.id, data).map(res => res);
+}
+
+cloneField(data) {
+  return this.http.post<UserResponse>(environment.API_URL + '/dataStore/field/clone', data).map(res => res);
+}
+getDbData(profile){
+  return this.http.get<any>(environment.API_URL + '/centralDataSource/getDbData', {params: profile}).map(res => res);
+}
+getS3Data(profile){
+  return this.http.get<any>(environment.API_URL + '/centralDataSource/gets3data', {params: profile}).map(res => res);
+}
+// getS3DataNew(profile){
+//   return this.http.get(environment.API_URL + '/centralDataSource/gets3datanew',{params: profile, responseType:'arraybuffer'}).map(res => {return {'data': res}});
+// }
+
+getRemoteStores(data: any) {
+  return this.http.get<any>(environment.API_URL + '/centralDataSource/getRemoteStores?location=' + data.name).map(res => res);
 }
 }
