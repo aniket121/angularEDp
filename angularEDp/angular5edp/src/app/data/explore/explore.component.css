@@ -27,3 +27,22 @@ font-weight: 700 !important;
     font-size: 14px;
 
 }
+.align-left-location {
+    margin-left:65%;
+    margin-top: 7px;
+    
+}
+
+.navTabs {
+   
+    color: #5a5757;
+
+}
+.modal-dialog-location {
+    width: 650px;
+	margin: auto;
+  margin-top: 4%;
+}
+.inline-group {
+    margin: 0 -15px 8px 0 !important;
+}

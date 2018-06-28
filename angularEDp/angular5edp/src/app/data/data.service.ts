@@ -51,8 +51,8 @@ addStore(data) {
 getDataFormat() {
   return this.http.get<any>(environment.API_URL + '/dataformat/getAll').map(res => res);
 }
-deleteStore(data: any) {
-  return this.http.post<UserResponse>(environment.API_URL + '/dataStore/delete?id=' + data.id, data).map(res => res);
+deleteStore(data) {
+  return this.http.post<UserResponse>(environment.API_URL + '/dataStore/delete?id=' + data.id , data).map(res => res);
 
 }
 updateStore(data) {
@@ -78,16 +78,49 @@ cloneField(data) {
   return this.http.post<UserResponse>(environment.API_URL + '/dataStore/field/clone', data).map(res => res);
 }
 getDbData(profile){
-  return this.http.get<any>(environment.API_URL + '/centralDataSource/getDbData', {params: profile}).map(res => res);
+  return this.http.get<any>(environment.API_URL + '/centralDataSource/getDbData',{params: profile}).map(res => res);
 }
 getS3Data(profile){
-  return this.http.get<any>(environment.API_URL + '/centralDataSource/gets3data', {params: profile}).map(res => res);
+  return this.http.get<any>(environment.API_URL + '/centralDataSource/gets3data',{params: profile}).map(res => res);
 }
-// getS3DataNew(profile){
-//   return this.http.get(environment.API_URL + '/centralDataSource/gets3datanew',{params: profile, responseType:'arraybuffer'}).map(res => {return {'data': res}});
-// }
-
+getS3DataNew(profile){
+  return this.http.get(environment.API_URL + '/centralDataSource/gets3datanew',{params: profile, responseType:'arraybuffer'}).map(res => {return {'data': res}});
+}
+getApiData(profile){
+  return this.http.get<any>(environment.API_URL + '/centralDataSource/getApiData',{params: profile}).map(res => res);
+}
+getHdfsData(profile){
+  return this.http.get<any>(environment.API_URL + '/centralDataSource/getHdfsData',{params: profile}).map(res => res);
+}
+getStreamData(profile){
+  return this.http.get<any>(environment.API_URL + '/centralDataSource/getStreamData',{params: profile}).map(res => res);
+}
+getEsData(profile){
+  return this.http.get<any>(environment.API_URL + '/centralDataSource/getEsData',{params: profile}).map(res => res);
+}
+getSolrData(profile){
+  return this.http.get<any>(environment.API_URL + '/centralDataSource/getSolrData',{params: profile}).map(res => res);
+}
+getKafkaData(profile){
+  return this.http.get<any>(environment.API_URL + '/centralDataSource/getKafkaData',{params: profile}).map(res => res);
+}
 getRemoteStores(data: any) {
   return this.http.get<any>(environment.API_URL + '/centralDataSource/getRemoteStores?location=' + data.name).map(res => res);
 }
+dataProfile(profile){
+  return this.http.get<any>(environment.API_URL + '/profiler/profile_table',{params: profile}).map(res => res);
+}
+
+s3_Profile(profile){
+  return this.http.get<any>(environment.API_URL + '/profiler/profile_s3_file',{params: profile}).map(res => res);
+}
+
+hdfs_Profile(profile){
+  return this.http.get<any>(environment.API_URL + '/profiler/profile_hdfs_file',{params: profile}).map(res => res);
+}
+
+api_Profile(profile){
+  return this.http.get<any>(environment.API_URL + '/profiler/profile_api',{params: profile}).map(res => res);
+}
+
 }

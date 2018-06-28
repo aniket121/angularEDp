@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, Inject,    AfterViewInit } from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Inject, ElementRef } from '@angular/core';
+import { Router} from '@angular/router';
 import { DataService } from '../data.service';
+import { DataNotesService } from '../notes.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { HttpClient } from '@angular/common/http';
@@ -13,26 +14,34 @@ import {NotificationService} from '../../shared/utils/notification.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import 'pivottable/dist/pivot.min.js';
 import 'pivottable/dist/pivot.min.css';
-
+import * as d3 from 'd3';
+import { concat } from 'rxjs/operators/concat';
+import 'jquery-ui/ui/widgets/sortable';
 declare var jQuery: any;
 declare var $: any;
+
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.component.html',
   styleUrls: ['./explore.component.css', '../../smart-admin.css'],
   encapsulation: ViewEncapsulation.None,
-  providers: [DataService, ConfirmationService]
+  providers: [DataService, DataNotesService, ConfirmationService]
 
 })
 export class ExploreComponent implements OnInit {
-    private el: ElementRef;
-  controls = {filter: ''};
-  content = "";
+  temp: any[] = [];
+  temp1: any[] = [];
+  temp2: any[] = [];
+  handelResponse = false;
+  handelResponseStore = false;
+  controls = {dataTab: '', location: '', store: ''};
+  content = '';
   bsModalRef: BsModalRef;
   public termsAgreed = false
   dataLocations: any[] = [];
   profiles: any[] = [];
   properties: any[] = [];
+  driverData: any = [];
   remoteStores: any[] = [];
   currentLocation = null;
   currentLocationRemoteStore = null;
@@ -40,7 +49,7 @@ export class ExploreComponent implements OnInit {
   importdata = [];
   newImportData = {};
   editproperty = false;
-  selectedTargetLocation = "";
+  selectedTargetLocation = '';
   newnotes = [];
   editnewnote = {};
   dataObjects = [];
@@ -51,147 +60,217 @@ export class ExploreComponent implements OnInit {
   notesLoading = false;
   showAce = false;
   showSubmit = false;
-  buttonText = "Ok";
-  storeData: any;
-  temp: any[] = [];
+  buttonText = 'Ok';
   aceViewSession = undefined;
-
-  public information = { id: ''}
-  partitions = {
-      "filename": "FILENAME",
-      "day": "DAY",
-      "month": "MONTH"
-  };
-
-    fileFormats = {
-        'text': 'TEXT',
-        'sequence': 'SEQUENCE',
-        'parquet': 'PARQUET',
-        'orc': 'ORC'
-    };
-
-    compressions = {
-        "no": "NO",
-        "gz": "GZ",
-        "zip": "ZIP",
-        "snappy": "snappy",
-        "lz4": "LZ4"
-    };
-    pagination = { page: 1, limit: 100, start: 0 };
+  refresh = false;
+  dbCheck = false;
+  ftpCheck = false;
+  sftpCheck = false;
+  s3Check = false;
+  fileCheck = false;
+  apiCheck = false;
+    public information = { id: '', type: ''}
+  chartdata = [
+    {salesperson: 'Bob', sales: 33},
+    {salesperson: 'Robin', sales: 12},
+    {salesperson: 'Anne', sales: 41},
+    {salesperson: 'Mark', sales: 16},
+    {salesperson: 'Joe', sales: 39}
+];
+   pagination = { page: 1, limit: 100, start: 0 };
     dataLocationsLoding = true;
     noteColors = ['Red', 'Yellow', 'blue'];
     dataProfileLoding = false;
-// tslint:disable-next-line:max-line-length
-public storeDataInfo = {created: '', lastProfiled: '', name: '', profile : '', size: '', tags: '', type: '', properties: { bucket: '', encryption: '' , etag: ''}}
+    options: any;
+    data: any;
+    private el: ElementRef;
   // tslint:disable-next-line:max-line-length
-  constructor(@Inject(ElementRef)el: ElementRef, private router: Router, private modalService: BsModalService, private dataService: DataService, private httpService: HttpClient, private notificationService: NotificationService, private confirmationService: ConfirmationService) {
-    this.el = el;
-  }
+  constructor(@Inject(ElementRef)el: ElementRef, private router: Router, private modalService: BsModalService, private dataService: DataService, private notesService: DataNotesService, private httpService: HttpClient,  private notificationService: NotificationService, private confirmationService: ConfirmationService, private sanitizer: DomSanitizer) {this.el = el; }
 
-   ngOnInit() {
-        this.dataService.getLocation().subscribe(
-        data => {
-          this.dataLocationsLoding = false;
-          this.dataLocations = data.data;
-          console.log(this.dataLocations);
+    // tslint:disable-next-line:member-ordering
+    @ViewChild('myTable') table: any;
 
-        }
-
-    );
-
-
-    this.httpService.get<any>('./assets/dbDriver.json').subscribe(
-      data => {
-        this.properties = data;
-      },
-      (err: HttpErrorResponse) => {
-        console.log (err.message);
-      }
-    );
-
+    ngOnInit() {
+       
+        this.httpService.get('./assets/dbDriver.json').subscribe(
+            data => {
+           this.driverData = data;	 // FILL THE ARRAY WITH DATA.
+            },
+            (err: HttpErrorResponse) => {
+              console.log (err.message);
+            }
+          );
+          this.fileCheck = true;
+        this.getLocation();
+    // this.generateBarChart();
     this.dataProfileLoding = false;
-    this.buildPivot();
+
    }
+   
+   getLocation() {
+       this.handelResponse = true;
+   this.dataService.getLocation().subscribe(
+    data => {
+      this.dataLocationsLoding = false;
+      this.dataLocations = data.data;
+      this.temp = data.data;
+      this.handelResponse = false;
+      console.log(this.dataLocations);
 
-   private buildPivot() {
-
-    if (!this.el ||
-        !this.el.nativeElement ||
-        !this.el.nativeElement.children) {
-            console.log('cant build without element');
-            return;
     }
+);
+}
+   generateBarChart() {
+    // set the dimensions and margins of the graph
+    let margin = {top: 5, right: 20, bottom: 30, left: 40};
+    let width = 600 - margin.left - margin.right;
+    let height = 600 - margin.top - margin.bottom;
+    
+    //create svg
 
-    const container = this.el.nativeElement;
-const inst = jQuery(container);
+    let svg = d3.select(this.el.nativeElement).append('svg')
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom)
+    .style('background-color', '#efefef');
 
-    //the below id should be on your html element like div for the pivot
-    //per the exmapmle in thepivot docs
-    const targetElement = inst.find('#output');
+    //plot area
 
-    if (!targetElement) {
-        console.log('cant find the pivot element');
-        return;
-    }
+    let chart = svg.append('g')
+    .attr('class', 'bar')
+    .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-    //this helps if you build more than once as it will wipe the dom for that element
-    while (targetElement.firstChild) {
-        targetElement.removeChild(targetElement.firstChild);
-    }
+    let xDomain = this.chartdata.map(d => d.salesperson);
+    let yDomain = [0, d3.max(this.chartdata, d => d.sales)];
 
-    // here is the magic
-    // targetElement.pivotUI([
-    //     { 'Province': 'Quebec', 'Party': 'NDP', 'Age': 22, 'Name': 'Liu, Laurin', 'Gender': 'Female' },
-    //     { 'Province': 'Quebec', 'Party': 'Bloc Quebecois', 'Age': 43, 'Name': 'Mourani, Maria', 'Gender': 'Female' },
-    //     { 'Province': 'Quebec', 'Party': 'NDP', 'Age': '', 'Name': 'Sellah, Djaouida', 'Gender': 'Female' },
-    //     { 'Province': 'Quebec', 'Party': 'NDP', 'Age': 72, 'Name': 'St-Denis, Lise', 'Gender': 'Female' },
-    //     { 'Province': 'British Columbia', 'Party': 'Liberal', 'Age': 71, 'Name': 'Fry, Hedy', 'Gender': 'Female' }],
-    //     {
-    //     // renderers:renderers,
-    //       cols: ['Party'], rows: ['Province'],
-    //       rendererName: 'Horizontal Stacked Bar Chart',
-    //       rowOrder: 'value_z_to_a', colOrder: 'value_z_to_a',
-    //       rendererOptions: {
-    //         c3: {
-    //           data: {
-    //             colors: {
-    //               Liberal: '#dc3912', Conservative: '#3366cc', NDP: '#ff9900',
-    //               Green: '#109618', 'Bloc Quebecois': '#990099'
-    //             }
-    //           }
-    //         }
-    //       }
-    //     });
-    targetElement.pivot(
-        [
-            {color: "blue", shape: "circle"},
-            {color: "red", shape: "triangle"}
-        ],
-        {
-            rows: ["color"],
-            cols: ["shape"]
-        }
-    );
-//    targetElement.pivot([
-//         {color: "blue", shape: "circle"},
-//         {color: "red", shape: "triangle"}
-//     ],
-//     {
-//         rows: ["color"],
-//         cols: ["shape"]
-//     });
+    // set the scale for data domain
+    let x = d3.scaleBand()
+            .domain(xDomain)
+            .rangeRound([0, width])
+            .padding(0.2);
 
+    let y = d3.scaleLinear()
+            .domain(yDomain)
+            .range([height, 0]);
 
+    // add the x Axis
+    svg.append('g')
+        .attr('class', 'x axis')
+        .attr('transform', `translate(${margin.left}, ${margin.top + height})`)
+        .call(d3.axisBottom(x));
+
+    // add the y Axis
+    svg.append('g')
+        .attr('class', 'y axis')
+        .attr('transform', `translate(${margin.left}, ${margin.top})`)
+        .call(d3.axisLeft(y));
+
+    // plot chart with data
+    svg.selectAll('bar')
+        .data(this.chartdata)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', function(d) { return margin.left + x(d.salesperson) ; })
+        .attr('width', x.bandwidth)
+        .attr('y', function(d) { return y(d.sales); })
+        .attr('height', function(d) { return height - y(d.sales); });
 }
 
-  getRow() {
-   console.log('row selected');
+
+// #########################  FILTER FUNCTIONALITY #################################
+
+updateFilterLocation(event) {
+    const val = event.target.value.toLowerCase();
+
+    // filter our data
+
+    const tempLocation = this.temp.filter(function(d) {
+      return !val || ['name'].some((field: any) => {
+        return (d[field].indexOf(val)) !== -1
+      })
+    });
+
+    // update the rows
+    this.dataLocations = tempLocation;
+    // Whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
   }
 
+  updateFilterStore(event) {
+    const val = event.target.value.toLowerCase();
+
+    // filter our data
+
+    const tempStore = this.temp1.filter(function(d) {
+      return !val || ['name'].some((field: any) => {
+        return (d[field].indexOf(val)) !== -1
+      })
+    });
+
+    // update the rows
+    this.remoteStores = tempStore;
+    // Whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
+  }
+// ######################### END FILTER FUNCTIONALITY ######################################
+
+// ################## ADD NEW Location Modal Functionality ##########################
+locationFormChange(type: any) {
+    console.log(type)
+    switch (type) {
+        case  'DB' :
+            this.dbCheck = true;
+            this.ftpCheck = false;
+            this.fileCheck = false;
+            this.s3Check = false;
+            this.sftpCheck = false;
+            break;
+            case  'FILE' :
+            this.dbCheck = false;
+            this.ftpCheck = false;
+            this.fileCheck = true;
+            this.s3Check = false;
+            this.sftpCheck = false;
+            break;
+            case  'API' :
+            this.dbCheck = false;
+            this.ftpCheck = false;
+            this.fileCheck = true;
+            this.s3Check = false;
+            this.sftpCheck = false;
+            break;
+            case  'SFTP' :
+            this.dbCheck = false;
+            this.ftpCheck = false;
+            this.fileCheck = false;
+            this.s3Check = false;
+            this.sftpCheck = true;
+            break;
+            case  'FTP' :
+            this.dbCheck = false;
+            this.ftpCheck = true;
+            this.fileCheck = false;
+            this.s3Check = false;
+            this.sftpCheck = false;
+            break;
+            case  'S3' :
+            this.dbCheck = false;
+            this.ftpCheck = false;
+            this.fileCheck = false;
+            this.s3Check = true;
+            this.sftpCheck = false;
+            break;
+    }
+}
 
 
-    loadProfileData () {
-     /* this.dataProfileLoding = true;
+getRowData(row) {
+console.log(row);
+}
+
+loadProfileData () {
+    alert("hello")
+     
+      this.dataProfileLoding = true;
         switch (this.currentLocation.type) {
 
             case 'HDFS':
@@ -206,7 +285,11 @@ const inst = jQuery(container);
                     properties: JSON.stringify(this.properties)
                 };
 
-                DataSourceResources.hdfs_Profile.query(hdfsRequest, handleResponse);
+                this.dataService.hdfs_Profile(apiRequest).subscribe(
+                  data => {
+                    this.handleProfileResponse(this, data);
+
+                  });
                 break;
 
             case 'TABLE':
@@ -216,7 +299,11 @@ const inst = jQuery(container);
                     schema: this.currentLocation.schema
                 };
 
-                DataSourceResources.dataProfile.query(tableRequest, handleResponse);
+                this.dataService.dataProfile(tableRequest).subscribe(
+                  data => {
+                    this.handleProfileResponse(this, data);
+
+                  });
                 break;
 
             case 'S3':
@@ -229,7 +316,11 @@ const inst = jQuery(container);
                     properties: JSON.stringify(this.properties)
                 };
 
-                DataSourceResources.s3_Profile.query(s3Request, handleResponse);
+                this.dataService.s3_Profile(apiRequest).subscribe(
+                  data => {
+                    this.handleProfileResponse(this, data);
+
+                  });
                 break;
 
             case 'API':
@@ -241,7 +332,11 @@ const inst = jQuery(container);
                     properties: JSON.stringify(this.properties)
                 };
 
-                DataSourceResources.api_Profile.query(apiRequest, handleResponse);
+                this.dataService.api_Profile(apiRequest).subscribe(
+                  data => {
+                    this.handleProfileResponse(this, data);
+
+                  });
                 break;
 
             case '':
@@ -249,49 +344,42 @@ const inst = jQuery(container);
                 break;
         }
 
-        function handleResponse(res) {
-          this.dataProfileLoding = false;
+
+
+    }
+
+    handleProfileResponse(page, res) {
+      page.dataProfileLoding = false;
+      page.profiles = res.data;
+      console.log("in handle response",this.profiles);
+        /*$timeout(function () {
           this.profiles = res.data;
-            /*$timeout(function () {
-              this.profiles = res.data;
-            }, 500);
-      }*/
-
+        }, 500);*/
     }
-    getRemoteStores(row) {
-        this.dataService.getRemoteStores(row).subscribe(
-            data => {
-               this.storeData = data.data;
-               this.temp = data.data;
-                //this.handelResponse = false;
-                console.log(this.storeData);
-     
-            }
-         );
 
-    }
-    
-    remoteStoresLoding = false;
-    getRemoteStore = function (loc) {
+     remoteStoresLoding = false;
+   
+     getRemoteStore (loc) {
       this.remoteStores = [];
       this.remoteStoresLoding = true;
         console.log('getRemoteStore called ', loc);
         this.currentLocation = loc;
+        this.handelResponseStore = true;
+        this.dataService.getRemoteStores(loc).subscribe(
+          data => {
+            this.remoteStoresLoding = false;
+              this.remoteStores = data.data;
+              this.temp1 = data.data;
+              this.handelResponseStore = false;
+          });
 
-
-        /*DataSourceResources.getRemoteStore.query({ location: loc.name }, function (res) {
-            $timeout(function () {
-              this.remoteStoresLoding = false;
-              this.remoteStores = res.data;
-            }, 500);
-
-
-        });*/
     };
 
     changePropertyGetDataForRemoteStore () {
+        console.log("hello")
       this.getDataForRemoteStore(this.currentLocationRemoteStore);
     };
+
 
 
     dataObjectsLoading = false;
@@ -306,13 +394,10 @@ const inst = jQuery(container);
 		var fileExtension = this.currentLocationRemoteStore.name.split('.').pop().toLowerCase();
 		this.contentType = 'application/json';
 
-		if (fileExtension == 'pdf')
-		{
+		if (fileExtension == 'pdf') {
 			this.contentType = 'application/pdf';
 			this.contentCategory = 'raw';
-		}
-		else if (fileExtension == 'txt')
-		{
+		} else if (fileExtension == 'txt') {
 		  this.contentType = 'text/plain';
 		  this.contentCategory = 'txt';
 		  }
@@ -330,18 +415,27 @@ const inst = jQuery(container);
                     start: 1,
                     properties: JSON.stringify(this.properties)
                 };
+                this.dataService.getHdfsData(hdfsRequest).subscribe(
+                  data => {
+                    handleResponse(this, data);
+                    this.refresh = false;
+                  });
 
-                //DataSourceResources.getHdfsData.query(hdfsRequest, handleResponse);
                 break;
             case 'DB':
             case 'TABLE':
+          
                 var tableRequest = {
                     location: this.currentLocation.name,
                     table: this.currentLocationRemoteStore.name,
                     properties: JSON.stringify(this.properties)
                 };
 
-                //DataSourceResources.getDbData.query(tableRequest, handleResponse);
+                this.dataService.getDbData(tableRequest).subscribe(
+                  data => {
+                    handleResponse(this, data);
+                    this.refresh = true;
+                  });
                 break;
 
             case 'S3':
@@ -353,12 +447,23 @@ const inst = jQuery(container);
                     start: 1,
                     properties: JSON.stringify(this.properties)
                 };
-				if (this.contentCategory != 'table')
-				{
-					//DataSourceResources.getS3DataNew.query(s3Request, handleResponse);
-                	}
-                	else
-                		//DataSourceResources.getS3Data.query(s3Request, handleResponse);
+                this.content = 'Hello Vijay';
+               
+                if (this.contentCategory != 'table') {
+               
+                  this.dataService.getS3DataNew(s3Request).subscribe(
+                    data => {
+                     handleResponse(this, data);
+                     this.refresh = false;
+                    });
+
+                          } else {
+                  this.dataService.getS3Data(s3Request).subscribe(
+                    data => {
+                      handleResponse(this, data);
+                      this.refresh = false;
+                    });
+                }
                 break;
 
             case 'STREAM':
@@ -369,8 +474,12 @@ const inst = jQuery(container);
                     start: 1,
                     properties: JSON.stringify(this.properties)
                 };
+                this.dataService.getStreamData(streamRequest).subscribe(
+                  data => {
+                    handleResponse(this, data);
+                    this.refresh = false;
+                  });
 
-                //DataSourceResources.getStreamData.query(streamRequest, handleResponse);
                 break;
             case 'SOLR':
                 var streamRequest = {
@@ -380,8 +489,12 @@ const inst = jQuery(container);
                     start: 1,
                     properties: JSON.stringify(this.properties)
                 };
+                this.dataService.getSolrData(streamRequest).subscribe(
+                  data => {
+                    handleResponse(this, data);
+                    this.refresh = false;
+                  });
 
-                //DataSourceResources.getSolrData.query(streamRequest, handleResponse);
                 break;
             case 'ES':
                 var streamRequest = {
@@ -391,8 +504,12 @@ const inst = jQuery(container);
                     start: 1,
                     properties: JSON.stringify(this.properties)
                 };
+                this.dataService.getEsData(streamRequest).subscribe(
+                  data => {
+                    handleResponse(this, data);
+                    this.refresh = false;
+                  });
 
-                //DataSourceResources.getEsData.query(streamRequest, handleResponse);
                 break;
 
             case 'FILE':
@@ -406,86 +523,120 @@ const inst = jQuery(container);
                     start: 1,
                     properties: JSON.stringify(this.properties)
                 };
+                this.dataService.getApiData(apiRequest).subscribe(
+                  data => {
+                    handleResponse(this, data);
+                    this.refresh = false;
+                  });
 
-                //DataSourceResources.getApiData.query(apiRequest, handleResponse);
                 break;
         }
 
-        function handleResponse(res) {
+        function handleResponse (page, res) {
 
             /*$timeout(function () {
               this.notesLoading = false;
-              this.dataObjectsLoading = false;
+              this.dataObjectsLoading = false;*/
 
-				console.log(this.contentCategory);
-				if(this.contentCategory=='txt')
-				{
-				  var enc = new TextDecoder();
-				  this.content=enc.decode(res.data);
+        console.log('Vijay in handle response');
+              console.log(page.contentCategory);
+              console.log(res);
+				if (page.contentCategory == 'txt') {
+				 // var enc = new TextDecoder();
+				// page.content=enc.decode(res.data);
        			  return;
 				}
-				if(this.contentCategory=='raw')
-				{
-					console.log(this.contentCategory);
+				if (page.contentCategory == 'raw') {
+					console.log(page.contentCategory);
 
-				  var file = new Blob([res.data], {type: this.contentType});
+				  var file = new Blob([res.data], {type: page.contentType});
        			  var fileURL = URL.createObjectURL(file);
-
-       			  this.content=$sce.trustAsResourceUrl(fileURL);
+       			  console.log(fileURL);
+       			  page.content = page.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
        			  return;
 				}
 
-        this.dataObjects = res;
+        page.dataObjects = res;
 
                 var pivotData = [];
-                angular.forEach(this.dataObjects.body, function (dataRow, index) {
+                page.dataObjects.body.forEach(function (dataRow, index) {
                     var data = {};
-                    angular.forEach(this.dataObjects.header, function (header, index) {
+                    page.dataObjects.header.forEach(function (header, index) {
                         data[header] = dataRow[index];
                     });
                     pivotData.push(data);
                 });
-                this.pivotTable = pivotData;
+                page.pivotTable = pivotData;
+                console.log(pivotData);
+                var container = page.el.nativeElement;
+                var inst = jQuery(container);
+                var targetElement = inst.find('#pivotOutput');
+              var derivers = jQuery.pivotUtilities.derivers;
+              var renderers = jQuery.extend(jQuery.pivotUtilities.renderers, jQuery.pivotUtilities.c3_renderers);
+        
+                if (!targetElement) {
+                  console.log('cant find the pivot element');
+                  return;
+                }
 
-                if (this.currentLocation.type == "API" ) {
-                  this.showAce = true;
-                    if (typeof res.body[0] == "object"&&JSON.parse(res.body[0]).error)
+
+              while (targetElement.firstChild) {
+                  targetElement.removeChild(targetElement.firstChild);
+                  console.log("not found")
+                }
+
+                // here is the magic
+                console.log("pivot data", pivotData)
+              
+                targetElement.pivotUI(pivotData, {
+                    renderers: jQuery.pivotUtilities.c3_renderers,
+                    cols: [], rows: [],
+                    rendererName: "Bar Chart"
+                });
+              
+              
+               if (page.currentLocation.type == 'API' ) {
+                  page.showAce = true;
+                    if (typeof res.body[0] == 'object' && JSON.parse(res.body[0]).error) {
                     this.aceViewSession.getDocument().setValue(JSON.stringify(JSON.parse(res.body[0]).error, null, 2));
-                    else {
-                      this.aceViewSession.getDocument().setValue(JSON.stringify(typeof res.body[0] == "object"?JSON.parse(res.body):res.body, null, 2));
+                    } else {
+                      // tslint:disable-next-line:max-line-length
+                      page.aceViewSession.getDocument().setValue(JSON.stringify(typeof res.body[0] == 'object' ? JSON.parse(res.body) : res.body, null, 2));
                     }
-                }
-                else {
-                  this.showAce = false;
+                } else {
+                  page.showAce = false;
                 }
 
-            }, 500);*/
-
-            this.loadNotes();
-            this.loadDataStoreNotes();
+            page.loadNotes();
+            page.loadDataStoreNotes();
         }
     };
     pivotTable = [];
-    
-    loadNotes () {
-        /*DataSourceResources.getDataSourceNotes.query({ name: currentLocationRemoteStore.name }, function (response) {
-          this.dataNotes = response.data;
-            console.log("Data Notes", this.dataNotes);
-            this.setSelectedNoteRowKey();
-        });*/
 
-    }
+
+    //  ##############******** NOTES FUNCTIONALITY STARTS HERE **********##############
+  
+    loadNotes () {
+        this.notesService.getAllDataSourceNotes({ name: this.currentLocationRemoteStore.name }).subscribe(
+        data => {
+          this.dataNotes = data.data;
+            console.log('Data Notes', this.dataNotes);
+            // this.setSelectedNoteRowKey();
+        });
+
+    };
 
     loadDataStoreNotes () {
-        /*DataSourceResources.getDataStoreNotes.query({ name: currentLocationRemoteStore.name }, function (response) {
-            $timeout(function () {
-              this.dataStoreNotes = response.data;
-            }, 500);
-        });*/
-    }
+        this.notesService.getAllDataStoreNotes({ name: this.currentLocationRemoteStore.name }).subscribe(
+        data => {
+          this.dataStoreNotes = data.data;
+        });
+
+    };
 
     addDataSourceResources () {
         console.log('addDataSourceResources calledaa ', this.newDataLocation);
+
         //DataSourceResources.dataLocation.create(this.newDataLocation);
     };
 
@@ -497,23 +648,22 @@ const inst = jQuery(container);
     };
 
     saveNote (note) {
-        /*note.dataStoreName = currentLocationRemoteStore.name;
-        note.rowKey = selectedNoteRowKey;
-        DataSourceResources.getDataSourceNotes.add(note, function (response) {
-            if (response.success) {
-                dataNotes.allRowNotes.push(response.data);
-                setSelectedNoteRowKey(null);
-            }
-        });*/
+        note.dataStoreName = this.currentLocationRemoteStore.name;
+        //note.rowKey = this.selectedNoteRowKey;
+        this.notesService.addDataSourceNote(note).subscribe(
+          data => {
+            //this.dataNotes.allRowNotes.push(response.data);
+                this.setSelectedNoteRowKey(null);
+          });
     };
 
     updateNote (note) {
-       /* DataSourceResources.getDataSourceNotes.update(note, function (response) {
-            if (response.success) {
-                setSelectedNoteRowKey(null);
-                loadNotes();
-            }
-        });*/
+      this.notesService.updateDataSourceNote(note).subscribe(
+        data => {
+          this.setSelectedNoteRowKey(null);
+                this.loadNotes();
+        });
+
     }
 
     deleteNote () {
@@ -541,23 +691,23 @@ const inst = jQuery(container);
     }
 
     saveStoreNote (note) {
-        /*note.dataStoreName = currentLocationRemoteStore.name;
-        note.rowKey = selectedNoteRowKey;
-        DataSourceResources.getDataStoreNotes.add(note, function (response) {
-            if (response.success) {
-                loadDataStoreNotes();
-                setSelectedNoteRowKey(null);
-            }
-        });*/
+        note.dataStoreName = this.currentLocationRemoteStore.name;
+        //note.rowKey = this.selectedNoteRowKey;
+        this.notesService.updateDataStoreNote(note).subscribe(
+          data => {
+            this.loadDataStoreNotes();
+                this.setSelectedNoteRowKey(null);
+          });
+
     };
 
     updateStoreNote (note) {
-        /*DataSourceResources.getDataStoreNotes.update(note, function (response) {
-            if (response.success) {
-                setSelectedNoteRowKey(null);
-                loadDataStoreNotes();
-            }
-        });*/
+      this.notesService.updateDataStoreNote(note).subscribe(
+        data => {
+          this.setSelectedNoteRowKey(null);
+                this.loadDataStoreNotes();
+        });
+
     }
 
     deleteStoreNote () {
@@ -585,9 +735,9 @@ const inst = jQuery(container);
     }
 
     setSelectedNoteRowKey (record) {
-        /*if (record)
-            selectedNoteRowKey = record.toString() + ':!@#:';
-        selectedRowNotes = $filter('filter')(dataNotes.allRowNotes, { rowKey: selectedNoteRowKey }, true);*/
+       // if (record)
+         //   this.selectedNoteRowKey = record.toString() + ':!@#:';
+        //this.selectedRowNotes = $filter('filter')(dataNotes.allRowNotes, { rowKey: selectedNoteRowKey }, true);
     }
 
     getNoteFlag (record) {
@@ -709,7 +859,7 @@ const inst = jQuery(container);
     };
 
     showJsonViwer() {
-       // $('#jsonViewerPopup').modal('show');
+        //$('#jsonViewerPopup').modal('show');
     }
 
 

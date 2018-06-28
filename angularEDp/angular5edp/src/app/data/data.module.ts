@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {routing} from "./data.routing";
+import {routing} from './data.routing';
 import { DataComponent } from './data.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Interceptor } from '../interceptor';
@@ -16,7 +16,7 @@ import { DataService } from './data.service';
         provide: HTTP_INTERCEPTORS,
         useClass: Interceptor,
         multi: true
-      },DataService],
+      }, DataService],
   declarations: [ DataComponent]
 })
 export class DataModule { }

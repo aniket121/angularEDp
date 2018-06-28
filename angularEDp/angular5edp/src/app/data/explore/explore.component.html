@@ -1,570 +1,904 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.21.0/pivot.min.js"></script>
+
 <div id="content">
-        <!-- <div class="row">
-           <sa-big-breadcrumbs [items]="['Data', 'Data Location']" icon="table"
-              class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
-        </div> -->
-        <sa-widgets-grid>
-           <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-8 " style="height: 100%"> 
-            <article >
-                  <div sa-widget [colorbutton]="true" [editbutton]="false"   [togglebutton]="true" [deletebutton]="true" [fullscreenbutton]="false" [custombutton]="false"  >
-                  <!-- widget options:
-                     usage: <div sa-widget id="wid-id-0" [editbutton]="false">
-                     [colorbutton]="false"
-                     [editbutton]="false"
-                     [togglebutton]="false"
-                     [deletebutton]="false"
-                     [fullscreenbutton]="false"
-                     [custombutton]="false"
-                     [collapsed]="true"
-                     [sortable]="false"
-                     -->
-                  <header>
-                     <ul id="widget-tab-1" class="nav pull-left" [ngClass]="{'nav-tabs' : !demoShowTabs, 'nav-pills': demoShowTabs }">
-                        <li class="active">
-                           <a data-toggle="tab" href="#dataTab"> <i class="fa fa-lg fa-arrow-circle-o-down"></i> <span class="hidden-mobile hidden-tablet"> Data </span> </a>
-                        </li>
-                        <li>
-                           <a data-toggle="tab" href="#profileTab"> <i class="fa fa-lg fa-arrow-circle-o-up"></i> <span class="hidden-mobile hidden-tablet"> Data Profile </span></a>
-                        </li>
-                        <li>
-                           <a data-toggle="tab" href="#pivotTab"> <i class="fa fa-lg fa-arrow-circle-o-up"></i> <span class="hidden-mobile hidden-tablet"> Pivot Data </span></a>
-                        </li>
-                     </ul>
-                  </header>
-                  <!-- widget div-->
-                  <div>
-                     <!-- widget content -->
-                     <div class="widget-body ">
-                        <!-- widget body text-->
-                        <div class="tab-content padding-10">
-                              <div class="tab-pane fade in active" id="dataTab">
-                                     <div class="btn-group">  
-                                          <button type="button" class="btn btn-default btn-lg fa fa-plus " > Properties </button>    
-                                          <button type="button" class="btn btn-default btn-lg fa fa-edit " > Import  </button>   
-                                    </div>
-                                    <div>
-                                                <ngx-datatable   style="height: 25vh" #myTable
-                                                class='table-striped bordered' [columnMode]="'force'" [headerHeight]="40"
-                                                [footerHeight]="45" [rowHeight]="35"  [scrollbarH]="true"
-                                                [rows]="storeData"
-                                                [cssClasses]="{
-                                                sortAscending: 'fa fa-sort-up',
-                                                sortDescending: 'fa fa-sort-down',
-                                                pagerLeftArrow: 'fa  fa-angle-left',
-                                                pagerRightArrow: 'fa fa-angle-right',
-                                                pagerPrevious: 'fa fa-angle-double-left',
-                                                pagerNext: 'fa fa-angle-double-right'
-                                                }">
-                                                <!-- Column Templates --> 
+    <div class="row">
+        <sa-big-breadcrumbs [items]="['Explore', 'Data']" icon="table" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+    </div>
+    <sa-widgets-grid>
+        <div class="row">
+            <article class="col-sm-8 col-md-8 col-lg-8">
+                <div sa-widget [colorbutton]="true" [editbutton]="false" [togglebutton]="true" [deletebutton]="true" [fullscreenbutton]="false" [custombutton]="false" style="height: 25vh">
+                    <!-- widget options:
+                               usage: <div sa-widget id="wid-id-0" [editbutton]="false">
+                               [colorbutton]="false"
+                               [editbutton]="false"
+                               [togglebutton]="false"
+                               [deletebutton]="false"
+                               [fullscreenbutton]="false"
+                               [custombutton]="false"
+                               [collapsed]="true"
+                               [sortable]="false"
+                               -->
+                    <header>
+                        <ul id="widget-tab-1" class="nav pull-left" [ngClass]="{'nav-tabs' : !demoShowTabs, 'nav-pills': demoShowTabs }">
+                            <li class="active">
+                                <a data-toggle="tab" href="#data" > <i class="fa fa-lg fa-arrow-circle-o-down"></i> <span class="hidden-mobile hidden-tablet"> Data </span> </a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#profile" (click)="loadProfileData()"> <i class="fa fa-lg fa-arrow-circle-o-up"></i> <span class="hidden-mobile hidden-tablet">  Data Profile </span></a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#pivot" > <i class="fa fa-lg fa-arrow-circle-o-up"></i> <span class="hidden-mobile hidden-tablet"> Pivot Data </span></a>
+                            </li>
+                        </ul>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <!-- widget body text-->
+                            <div class="tab-content padding-10">
+                                <div class="tab-pane fade in active" id="data">
+                                    <div class=" btn-group padding-5">
+                                        <button type="button" class="btn btn-sm btn-default fa fa-plus" >
+                                        Properties
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-default fa fa-edit"  (click)="importModal.show()">
+                                            Import
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-default fa fa-refresh" *ngIf="refresh" >
+                                                Refresh
+                                                </button>
+                                     </div>
+                                    <div sa-widget [editbutton]="false" [fullscreenbutton]="false" color="white">
+                                        
+                                        <div>
+                                            <div class="widget-body no-padding">
+                                                <div class="lightest-gray-bg">
+                                                   
+                                                    <div align="center" *ngIf="handelResponse"><i class="fa fa-gear fa-4x fa-spin"></i></div>
+                                                    
+                                                    <div *ngIf="contentCategory == 'raw'">
+                                                        <object [data]='content' type="application/pdf" style="width: 100%; height: 800px;"></object>
+                                                    </div>
+
+                                                    <div *ngIf="contentCategory == 'txt'">
+                                                        {{content}}
+                                                    </div>
                                                 
-                                                </ngx-datatable>
-            
+                                                    <div *ngIf="contentCategory == 'table'">
+                                                        <ngx-datatable style="height: 35vh" #myTable class="table striped" [columnMode]="'force'" [headerHeight]="40" [footerHeight]="45" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true" [rows]="dataObjects.body" [cssClasses]="{
+                                                          sortAscending: 'fa fa-sort-up',
+                                                          sortDescending: 'fa fa-sort-down',
+                                                          pagerLeftArrow: 'fa  fa-angle-left',
+                                                          pagerRightArrow: 'fa fa-angle-right',
+                                                          pagerPrevious: 'fa fa-angle-double-left',
+                                                          pagerNext: 'fa fa-angle-double-right'
+                                                          }">
+                                                           
+                                                          <!-- Column Templates -->
+                                                            <div *ngIf="handelResponseDataTab"><i class="fa fa-gear fa-4x fa-spin"></i></div>
+                                                            <ngx-datatable-column  name="" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                                                    <p (click)="adddataNoteModal.show()" class="fa fa-flag"></p>
+                                                                </ng-template>
+                                                            </ngx-datatable-column>
+                                                            <ngx-datatable-column *ngFor="let column of dataObjects.header; let i = index" name={{column}} [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                                                    <p (click)="getRowData(row)">{{row[i]}}</p>
+                                                                </ng-template>
+                                                            </ngx-datatable-column>
+
+                                                        </ngx-datatable>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
-                                          for text
-                                    </div>
-                                    <div>
-                                          for raw data
-                                         
-                                    </div>
-                                   
                                 </div>
-                        
-                      
-                              <div class="tab-pane fade" id="profileTab">
-                                          <div>
-                                                      <div class="widget-body padding-50 ">
-                                                         <div class="lightest-gray-bg">
-                                                            <div class="row" style="padding: 4px 0px; margin-left: 72%">
-                                                               <div class="col-md-12 ">
-                                                                  <div class="input-group">
-                                                                     <div class="icon-addon">
-                                                                        <input type="text" id="search" class="form-control"
-                                                                        [(ngModel)]="controls.stores"
-                                                                        placeholder='Type to filter the table...'
-                                                                        (keyup)='updateFilterStore($event)'> <label
-                                                                           style="z-index: 22" for="search" class="fa fa-search"
-                                                                           rel="tooltip" title="search"></label>
-                                                                     </div>
-                                                                  </div>
-                                                               </div>
+                                <div class="tab-pane fade" id="pivot">
+                                    <div id="pivotOutput"></div>
+                                </div>
+                                <div class="tab-pane fade" id="profile">
+                                        <div class=" btn-group padding-5">
+                                                <button type="button" class="btn btn-sm btn-default fa fa-plus" >
+                                                Add Data Source
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-default fa fa-random" >
+                                                    Setup WorkFlow
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-default fa fa-edit" (click)="importModal.show()" >
+                                                        Import In Data Lake
+                                                        </button>
+                                             </div>
+                                             <div class="row" style="padding: 4px 0px; margin-left: 73%">
+                                                    <div class="col-md-12">
+                                                        <div class="input-group">
+                                                            <div class="icon-addon">
+                                                                <input type="text" id="search" class="form-control" [(ngModel)]="controls.location" placeholder='Type to filter the table...' (keyup)='updateFilter($event)'>
+                                                                <label style="z-index: 22" for="search" class="fa fa-search" rel="tooltip" title="search"></label>
                                                             </div>
-                                                            <div align="center" *ngIf="handelResponseStore"><i class="fa fa-gear fa-4x fa-spin"></i></div>
-                                                            <ngx-datatable   style="height: 25vh" #myTable
-                                                            class='table-striped bordered' [columnMode]="'force'" [headerHeight]="40"
-                                                            [footerHeight]="45" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true"
-                                                            [rows]="rows"
-                                                            [cssClasses]="{
-                                                            sortAscending: 'fa fa-sort-up',
-                                                            sortDescending: 'fa fa-sort-down',
-                                                            pagerLeftArrow: 'fa  fa-angle-left',
-                                                            pagerRightArrow: 'fa fa-angle-right',
-                                                            pagerPrevious: 'fa fa-angle-double-left',
-                                                            pagerNext: 'fa fa-angle-double-right'
-                                                            }">
-                                                            <!-- Column Templates --> 
-                                          
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <div sa-widget [editbutton]="false" [fullscreenbutton]="false" color="white">
+                                                
+                                                <div>
+                                                    <div class="widget-body no-padding">
+                                                        <div class="lightest-gray-bg">
+                                                           
+                                                            <div align="center" *ngIf="dataProfileLoding"><i class="fa fa-gear fa-4x fa-spin"></i></div>
                                                             
-                                                            <ngx-datatable-column
-                                                            name="Name"  [resizeable]="true" [sortable]="true"
-                                                            [draggable]="true" [canAutoResize]="true">
-                                                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                                               <p (click)="getFields(row)" (click)="getProperties(row)">{{row.name}}</p>
-                                                            </ng-template>
-                                                            </ngx-datatable-column>
-                                                            <ngx-datatable-column
-                                                            name="Version"  [resizeable]="true" [sortable]="true"
-                                                            [draggable]="true" [canAutoResize]="true">
-                                                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                                               <p (click)="getFields(row)" (click)="getProperties(row)">{{row.version}}</p>
-                                                            </ng-template>
-                                                            </ngx-datatable-column>
-                                                            <ngx-datatable-column name="Type" [width]="180" [resizeable]="true"
-                                                            [sortable]="true" [draggable]="true" [canAutoResize]="true">
-                                                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                                               <span *ngIf="row.type==='TABLE'" class="fa fa-table fa-2x location-icons-store">    {{row.type}} </span> 
-                                                               <span *ngIf="row.type==='S3'" class="fa fa-cloud fa-2x location-icons-store">    {{row.type}}</span> 
-                                                               <span *ngIf="row.type==='HDFS'" class="fa fa-files-o fa-2x location-icons-store">    {{row.type}}</span>
-                                                               <span *ngIf="row.type==='DB'" class="fa fa-database fa-2x location-icons-store">   {{row.type}}</span>
-                                                               <span *ngIf="row.type==='API'" class="fa fa-gear fa-2x location-icons-store">    {{row.type}}</span>
-                                                               <span *ngIf="row.type==='KAFKA'" class="fa fa-files-o fa-2x location-icons-store">    {{row.type}}</span>
-                                                               <span *ngIf="row.type==='FILE'" class="fa fa-file-text-o fa-2x location-icons-store">    {{row.type}}</span>
-                                                               <span *ngIf="row.type==='WEBHDFS'" class="fa fa-files-o fa-2x location-icons-store">    {{row.type}}</span>
-                                                               <span *ngIf="row.type==='FTP'" class="fa fa-folder fa-2x location-icons-store">     {{row.type}}</span>
-                                                               <span *ngIf="row.type==='STREAM'" class="fa fa-files-o fa-2x location-icons-store">    KAFKA</span>
-                                                               <span *ngIf="row.type==='SFTP'" class="fa fa-folder fa-2x location-icons-store">    {{row.type}}</span>
-                                                               <span *ngIf="row.type==='HBASE'" class="fa fa-files-o fa-2x  location-icons-store">    {{row.type}}</span>
-                                                               <span *ngIf="row.type==='SOLR'" class="fa fa-files-o fa-2x  location-icons-store">    {{row.type}}</span>
-                                                               <span *ngIf="row.type==='ELASTIC SEARCH'" class="fa fa-files-o fa-2x location-icons-store">    {{row.type}}</span>
-                                                            </ng-template>
-                                                            </ngx-datatable-column>
-                                                            <ngx-datatable-column
-                                                            name="Tags" [resizeable]="true" [sortable]="true"
-                                                            [draggable]="true" [canAutoResize]="true">
-                                                            <ng-template let-row="row" let-value="value"
-                                                               ngx-datatable-cell-template> <p (click)="getFields(row)" (click)="getProperties(row)">{{row.tags}}</p>
-                                                            </ng-template>
-                                                            </ngx-datatable-column> 
-                                                            <ngx-datatable-column
-                                                            name="Description" [resizeable]="true" [sortable]="true"
-                                                            [draggable]="true" [canAutoResize]="true">
-                                                            <ng-template let-row="row" let-value="value"
-                                                               ngx-datatable-cell-template><p (click)="getFields(row)" (click)="getProperties(row)"> {{row.description}}</p>
-                                                            </ng-template>
-                                                            </ngx-datatable-column>
-                                                            
-                                                            </ngx-datatable>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                              </div>
+             
+                                                            <div>
+                                                                <ngx-datatable style="height: 35vh" #myTable class="table striped" [columnMode]="'force'" [headerHeight]="40" [footerHeight]="45" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true" [rows]="profiles" [cssClasses]="{
+                                                                  sortAscending: 'fa fa-sort-up',
+                                                                  sortDescending: 'fa fa-sort-down',
+                                                                  pagerLeftArrow: 'fa  fa-angle-left',
+                                                                  pagerRightArrow: 'fa fa-angle-right',
+                                                                  pagerPrevious: 'fa fa-angle-double-left',
+                                                                  pagerNext: 'fa fa-angle-double-right'
+                                                                  }">
+                                                                   
+                                                                  <!-- Column Templates -->
 
+                                                                  <ngx-datatable-column name="Name" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                                                           <p (click)="getRowData(row)">{{row.name}}</p>
+                                                                        </ng-template>
+                                                                        </ngx-datatable-column>
+                                                                        <ngx-datatable-column name="Nice Name" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                                                           <p (click)="getRowData(row)">{{row.name}}</p>
+                                                                        </ng-template>
+                                                                        </ngx-datatable-column>
+                                                                        <ngx-datatable-column name="Primary key" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                                                           <p (click)="getRowData(row)">{{row.name}}</p>
+                                                                        </ng-template>
+                                                                        </ngx-datatable-column>
+                                                                        <ngx-datatable-column name="Data Type" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                                                           <p (click)="getRowData(row)">{{row.name}}</p>
+                                                                        </ng-template>
+                                                                        </ngx-datatable-column>
+                                                                        <ngx-datatable-column name="DB Data Type" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                                                           <p (click)="getRowData(row)">{{row.name}}</p>
+                                                                        </ng-template>
+                                                                        </ngx-datatable-column>  
+                                                                        <ngx-datatable-column name="Profiled Length" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                                                           <p (click)="getRowData(row)">{{row.name}}</p>
+                                                                        </ng-template>
+                                                                        </ngx-datatable-column>    <ngx-datatable-column name="Format" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                                                           <p (click)="getRowData(row)">{{row.name}}</p>
+                                                                        </ng-template>
+                                                                        </ngx-datatable-column>    <ngx-datatable-column name="Mandatory" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                                                           <p (click)="getRowData(row)">{{row.name}}</p>
+                                                                        </ng-template>
+                                                                        </ngx-datatable-column>  
+                                                                        <ngx-datatable-column name="Critical" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                                                           <p (click)="getRowData(row)">{{row.name}}</p>
+                                                                        </ng-template>
+                                                                        </ngx-datatable-column> 
+                                                                        <ngx-datatable-column name="Description" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                                                           <p (click)="getRowData(row)">{{row.name}}</p>
+                                                                        </ng-template>
+                                                                        </ngx-datatable-column>
+                                                                </ngx-datatable>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+  <!-- ########**************  DATA LCOATION TABLE *****************######## -->
 
-                        <div class="tab-pane fade" id="pivotTab">    
-                          <div id="output"> </div>
-                       
-                  </div>
-          </div>
-          <!-- end widget body text-->
-          </div>
-          <!-- end widget content -->
-          </div>
-          <!-- end widget div -->
-      </div>
-</article>
-</div>
-<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" id="data-dataProfile-container">
- <!-- #################### DATA LOCATION TABLE  #################### -->
+            <article class="col-sm-4 col-md-4 col-lg-4">
+                <div sa-widget [editbutton]="false" [fullscreenbutton]="false" color="white">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i>
+                   </span>
+                        <h2>Data Location</h2>
+                        <div class="align-left-location">
+                            <a  class="navTabs" (click)="addNewLocation.show()" > 
+                                <i class="fa fa-plus"></i> <span class="hidden-mobile">Add </span>
+                            </a> </div>
+                    </header>
+                    <div>
+                        <div class="widget-body padding-5">
+                            <div class="lightest-gray-bg">
+                                <div class="row" style="padding: 4px 0px; margin-left: 39%">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <div class="icon-addon">
+                                                <input type="text" id="search" class="form-control" [(ngModel)]="controls.location" placeholder='Type to filter the table...' (keyup)='updateFilterLocation($event)'>
+                                                <label style="z-index: 22" for="search" class="fa fa-search" rel="tooltip" title="search"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
- <div > 
- <article >
-            <div sa-widget [editbutton]="false" [fullscreenbutton]="false"
-            color="white">
-            <header >
-               <span class="widget-icon"> <i class="fa fa-table"></i>
-               </span>
-               <h2>Data Location</h2>
-               <div class="align-left-properties">                                            
-                          <a class="addLocation-store-fields" (click)="tagmodelAddEditFields.show()"> <i
-                             class="fa fa-plus"></i> <span class="hidden-mobile">Add </span>
-                          </a>                                            
-                       </div>
-            </header>
-            <div>
-               <div class="widget-body padding-5">
-                  <div class="lightest-gray-bg">
-                     <div class="row" style="padding: 4px 0px; margin-left: 39%">
+                                <div align="center" *ngIf="handelResponse"><i align="center" class="fa fa-gear fa-4x fa-spin"></i></div>
+                                <ngx-datatable style="height: 60vh" #myTable class='table-striped ' [columnMode]="'force'" [headerHeight]="40" [footerHeight]="80" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true" [rows]="dataLocations" [cssClasses]="{
+                         sortAscending: 'fa fa-sort-up',
+                         sortDescending: 'fa fa-sort-down',
+                         pagerLeftArrow: 'fa  fa-angle-left',
+                         pagerRightArrow: 'fa fa-angle-right',
+                         pagerPrevious: 'fa fa-angle-double-left',
+                         pagerNext: 'fa fa-angle-double-right'
+                         }">
+                                    <!-- Column Templates -->
+                                    <ngx-datatable-column name="Type" [width]="180" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <span *ngIf="row.type==='TABLE'" class="fa fa-table fa-2x location-icons-explore">    {{row.type}} </span>
+                                            <span *ngIf="row.type==='S3'" class="fa fa-cloud fa-2x location-icons-explore">    {{row.type}}</span>
+                                            <span *ngIf="row.type==='HDFS'" class="fa fa-files-o fa-2x location-icons-explore">    {{row.type}}</span>
+                                            <span *ngIf="row.type==='DB'" class="fa fa-database fa-2x location-icons-explore">   {{row.type}}</span>
+                                            <span *ngIf="row.type==='API'" class="fa fa-gear fa-2x location-icons-explore">    {{row.type}}</span>
+                                            <span *ngIf="row.type==='KAFKA'" class="fa fa-files-o fa-2x location-icons-explore">    {{row.type}}</span>
+                                            <span *ngIf="row.type==='FILE'" class="fa fa-file-text-o fa-2x location-icons-explore">    {{row.type}}</span>
+                                            <span *ngIf="row.type==='WEBHDFS'" class="fa fa-files-o fa-2x location-icons-explore">    {{row.type}}</span>
+                                            <span *ngIf="row.type==='FTP'" class="fa fa-folder fa-2x location-icons-explore">     {{row.type}}</span>
+                                            <span *ngIf="row.type==='STREAM'" class="fa fa-files-o fa-2x location-icons-explore">    KAFKA</span>
+                                            <span *ngIf="row.type==='SFTP'" class="fa fa-folder fa-2x  location-icons-explore">    {{row.type}}</span>
+                                            <span *ngIf="row.type==='HBASE'" class="fa fa-files-o fa-2x  location-icons-explore">    {{row.type}}</span>
+                                            <span *ngIf="row.type==='SOLR'" class="fa fa-files-o fa-2x  location-icons-explore">    {{row.type}}</span>
+                                            <span *ngIf="row.type==='ELASTIC SEARCH'" class="fa fa-files-o fa-2x  location-icons-explore">    {{row.type}}</span>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Name" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <p (click)="getRemoteStore(row)">{{row.name}}</p>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                </ngx-datatable>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    <!-- ########************** END DATA LOCATION TABLE *****************######## -->
+
+     <!-- ########**************  DATA STORE TABLE  *****************######## -->
+    
+                <div sa-widget [editbutton]="false" [fullscreenbutton]="false" color="white">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i>
+                         </span>
+                        <h2>Data Stores</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body padding-5">
+                            <div class="lightest-gray-bg">
+                                <div class="row" style="padding: 4px 0px; margin-left: 39%">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <div class="icon-addon">
+                                                <input type="text" id="search" class="form-control" [(ngModel)]="controls.store" placeholder='Type to filter the table...' (keyup)='updateFilterStore($event)'>
+                                                <label style="z-index: 22" for="search" class="fa fa-search" rel="tooltip" title="search"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div align="center" *ngIf="handelResponseStore"><i align="center" class="fa fa-gear fa-4x fa-spin"></i></div>
+                                <ngx-datatable style="height: 35vh" #myTable class='table-striped ' [columnMode]="'force'" [headerHeight]="40" [footerHeight]="80" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true" [rows]="remoteStores" [cssClasses]="{
+                   sortAscending: 'fa fa-sort-up',
+                   sortDescending: 'fa fa-sort-down',
+                   pagerLeftArrow: 'fa  fa-angle-left',
+                   pagerRightArrow: 'fa fa-angle-right',
+                   pagerPrevious: 'fa fa-angle-double-left',
+                   pagerNext: 'fa fa-angle-double-right'
+                   }">
+                                    <!-- Column Templates -->
+                                   
+                                    <ngx-datatable-column name="Name" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <p (click)="getDataForRemoteStore(row)">{{row.name}}</p>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Size" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <p (click)="getDataForRemoteStore(row)" >{{row.size}}</p>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                </ngx-datatable>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+ <!-- ########************** END DATA STORE TABLE *****************######## -->
+
+ <!-- ########**************  NOTES TABLE *****************######## -->
+ <div sa-widget [editbutton]="false" [fullscreenbutton]="false" color="white">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-table"></i>
+             </span>
+            <h2>Notes</h2>
+            <div class="align-left-location">
+                    <a  class="navTabs" (click)="addNoteModal.show()" > 
+                        <i class="fa fa-plus"></i> <span class="hidden-mobile">Add </span>
+                    </a> </div>
+          
+        </header>
+        <div>
+            <div class="widget-body padding-5">
+                <div class="lightest-gray-bg">
+                    <div class="row" style="padding: 4px 0px; margin-left: 39%">
                         <div class="col-md-12">
-                           <div class="input-group">
-                              <div class="icon-addon">
-                                 <input type="text" id="search" class="form-control"
-                                 [(ngModel)]="controls.filter"
-                                 placeholder='Type to filter the table...'
-                                 (keyup)='updateFilter($event)'> <label
-                                    style="z-index: 22" for="search" class="fa fa-search"
-                                    rel="tooltip" title="search"></label>
-                              </div>
-                           </div>
+                            <div class="input-group">
+                                <div class="icon-addon">
+                                    <input type="text" id="search" class="form-control" [(ngModel)]="controls.store" placeholder='Type to filter the table...' (keyup)='updateFilterStore($event)'>
+                                    <label style="z-index: 22" for="search" class="fa fa-search" rel="tooltip" title="search"></label>
+                                </div>
+                            </div>
                         </div>
-                     </div>
- 
-                      <div align="center" *ngIf="handelResponse"><i align="center" class="fa fa-gear fa-4x fa-spin"></i></div>
-                     <ngx-datatable   style="height: 60vh" #myTable
-                     class='table-striped ' [columnMode]="'force'" [headerHeight]="40"
-                     [footerHeight]="80" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true"
-                     [rows]="dataLocations"
-                     [cssClasses]="{
-                     sortAscending: 'fa fa-sort-up',
-                     sortDescending: 'fa fa-sort-down',
-                     pagerLeftArrow: 'fa  fa-angle-left',
-                     pagerRightArrow: 'fa fa-angle-right',
-                     pagerPrevious: 'fa fa-angle-double-left',
-                     pagerNext: 'fa fa-angle-double-right'
-                     }">
-                     <!-- Column Templates --> 
-                     <ngx-datatable-column name="Type" [width]="180" [resizeable]="true"
-                     [sortable]="true" [draggable]="true" [canAutoResize]="true">
-                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span *ngIf="row.type==='TABLE'" class="fa fa-table fa-2x location-icons-explore">    {{row.type}} </span> 
-                        <span *ngIf="row.type==='S3'" class="fa fa-cloud fa-2x location-icons-explore">    {{row.type}}</span> 
-                        <span *ngIf="row.type==='HDFS'" class="fa fa-files-o fa-2x location-icons-explore">    {{row.type}}</span>
-                        <span *ngIf="row.type==='DB'" class="fa fa-database fa-2x location-icons-explore">   {{row.type}}</span>
-                        <span *ngIf="row.type==='API'" class="fa fa-gear fa-2x location-icons-explore">    {{row.type}}</span>
-                        <span *ngIf="row.type==='KAFKA'" class="fa fa-files-o fa-2x location-icons-explore">    {{row.type}}</span>
-                        <span *ngIf="row.type==='FILE'" class="fa fa-file-text-o fa-2x location-icons-explore">    {{row.type}}</span>
-                        <span *ngIf="row.type==='WEBHDFS'" class="fa fa-files-o fa-2x location-icons-explore">    {{row.type}}</span>
-                        <span *ngIf="row.type==='FTP'" class="fa fa-folder fa-2x location-icons-explore">     {{row.type}}</span>
-                        <span *ngIf="row.type==='STREAM'" class="fa fa-files-o fa-2x location-icons-explore">    KAFKA</span>
-                        <span *ngIf="row.type==='SFTP'" class="fa fa-folder fa-2x  location-icons-explore">    {{row.type}}</span>
-                        <span *ngIf="row.type==='HBASE'" class="fa fa-files-o fa-2x  location-icons-explore">    {{row.type}}</span>
-                        <span *ngIf="row.type==='SOLR'" class="fa fa-files-o fa-2x  location-icons-explore">    {{row.type}}</span>
-                        <span *ngIf="row.type==='ELASTIC SEARCH'" class="fa fa-files-o fa-2x  location-icons-explore">    {{row.type}}</span>
-                     </ng-template>
-                     </ngx-datatable-column> 
-                     <ngx-datatable-column
-                     name="Name"  [resizeable]="true" [sortable]="true"
-                     [draggable]="true" [canAutoResize]="true">
-                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        <p (click)="getRemoteStores(row)">{{row.name}}</p>
-                     </ng-template>
-                     </ngx-datatable-column>
-                     </ngx-datatable>
-                  </div>
-               </div>
-            </div>
-            </div>
-      </article>
-</div>
-     <!-- ################ END DATA LOCATION TABLE ######################### -->
+                    </div>
 
-    <!-- ###################  DATA STORE TABLE  ########################## -->
-    <div >
-            <article >
-                        <div sa-widget [editbutton]="false" [fullscreenbutton]="false"
-                        color="white">
-                        <header >
-                           <span class="widget-icon"> <i class="fa fa-table"></i>
-                           </span>
-                           <h2>Data store</h2>
-                           <div class="align-left-properties">                                            
-                                      <a class="addLocation-store-fields" (click)="tagmodelAddEditFields.show()"> <i
-                                         class="fa fa-plus"></i> <span class="hidden-mobile">Add </span>
-                                      </a>                                            
-                                   </div>
-                        </header>
-                        <div>
-                           <div class="widget-body padding-5">
-                              <div class="lightest-gray-bg">
-                                 <div class="row" style="padding: 4px 0px; margin-left: 39%">
-                                    <div class="col-md-12">
-                                       <div class="input-group">
-                                          <div class="icon-addon">
-                                             <input type="text" id="search" class="form-control"
-                                             [(ngModel)]="controls.filter"
-                                             placeholder='Type to filter the table...'
-                                             (keyup)='updateFilter($event)'> <label
-                                                style="z-index: 22" for="search" class="fa fa-search"
-                                                rel="tooltip" title="search"></label>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-             
-                                  <div align="center" *ngIf="handelResponse"><i align="center" class="fa fa-gear fa-4x fa-spin"></i></div>
-                                 <ngx-datatable style="height:25vh"  #myTable
-                                 class='table-striped ' [columnMode]="'force'" [headerHeight]="40"
-                                 [footerHeight]="50" [rowHeight]="50" [scrollbarV]="35" [scrollbarH]="true"
-                                 [rows]="storeData"
-                                 [cssClasses]="{
-                                 sortAscending: 'fa fa-sort-up',
-                                 sortDescending: 'fa fa-sort-down',
-                                 pagerLeftArrow: 'fa  fa-angle-left',
-                                 pagerRightArrow: 'fa fa-angle-right',
-                                 pagerPrevious: 'fa fa-angle-double-left',
-                                 pagerNext: 'fa fa-angle-double-right'
-                                 }">
-                                 <!-- Column Templates --> 
+                    <div align="center" *ngIf="handelResponseStore"><i align="center" class="fa fa-gear fa-4x fa-spin"></i></div>
+                    <ngx-datatable style="height: 35vh" #myTable class='table-striped ' [columnMode]="'force'" [headerHeight]="40" [footerHeight]="80" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true" [rows]="rows" [cssClasses]="{
+       sortAscending: 'fa fa-sort-up',
+       sortDescending: 'fa fa-sort-down',
+       pagerLeftArrow: 'fa  fa-angle-left',
+       pagerRightArrow: 'fa fa-angle-right',
+       pagerPrevious: 'fa fa-angle-double-left',
+       pagerNext: 'fa fa-angle-double-right'
+       }">
+                        <!-- Column Templates -->
+                        <ngx-datatable-column name="Action" [width]="180" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                <p  class="fa fa-edit padding-5"></p>
+                                <p  class="fa fa-trash padding-5"></p>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Flag" [width]="180" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                <p  class="fa fa-flag"></p>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Modified" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <p >{{row.modified}}</p>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Author" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <p   >{{row.author}}</p>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Note" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <p   >{{row.note}}</p>
+                                </ng-template>
+                            </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ <!-- ########************** END NOTES TABLE *****************######## --> 
+
+ <!-- ########**************  PROPERTIES TABLE *****************######## -->
+ <div sa-widget [editbutton]="false" [fullscreenbutton]="false" color="white">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-table"></i>
+       </span>
+            <h2>Properties</h2>
+            <div class="align-left-location">
+                <a  class="navTabs" (click)="lgmodaladd.show()" > 
+                    <i class="fa fa-plus"></i> <span class="hidden-mobile">Add </span>
+                </a> </div>
+        </header>
+        <div>
+            <div class="widget-body padding-5">
+                <div class="lightest-gray-bg">
+                    <div class="row" style="padding: 4px 0px; margin-left: 39%">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <div class="icon-addon">
+                                    <input type="text" id="search" class="form-control" [(ngModel)]="controls.location" placeholder='Type to filter the table...' (keyup)='updateFilter($event)'>
+                                    <label style="z-index: 22" for="search" class="fa fa-search" rel="tooltip" title="search"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div align="center" *ngIf="handelResponse"><i align="center" class="fa fa-gear fa-4x fa-spin"></i></div> -->
+                 
+                    <div role="content">
+                            <!-- widget content -->
+                            <div class="widget-body"><div class="jarviswidget-editbox"><input class="form-control" type="text"></div><div class="jarviswidget-editbox"><input class="form-control" type="text"></div>
+                                <div>
+                                    <table class="table table-striped table-bordered table-hover" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th width="50%" class="ng-binding">Name</th>
+                                                <th width="50%" class="ng-binding">Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr (click)="editproperty = !editproperty">
+                                                <td class="col-md-2 control-label ng-binding">Data Delimeter</td>
+                                                <td (click)="editproperty = !editproperty; $event.stopPropagation()">
+                                                    <span [hidden]="editproperty" class="ng-binding" style=""></span>
+                                                    <select (ngModelChange)="changePropertyGetDataForRemoteStore()" class="form-control ng-valid ng-touched ng-dirty ng-valid-parse " (click)="$event.stopPropagation()" [hidden]="!editproperty"    ng-model="properties[0].value" style="">
+                                                         
+                                                        <option value="COMMA">COMMA</option>
+                                                        <option value="PIPE">PIPE</option>
+                                                        <option value="COLON">COLON</option>
+                                                        <option value="SEMICOLON">SEMICOLON</option>
+                                                        <option value="SPACE">SPACE</option>
+                                                        </select>
+                                                </td>
+                                            </tr>
+                                            <tr (click)="editproperty = !editproperty">
+                                                <td class="col-md-2 control-label ng-binding">Header Delimeter</td>
+                                                <td (click)="editproperty = !editproperty; $event.stopPropagation()">
+                                                    <span [hidden]="editproperty" class="ng-binding" style=""></span>
+                                                    <select (ngModelChange)="changePropertyGetDataForRemoteStore()" class="form-control ng-valid ng-dirty ng-valid-parse ng-touched" (click)="$event.stopPropagation()" [hidden]="!editproperty"    ng-model="properties[1].value" style="">
+                                                        <option value="COMMA">COMMA</option>
+                                                        <option value="PIPE">PIPE</option>
+                                                        <option value="COLON">COLON</option>
+                                                        <option value="SEMICOLON">SEMICOLON</option>
+                                                        <option value="SPACE">SPACE</option>
+                                                        </select>
+                                                </td>
+        
+                                            </tr>
+                                            <tr (click)="editproperty = !editproperty; $event.stopPropagation()">
+                                                <td class="col-md-2 control-label ng-binding">Header Row</td>
+                                                <td (click)="editproperty = !editproperty">
+                                                    <span [hidden]="editproperty" class="ng-binding" style=""></span>
+                                                    <input (blur)="changePropertyGetDataForRemoteStore()" class="form-control ng-pristine ng-valid ng-valid-min ng-touched  " type="number" string-to-number="" min="0" (click)="$event.stopPropagation()" [hidden]="!editproperty"    ng-model="properties[2].value" style="">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-md-2 control-label ng-binding">Skip Top Rows</td>
+                                                <td (click)="editproperty = !editproperty">
+                                                    <span [hidden]="editproperty" class="ng-binding" style=""></span>
+                                                    <input (blur)="changePropertyGetDataForRemoteStore()" class="form-control ng-pristine ng-untouched ng-valid ng-valid-min " type="number" string-to-number="" min="0" (click)="$event.stopPropagation()" [hidden]="!editproperty"   ng-model="properties[3].value" style="">
+                                                </td>
+                                            </tr>
+                                           
+                                        </tbody>
+        
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ <!-- ########************** END PROPERTIES TABLE *****************######## -->
+</article> 
+</div>
+ </sa-widgets-grid>
+</div>
+
+<!-- ############################### MODALS ##################################### -->
+
+
+<!-- ############################### lOCATION TABLE MODAL ##################################### -->
+<div class="addNewLocation" id="addNewLocation" #addNewLocation >
+        <div bsModal #addNewLocation="bs-modal" class="modal fade" tabindex="-1"
+           role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+           <div class="modal-dialog-location modal-lg">
+              <div class="modal-content">
+                 <div class="modal-header">
+                    <button type="button" class="close" (click)="addNewLocation.hide()"
+                       aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">New Data Location</h4>
+                 </div>
+                 <div class="modal-body">
+                        <form id="smart-form-information" class="smart-form client-form" #generalForm="ngForm">
+                                <fieldset >
+                                <div class="row">
+                                <section class="col col-6" >
+                                <label class="select" > TYPE <span class="text-danger">*</span>
+                                <select name="type" [(ngModel)]="information.type"  #type="ngModel" (ngModelChange)="locationFormChange(information.type)">
+                                <option value="0" selected disabled>Select type</option>
+                                <option value="DB">DB</option>
+                                <option value="FTP">FTP</option>
+                                <option value="SFTP">SFTP</option>
+                                <option value="FILE">FILE</option>
+                                <option value="API">API</option>
+                                <option value="S3">S3</option>
+                               		
+                                </select> </label>					
+                                </section >
+                                <section class="col col-6" *ngIf="dbCheck||fileCheck||s3Check||ftpCheck||sftpCheck" >
+                                <label class="input">NAME <span class="text-danger">*</span>
+                                <input type="text" name="name" pattern="^[a-zA-Z]+$" required [(ngModel)]="information.name" placeholder="Name" #name="ngModel">
+                                </label>
+                                <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger" >
+                                <div [hidden]="!name.errors.required">
+                                name is required!
+                                </div>
+                                <div [hidden]="name.errors.required">
+                                Please enter valid input
+                                </div>
+                                </div>
+                                </section>
+                                </div>
+                                <section *ngIf="dbCheck"> 
+                                <label class="select">  DB <span class="text-danger">*</span>
+                                <select name="db" [(ngModel)]="information.db" #db="ngModel" (ngModelChange)="onChange()" >
+                                <option  Value="undefined" selected disabled>Select DB</option>
+                                <option  *ngFor="let drivers of driverData" [value]="drivers.value">{{drivers.key}}</option>
+                                </select> </label>
+                                </section>
+                                <div class="row">
+                                <section class="col col-6" *ngIf="dbCheck || ftpCheck||sftpCheck">
+                                <label class="input">HOST <span class="text-danger">*</span>
+                                <input type="text" required [(ngModel)]="information.host" name="host" placeholder="Host" #host="ngModel">
+                                </label>
+                                </section>
+                                <section class="col col-6" *ngIf="dbCheck" >
+                                <label class="input">PORT <span class="text-danger">*</span>
+                                <input type="text" required [(ngModel)]="information.port" pattern="^[0-9]+$" name="port" placeholder="Port" #port="ngModel">
+                                </label>
                                 
-                                 <ngx-datatable-column
-                                 name="Name"  [resizeable]="true" [sortable]="true"
-                                 [draggable]="true" [canAutoResize]="true">
-                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <p (click)="getStore(row)" (click)="getProp(row)" >{{row.name}}</p>
-                                 </ng-template>
-                                 </ngx-datatable-column>
-                                 <ngx-datatable-column
-                                 name="Size"  [resizeable]="true" [sortable]="true"
-                                 [draggable]="true" [canAutoResize]="true">
-                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <p (click)="getProp(row)" >{{row.size}}</p>
-                                 </ng-template>
-                                 </ngx-datatable-column>
-                                 </ngx-datatable>
-                              </div>
-                           </div>
-                        </div>
-                  </div>
-             </article>
-    </div>
- 
-     <!-- ################ END DATA STORE TABLE ######################### -->
-           
-<!-- ###################  DATA NOTES TABLE  ########################## -->
-      <div >
-            <article >
-                        <div sa-widget [editbutton]="false" [fullscreenbutton]="false"
-                        color="white">
-                        <header >
-                           <span class="widget-icon"> <i class="fa fa-table"></i>
-                           </span>
-                           <h2>Notes</h2>
-                           <div class="align-left-properties">                                            
-                                      <a class="addLocation-store-fields" (click)="tagmodelAddEditFields.show()"> <i
-                                         class="fa fa-plus"></i> <span class="hidden-mobile">Add </span>
-                                      </a>                                            
-                                   </div>
-                        </header>
-                        <div>
-                           <div class="widget-body padding-5">
-                              <div class="lightest-gray-bg">
-                                 <div class="row" style="padding: 4px 0px; margin-left: 39%">
-                                    <div class="col-md-12">
-                                       <div class="input-group">
-                                          <div class="icon-addon">
-                                             <input type="text" id="search" class="form-control"
-                                             [(ngModel)]="controls.filter"
-                                             placeholder='Type to filter the table...'
-                                             (keyup)='updateFilter($event)'> <label
-                                                style="z-index: 22" for="search" class="fa fa-search"
-                                                rel="tooltip" title="search"></label>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-             
-                                  <div align="center" *ngIf="handelResponse"><i align="center" class="fa fa-gear fa-4x fa-spin"></i></div>
-                                 <ngx-datatable   style="height: 25vh" #myTable
-                                 class='table-striped ' [columnMode]="'force'" [headerHeight]="40"
-                                 [footerHeight]="80" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true"
-                                 [rows]="rows"
-                                 [cssClasses]="{
-                                 sortAscending: 'fa fa-sort-up',
-                                 sortDescending: 'fa fa-sort-down',
-                                 pagerLeftArrow: 'fa  fa-angle-left',
-                                 pagerRightArrow: 'fa fa-angle-right',
-                                 pagerPrevious: 'fa fa-angle-double-left',
-                                 pagerNext: 'fa fa-angle-double-right'
-                                 }">
-                                 <!-- Column Templates --> 
-                                 <ngx-datatable-column name="Type" [width]="180" [resizeable]="true"
-                                 [sortable]="true" [draggable]="true" [canAutoResize]="true">
-                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span *ngIf="row.type==='TABLE'" class="fa fa-table fa-2x ">    {{row.type}} </span> 
-                                    <span *ngIf="row.type==='S3'" class="fa fa-cloud fa-2x ">    {{row.type}}</span> 
-                                    <span *ngIf="row.type==='HDFS'" class="fa fa-files-o ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='DB'" class="fa fa-database fa-2x ">   {{row.type}}</span>
-                                    <span *ngIf="row.type==='API'" class="fa fa-gear fa-2x ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='KAFKA'" class="fa fa-files-o fa-2x ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='FILE'" class="fa fa-file-text-o fa-2x ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='WEBHDFS'" class="fa fa-files-o fa-2x ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='FTP'" class="fa fa-folder fa-2x ">     {{row.type}}</span>
-                                    <span *ngIf="row.type==='STREAM'" class="fa fa-files-o fa-2x ">    KAFKA</span>
-                                    <span *ngIf="row.type==='SFTP'" class="fa fa-folder fa-2x ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='HBASE'" class="fa fa-files-o fa-2x  ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='SOLR'" class="fa fa-files-o fa-2x  ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='ELASTIC SEARCH'" class="fa fa-files-o fa-2x ">{{row.type}}</span>
-                                 </ng-template>
-                                 </ngx-datatable-column> 
-                                 <ngx-datatable-column
-                                 name="Name"  [resizeable]="true" [sortable]="true"
-                                 [draggable]="true" [canAutoResize]="true">
-                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <p (click)="getStore(row)" (click)="getProp(row)" >{{row.name}}</p>
-                                 </ng-template>
-                                 </ngx-datatable-column>
-                                 </ngx-datatable>
-                              </div>
-                           </div>
-                        </div>
-                  </div>
-             </article>
-    </div>
- 
-     <!-- ################ END NOTES TABLE ######################### -->
-      
-     <!-- ###################  DATA PROPERTIES TABLE  ########################## -->
-     <div >
-            <article >
-                        <div sa-widget [editbutton]="false" [fullscreenbutton]="false"
-                        color="white">
-                        <header >
-                           <span class="widget-icon"> <i class="fa fa-table"></i>
-                           </span>
-                           <h2>Properties</h2>
-                           <div class="align-left-properties">                                            
-                                      <a class="addLocation-store-fields" (click)="tagmodelAddEditFields.show()"> <i
-                                         class="fa fa-plus"></i> <span class="hidden-mobile">Add </span>
-                                      </a>                                            
-                                   </div>
-                        </header>
-                        <div>
-                           <div class="widget-body padding-5">
-                              <div class="lightest-gray-bg">
-                                 <div class="row" style="padding: 4px 0px; margin-left: 39%">
-                                    <div class="col-md-12">
-                                       <div class="input-group">
-                                          <div class="icon-addon">
-                                             <input type="text" id="search" class="form-control"
-                                             [(ngModel)]="controls.filter"
-                                             placeholder='Type to filter the table...'
-                                             (keyup)='updateFilter($event)'> <label
-                                                style="z-index: 22" for="search" class="fa fa-search"
-                                                rel="tooltip" title="search"></label>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-             
-                                  <div align="center" *ngIf="handelResponse"><i align="center" class="fa fa-gear fa-4x fa-spin"></i></div>
-                                 <ngx-datatable   style="height: 25vh" #myTable
-                                 class='table-striped ' [columnMode]="'force'" [headerHeight]="40"
-                                 [footerHeight]="80" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true"
-                                 [rows]="rows"
-                                 [cssClasses]="{
-                                 sortAscending: 'fa fa-sort-up',
-                                 sortDescending: 'fa fa-sort-down',
-                                 pagerLeftArrow: 'fa  fa-angle-left',
-                                 pagerRightArrow: 'fa fa-angle-right',
-                                 pagerPrevious: 'fa fa-angle-double-left',
-                                 pagerNext: 'fa fa-angle-double-right'
-                                 }">
-                                 <!-- Column Templates --> 
-                                 <ngx-datatable-column name="Type" [width]="180" [resizeable]="true"
-                                 [sortable]="true" [draggable]="true" [canAutoResize]="true">
-                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span *ngIf="row.type==='TABLE'" class="fa fa-table fa-2x ">    {{row.type}} </span> 
-                                    <span *ngIf="row.type==='S3'" class="fa fa-cloud fa-2x ">    {{row.type}}</span> 
-                                    <span *ngIf="row.type==='HDFS'" class="fa fa-files-o ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='DB'" class="fa fa-database fa-2x ">   {{row.type}}</span>
-                                    <span *ngIf="row.type==='API'" class="fa fa-gear fa-2x ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='KAFKA'" class="fa fa-files-o fa-2x ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='FILE'" class="fa fa-file-text-o fa-2x ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='WEBHDFS'" class="fa fa-files-o fa-2x ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='FTP'" class="fa fa-folder fa-2x ">     {{row.type}}</span>
-                                    <span *ngIf="row.type==='STREAM'" class="fa fa-files-o fa-2x ">    KAFKA</span>
-                                    <span *ngIf="row.type==='SFTP'" class="fa fa-folder fa-2x ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='HBASE'" class="fa fa-files-o fa-2x  ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='SOLR'" class="fa fa-files-o fa-2x  ">    {{row.type}}</span>
-                                    <span *ngIf="row.type==='ELASTIC SEARCH'" class="fa fa-files-o fa-2x ">{{row.type}}</span>
-                                 </ng-template>
-                                 </ngx-datatable-column> 
-                                 <ngx-datatable-column
-                                 name="Name"  [resizeable]="true" [sortable]="true"
-                                 [draggable]="true" [canAutoResize]="true">
-                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <p (click)="getStore(row)" (click)="getProp(row)" >{{row.name}}</p>
-                                 </ng-template>
-                                 </ngx-datatable-column>
-                                 </ngx-datatable>
-                              </div>
-                           </div>
-                        </div>
-                  </div>
-             </article>
-    </div>
- 
-     <!-- ################ END PROPERTIES TABLE ######################### -->
+                                </section>
+                                </div>
+                                <div class="row" >
+                                <section class="col col-6" *ngIf="dbCheck||ftpCheck||sftpCheck">
+                                <label class="input">USER <span class="text-danger">*</span>
+                                <input type="text" required [(ngModel)]="information.user" name="user" placeholder="user" #user="ngModel">
+                                </label>
+                                </section> 
+                                <section class="col col-6" *ngIf="dbCheck||ftpCheck||sftpCheck" >
+                                <label class="input">PASSWORD <span class="text-danger">*</span>
+                                <input type="password" required [(ngModel)]="information.password" name="password" placeholder="password" #password="ngModel">
+                                </label>
+                                </section>
+                                </div>
+                                <section *ngIf="dbCheck">
+                                <label class="input"> DRIVER <span class="text-danger">*</span>
+                                <input type="text" required [(ngModel)]="information.driver" name="driver" placeholder="Driver" #driver="ngModel">
+                                </label> 
+                                </section>
+                                <section *ngIf="ftpCheck||s3Check">
+                                <label class="input"> FOLDER <span class="text-danger">*</span>
+                                <input type="text" required [(ngModel)]="information.folder" name="folder" placeholder="Folder" #folder="ngModel">
+                                </label> 
+                                </section>
 
+                                <div class="row" >
+                                <section class="col col-6"  *ngIf="s3Check">
+                                <label class="input">ACCESS/API KEY <span class="text-danger">*</span>
+                                <input type="text" required [(ngModel)]="information.access_key" name="access_key" placeholder="Access key" #access_key="ngModel">
+                                </label>
+                                </section>
+                                <section class="col col-6"   *ngIf="s3Check" >
+                                <label class="input">SECRET KEY <span class="text-danger">*</span>
+                                <input type="text" required [(ngModel)]="information.secret_key"  name="secret_key" placeholder="Secret key" #secret_key="ngModel">
+                                </label>
+                                </section>
+                                </div>
+                                <section *ngIf="dbCheck">
+                                <label class="input">SCHEMA <span class="text-danger">*</span>
+                                <input type="text" required [(ngModel)]="information.schema"  name="schema" placeholder="Schema" #schema="ngModel">
+                                </label>
+                                </section>
+                               
+                                <section  *ngIf="s3Check">
+                                <label class="input">BUCKET <span class="text-danger">*</span>
+                                <input type="text" required [(ngModel)]="information.bucket"  name="bucket" placeholder="Bucket" #bucket="ngModel">
+                                </label>
+                                </section>
+                               
+                                <section *ngIf="dbCheck">
+                                <label class="input">URL <span class="text-danger">*</span> 
+                                <input type="url" required [(ngModel)]="information.url"  name="url" placeholder="DB URL" id="url" #url="ngModel">
+                                </label>  
+                               
+                                </section>
+                                <section *ngIf="dbCheck||fileCheck||s3Check||ftpCheck||sftpCheck" >
+                                <label class="input"> DESCRIPTION <span class="text-danger">*</span>
+                                <input type="text" [(ngModel)]="information.description"  name="description" placeholder="Description" id="desc" #description="ngModel">
+                                </label> 
+                                </section>
+                                </fieldset>
+                                <fieldset>
+                                </fieldset>
+                                <footer>
+                                <div class="actions ">
+                                <button type="button" class="btn btn-sm btn-success btn-next"  >
+                                Submit
+                                </button>
+                                </div>
+                                </footer>
+                                </form>
+                
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+<!-- ############################### END lOCATION TABLE MODAL ##################################### -->
 
-</div>
+<!-- ############################### IMPORT MODAL ##################################### -->
 
-</div>
-</sa-widgets-grid>
-</div>
-
-
-
-<!--******************** MODAL ************************** -->
-<div class="basicModal ">
-            <div bsModal #basicModal="bs-modal" class="modal fade reduceSize" tabindex="-1"
-               role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-               <div class="modal-dialog modal-lg">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <button type="button" class="close" (click)="basicModal.hide()"
-                           aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+<div class="importModal" id="importModal" #importModal>
+        <div bsModal #importModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog-location modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" (click)="importModal.hide()" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">clone Store</h4>
-                     </div>
-                     <div class="modal-body">
-                        <!-- <form id="smart-form-information-clone" class="smart-form client-form" #cloneForm="ngForm">
-                            <fieldset >
-                        <section  >
-                            <label class="input">NAME <span class="text-danger">*</span>
-                            <input type="text" name="name" required [(ngModel)]="storeinformation.name" placeholder="Name" #name="ngModel">
-                            </label>
-                            </section>
-                            <section>
-                              <label class="select" > TYPE <span class="text-danger">*</span>
-                              <select name="type" [(ngModel)]="storeinformation.type"  #type="ngModel" (ngModelChange)="locationFormChange(storeinformation.type)" >
-                              <option value="0" selected disabled>Select type</option>
-                              <option value="FILE">FILE</option>
-                              <option value="TABLE">TABLE</option>
-                              <option value="QUERY">QUERY</option>
-                              <option value="UNION">UNION</option>
-                              <option value="TRANSPOSE">TRANSPOSE</option>
-                              <option value="QUERY">CUSTOM QUERY</option>
-                              <option value="SUMMARY">SUMMARY</option>
-                              <option value="TOPIC">TOPIC</option>
-                              <option value="API">API</option>
-                              </select> </label>					
-                              </section>
+                        <h4 class="modal-title"> Import Data</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="smart-form-information" class="smart-form client-form" #generalForm="ngForm">
+                            <fieldset>
+    
                                 <section>
-                                    <label class="input">DESCRIPTION <span class="text-danger">*</span>
-                                    <input type="text" required [(ngModel)]="storeinformation.description" name="description" placeholder="DESCRIPTION" #description="ngModel">
+                                    <label class="select"> Data Location <span class="text-danger">*</span>
+                                        <select name="type" [(ngModel)]="information.type" #type="ngModel">
+                                            <option value="undefined"  disabled selected>Select Location</option>
+                                            <option *ngFor="let drivers of dataLocations" [value]="drivers.name">{{drivers.name}}</option>
+                                        </select>
                                     </label>
-                                  </section>
+                                </section>
+    
+                                <section>
+                                    <label class="select"> Partition <span class="text-danger">*</span>
+                                        <select name="type" [(ngModel)]="information.type" #type="ngModel">
+                                            <option value="undefined" selected disabled>Select partition</option>
+                                            <option value="File Name">File Name</option>
+                                            <option value="Month ">Month</option>
+                                            <option value="day">day</option>
+    
+                                        </select>
+                                    </label>
+                                </section>
+    
+                                <section>
+                                    <label class="select"> File Format <span class="text-danger">*</span>
+                                        <select name="type" [(ngModel)]="information.type" #type="ngModel">
+                                            <option value="undefined" selected disabled>Select file Format</option>
+                                            <option value="Text">Text</option>
+                                            <option value="Sequence ">Sequence</option>
+                                            <option value="PARAQUET">PARAQUET</option>
+                                            <option value="ORC">ORC</option>
+                                        </select>
+                                    </label>
+                                </section>
+                                <section>
+                                    <label class="select">Compression <span class="text-danger">*</span>
+                                        <select name="type" [(ngModel)]="information.type" #type="ngModel">
+                                            <option value="undefined" selected disabled>Select compression</option>
+                                            <option value="NO">NO</option>
+                                            <option value="GZ">GZ</option>
+                                            <option value="ZIP">ZIP</option>
+                                            <option value="snappy">snappy</option>
+                                            <option value="LZ4">LZ4</option>
+                                        </select>
+                                    </label>
+                                </section>
+                                <section>
+                                    <label class="input"> Description <span class="text-danger">*</span></label>
+                                        
+                                     <textarea rows="4" cols="70" [(ngModel)]="information.description" name="description" placeholder="Description" id="desc" #description="ngModel">
+                                     </textarea>
+                                    
+                                </section>
+                                <div class="row">
+                                <section class="col col-6" >
+                                    <label class="select"> Transient Location <span class="text-danger">*</span>
+                                        <select name="type" [(ngModel)]="information.type" #type="ngModel">
+                                            <option value="undefined" selected disabled>Select Location</option>
+                                            <option *ngFor="let drivers of dataLocations" [value]="drivers.name">{{drivers.name}}</option>
+                                        </select>
+                                    </label>
+                                </section>
+                                </div>
+                                <div class="row">
+                                <section class="col col-6">
+                                    <label class="input">Daily Source Table <span class="text-danger">*</span>
+                                        <input type="text" required [(ngModel)]="information.host" name="host" placeholder="Daily Source Table" #host="ngModel">
+                                    </label>
+                                </section>
+                                </div>
+                                <div class="row">
+                                <section class="col col-6">
+                                    <label class="input"> FOLDER <span class="text-danger">*</span>
+                                        <input type="text" required [(ngModel)]="information.folder" name="folder" placeholder="Folder" #folder="ngModel">
+                                    </label>
+                                </section>
+                                </div>
+                                <div class="row">
+                                <section class="col col-6">
+                                    <label class="input">Schema <span class="text-danger">*</span>
+                                        <input type="text" required [(ngModel)]="information.port" name="port" placeholder="Schema" #port="ngModel">
+                                    </label>
+    
+                                </section>
+                                </div>
+                                <div class="row">
+                                <section class="col col-6">
+                                    <label class="input">Table <span class="text-danger">*</span>
+                                        <input type="text" required [(ngModel)]="information.user" name="user" placeholder="Table" #user="ngModel">
+                                    </label>
+                                </section>
+                                </div>
+                                <section>
+                                    <label class="input">Table SQL <span class="text-danger">*</span> </label>
+                                       
+                                        <textarea rows="4" cols="70" required [(ngModel)]="information.password" name="password" placeholder="Table SQL" #password="ngModel">
+                                            </textarea>
+                                   
+                                </section>
+    
                             </fieldset>
                             <footer>
                                 <div class="actions ">
-                                <button type="button" class="btn btn-sm btn-primary"  (click)="cloneStore(storeinformation)"  (click)="tagmodelclone.hide()">
-                                Submit 
-                                </button>
-                                <button type="button" class="btn btn-sm  "  (click)="tagmodelclone.hide()">
-                                    Cancel
-                                  </button>
+                                    <button type="button" class="btn btn-sm btn-success btn-next">
+                                        Submit
+                                    </button>
+    
                                 </div>
-                               </footer>
-                      </form> -->
-                     </div>
-                  </div>
-               </div>
+                            </footer>
+                        </form>
+    
+                    </div>
+                </div>
             </div>
-          </div>
-          <!--********************END MODAL ************************** -->
-          
+        </div>
+    </div>
+<!-- ############################### END IMPORT MODAL ##################################### -->
+
+<!-- ############################### ADD NOTE MODAL ##################################### -->
+
+<div class="addNoteModal" id="addNoteModal" #addNoteModal>
+        <div bsModal #addNoteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog-location modal-lg" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" (click)="addNoteModal.hide()" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title"> Note</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="smart-form-information" class="smart-form client-form" #generalForm="ngForm">
+                            <fieldset>
+                                    <label class="input"> Flag <span class="text-danger">*</span></label>
+                                    <div class="inline-group">
+                                            <label class="radio">
+                                                        <input type="radio" name="flag" id="none" value="1" ng-model="rowNote.flag"  >
+                                                        <i></i>None</label>
+                                            <label class="radio">
+                                                        <input type="radio" name="flag" id="yellow" value="2" ng-model="rowNote.flag"  >
+                                                        <i></i>Yellow </label>
+                                            <label class="radio">
+                                                        <input type="radio" name="flag" id="red" value="3" ng-model="rowNote.flag"  >
+                                                        <i></i>Red</label>
+                                        </div>
+                    
+                                <section>
+                                    <label> Note <span class="text-danger">*</span></label>
+                                        
+                                     <textarea rows="4" cols="70" [(ngModel)]="information.description" name="description" placeholder="Please Write Note" id="desc" #description="ngModel">
+                                     </textarea>
+                                    
+                                </section>
+                               
+                             
+                                <section>
+                                    <label class="select">Status <span class="text-danger">*</span>
+                                        <select name="type" [(ngModel)]="information.type" #type="ngModel">
+                                            <option value="undefined" selected disabled>Select status</option>
+                                            <option value="Private">Private</option>
+                                            <option value="Public">Public</option>
+                                        
+                                        </select>
+                                    </label>
+                                </section>
+                             
+    
+                            </fieldset>
+                            <footer>
+                                <div class="actions ">
+                                    <button type="button" class="btn btn-sm btn-success btn-next">
+                                        Save
+                                    </button>
+    
+                                </div>
+                            </footer>
+                        </form>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- ############################### END ADD NOTE MODAL ##################################### -->
 
 
-          
+<!-- ############################### ADD DATA NOTE MODAL ##################################### -->
+
+<div class="adddataNoteModal" id="adddataNoteModal" #adddataNoteModal>
+    <div bsModal #adddataNoteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog-location modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" (click)="adddataNoteModal.hide()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"> Note</h4>
+                   
+                </div>
+                <div class="modal-body" >
+                        <div class=" btn-group padding-5">
+                                <button type="button" class="btn btn-sm btn-default fa fa-plus"  (click)="addNoteModal.show()">
+                                Add
+                                </button>
+                                <button type="button" class="btn btn-sm btn-default fa fa-edit"  (click)="addNoteModal.show()">
+                                Edit
+                                </button>
+                                <button type="button" class="btn btn-sm btn-default fa fa-trash"  >
+                                Remove
+                                </button>
+                             </div>
+                             <ngx-datatable style="height: 35vh" #myTable class='table-striped ' [columnMode]="'force'" [headerHeight]="40" [footerHeight]="80" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true" [rows]="rows" [cssClasses]="{
+                                sortAscending: 'fa fa-sort-up',
+                                sortDescending: 'fa fa-sort-down',
+                                pagerLeftArrow: 'fa  fa-angle-left',
+                                pagerRightArrow: 'fa fa-angle-right',
+                                pagerPrevious: 'fa fa-angle-double-left',
+                                pagerNext: 'fa fa-angle-double-right'
+                                }">
+                                                 <!-- Column Templates -->
+                                                 <ngx-datatable-column name="Action" [width]="180" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                         <ng-template let-row="row" ngx-datatable-cell-template>
+                                                         <p  class="fa fa-edit padding-5"></p>
+                                                         <p  class="fa fa-trash padding-5"></p>
+                                                     </ng-template>
+                                                 </ngx-datatable-column>
+                                                 <ngx-datatable-column name="Flag" [width]="180" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                         <ng-template let-row="row" ngx-datatable-cell-template>
+                                                         <p  class="fa fa-flag"></p>
+                                                     </ng-template>
+                                                 </ngx-datatable-column>
+                                                 <ngx-datatable-column name="Modified" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                     <ng-template let-row="row" ngx-datatable-cell-template>
+                                                         <p >{{row.modified}}</p>
+                                                     </ng-template>
+                                                 </ngx-datatable-column>
+                                                 <ngx-datatable-column name="Author" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                     <ng-template let-row="row" ngx-datatable-cell-template>
+                                                         <p   >{{row.author}}</p>
+                                                     </ng-template>
+                                                 </ngx-datatable-column>
+                                                 <ngx-datatable-column name="Note" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                         <ng-template let-row="row" ngx-datatable-cell-template>
+                                                             <p   >{{row.note}}</p>
+                                                         </ng-template>
+                                                     </ngx-datatable-column>
+                                             </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ############################### END ADD NOTE MODAL ##################################### -->
