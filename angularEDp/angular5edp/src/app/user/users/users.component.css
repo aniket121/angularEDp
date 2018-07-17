@@ -87,3 +87,17 @@ margin-left: 60px;
 	margin: auto;
   margin-top: 4%;
 }
+.btn-group{
+    
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+	font-size: 14px;
+	margin-bottom: -23px
+
+}
+.btn-group-member{
+
+	margin-bottom: 7px !important;
+}
+

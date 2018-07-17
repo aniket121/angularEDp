@@ -26,12 +26,13 @@ export const routes: Routes = [
             },
         ],
     },
-  
+
 
      {path: 'auth', component: AuthLayoutComponent, loadChildren: 'app/auth/auth.module#AuthModule'},
       {path: 'data', component: EdpLayoutComponent, loadChildren: 'app/data/data.module#DataModule'},
+      {path: 'user', component: EdpLayoutComponent, loadChildren: 'app/user/user.module#UserModule'},
 
-  {path: '', redirectTo: 'auth/login',pathMatch: 'full'}
+        {path: '', redirectTo: 'auth/login',pathMatch: 'full'}
 
 ];
 

@@ -11,6 +11,8 @@ import {SmartadminWizardsModule} from '../../shared/forms/wizards/smartadmin-wiz
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import {PickListModule} from 'primeng/picklist';
+import { AceEditorModule } from 'ng2-ace-editor';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 
 @NgModule({
@@ -23,11 +25,14 @@ import {PickListModule} from 'primeng/picklist';
     SmartadminModule,
     SmartadminWizardsModule,
       NgxDatatableModule,
+      AceEditorModule,
       SmartadminDatatableModule,
       AccordionModule.forRoot(),
       ModalModule.forRoot(),
       CarouselModule.forRoot(),
-    FormsModule
+    FormsModule,
+    NgxJsonViewerModule
+
   ],
   exports: [],
   declarations: [ExploreComponent]

@@ -24,7 +24,7 @@
 					  <div class="row" style="padding: 8px 12px">
 						 <div class="col-md-6">
 							<div class="input-group">
-							   <div class="icon-addon">
+					         		   <div class="icon-addon">
 								  <input type="text" id="search" class="form-control"
 								  [(ngModel)]="controls.filter"
 								  placeholder='Type to filter the table...'
@@ -49,7 +49,7 @@
 					  pagerNext: 'fa fa-angle-double-right'
 					  }">
 					  <!-- Column Templates --> 
-					  <div *ngIf="handelResponse"><i class="fa fa-gear fa-4x fa-spin"></i></div>
+					
 					  <ngx-datatable-column  name="Add/edit Tag" [resizeable]="true"
 					  [sortable]="true" [draggable]="true" [width]="100" [canAutoResize]="true">
 					  <ng-template let-row="row" let-value="value"
@@ -59,6 +59,7 @@
 						 </div>
 					  </ng-template>
 					  </ngx-datatable-column>
+					 
 					  <ngx-datatable-column  name="Action" [resizeable]="true"
 					  [sortable]="true" [draggable]="true" [width]="55" [canAutoResize]="true">
 					  <ng-template let-row="row" let-value="value"

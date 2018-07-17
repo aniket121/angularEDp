@@ -21,11 +21,11 @@ export class DataNotesService {
       return this.http.post<UserResponse>(environment.API_URL + '/notes/dataRow/add', data).map(res => res);
    }
    getAllDataSourceNotes(data) {
-      return this.http.get<any>(environment.API_URL + '/notes/dataRow/getByDataStouceName',{params: data}).map(res => res);
+      return this.http.get<any>(environment.API_URL + '/notes/dataRow/getByDataStouceName', {params: data}).map(res => res);
    }
    
    deleteDataSourceNote(data: any) {
-      return this.http.post<UserResponse>(environment.API_URL + '/notes/dataRow/delete', data).map(res => res);
+      return this.http.post<UserResponse>(environment.API_URL + '/notes/dataRow/delete?id=' + data.id, data).map(res => res);
    }
    updateDataSourceNote(data: any) {
       return this.http.post<UserResponse>(environment.API_URL + '/notes/dataRow/update', data).map(res => res);
@@ -34,9 +34,10 @@ export class DataNotesService {
     return this.http.post<UserResponse>(environment.API_URL + '/notes/dataStore/add', data).map(res => res);
     }
     getAllDataStoreNotes(data) {
-        return this.http.get<any>(environment.API_URL + '/notes/dataStore/getByDataStouceName',{params: data}).map(res => res);
+
+        return this.http.get<any>(environment.API_URL + '/notes/dataStore/getByDataStouceName', {params: data}).map(res => res);
     }
-    
+
     deleteDataStoreNote(data: any) {
         return this.http.post<UserResponse>(environment.API_URL + '/notes/dataStore/delete', data).map(res => res);
     }

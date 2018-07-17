@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class RecentMenuService {
   Menu1:any;
-  Menu2:any;
+  setting:any;
   dataStore:any;
   explore:any;
 
@@ -23,42 +23,42 @@ export class RecentMenuService {
       }
     ],
    
-   this.Menu2 = [
+   this.setting = [
       {
         "href": "/",
-        "title": "subMenu1"
+        "title": "CONFIGURATION"
       },
       {
-        "href": "/",
-        "title": "subMenu2"
+        "href": "/#/user/users",
+        "title": "USER"
       },
       {
-        "href": "/",
-        "title": "subMenu3"
+        "href": "/#/user/directory",
+        'title': 'DIRECTORY'
       }
     ],
     this.dataStore = [
       {
-        "href": "/#/data/store",
-        "title": "DATA STORE"
+        'href': '/#/data/store',
+        'title': 'DATA STORE'
       },
       {
-        "href": "/",
-        "title": "JOIN"
+        'href': '/',
+        'title': 'JOIN'
       },
       {
-        "href": "/",
-        "title": "UNION"
+        'href': '/',
+        'title': 'UNION'
       }
     ],
      this.explore = [
       {
-        "href": "/#/data/explore",
-        "title": "DATA"
+        'href': '/#/data/explore',
+        'title': 'DATA'
       },
       {
-        "href": "/",
-        "title": "QUERY"
+        'href': '/',
+        'title': 'QUERY'
       }
     ]
   }
@@ -66,13 +66,13 @@ export class RecentMenuService {
   getMenu1() {
     return this.Menu1
   }
-  getMenu2() {
-    return this.Menu2
+  getSetting() {
+    return this.setting
   }
   getDataStore() {
     return this.dataStore
   }
-  getExplore(){
+  getExplore() {
     return this.explore
   }
 

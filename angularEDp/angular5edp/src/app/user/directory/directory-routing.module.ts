@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {FormatComponent} from "./format.component";
+import {DirectoryComponent} from './directory.component';
 
 const routes: Routes = [{
   path: '',
-  component: FormatComponent
+  component: DirectoryComponent
 }];
 
 @NgModule({
@@ -12,4 +12,4 @@ const routes: Routes = [{
   exports: [RouterModule],
   providers: []
 })
-export class FormatRoutingModule { }
+export class DirectoryRoutingModule { }

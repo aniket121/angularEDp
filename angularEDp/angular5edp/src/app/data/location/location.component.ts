@@ -21,17 +21,17 @@ export class LocationComponent implements OnInit {
 
   rows: any[] = [];
   temp: any[] = [];
-  dbAdd: boolean = false;
-  dbCheck: boolean = false;
-  apiCheck: boolean = false;
-  kafkaCheck: boolean = false;
-  solrCheck: boolean = false;
-  s3: boolean = false;
-  ftp: boolean = false;
-  file: boolean = false;
-  api: boolean = false;
-  kafka: boolean = false;
-  elasticsearch: boolean = false;
+  dbAdd = false;
+  dbCheck = false;
+  apiCheck = false;
+  kafkaCheck = false;
+  solrCheck = false;
+  s3 = false;
+  ftp = false;
+  file = false;
+  api = false;
+  kafka = false;
+  elasticsearch = false;
   solr = false;
   hdfs = false;
   hbase = false;
@@ -39,28 +39,28 @@ export class LocationComponent implements OnInit {
   salesforce = false;
   geode = false;
   redis = false;
-  handelResponse: boolean = false
-  source: any[];target: any[];
+  handelResponse = false
+  source: any[];
+  target: any[];
   targetData: any[];
   driverData: any = [];
    selectedTags: any;
   locationData: any[] = [];
   controls = {filter: ''}
-  // tslint:disable-next-line:max-line-length
-  public information = {url: '', id: '', type: '', status: '', tags: '', driver: '', user: '', db: '', member: '', modified: '', name: '', description: '', host: '', password: '', port: '', created: '', properties: {check_query: '', callback: '', reference_url: '', token: '', token_sec: '', zookeeper: ''}, folder: '', bucket: '', access_key: '', schema: '', secret_key: ''}
 
-
+  public information:any = {properties: {}}
   // tslint:disable-next-line:max-line-length
   constructor(private jsonApiService: JsonApiService, private httpService: HttpClient, public dataService: DataService, private notificationService: NotificationService, private confirmationService: ConfirmationService) { }
    // tslint:disable-next-line:member-ordering
    @ViewChild('myTable') table: any;
    // tslint:disable-next-line:member-ordering
    @ViewChild('staticModal') public staticModal: ModalDirective;
-  ngOnInit() {
-
+  
+   ngOnInit() {
     this.dbAdd = true;
     this.ftp = false;
     this.file = false;
+   
     this.httpService.get('./assets/dbDriver.json').subscribe(
       data => {
      this.driverData = data;	 // FILL THE ARRAY WITH DATA.
@@ -91,6 +91,7 @@ export class LocationComponent implements OnInit {
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
   }
+  
   save(locationinfo) {
     console.log(locationinfo);
        if (locationinfo.id) {
@@ -101,14 +102,7 @@ export class LocationComponent implements OnInit {
        data => {
 
               this.ngOnInit();
-              this.notificationService.smallBox({
-               title: 'Success',
-               content: 'Data has been updated Successfully',
-               color: '#739E73',
-               iconSmall: 'fa fa-check',
-               timeout: 5000
-           });
-
+            this.updateNotification()
 
 
        }
@@ -119,15 +113,7 @@ export class LocationComponent implements OnInit {
        this.dataService.addLocation(locationinfo).subscribe(
        data => {
                this.ngOnInit();
-              this.notificationService.smallBox({
-               title: 'Success',
-               content: 'Data created Successfully',
-               color: '#739E73',
-               iconSmall: 'fa fa-check',
-               timeout: 5000
-           });
-
-
+               this.saveNotification()
 
        }
     );
@@ -178,8 +164,8 @@ export class LocationComponent implements OnInit {
     );
   }
 
-bindValues(row: any) {
-  let propertiesValues = {check_query: '', callback: '', reference_url: '', token: '', token_sec: '', zookeeper: ''}
+bindValues(row) {
+  let propertiesValues = {}
   propertiesValues = JSON.parse(row.properties)
   this.information.db = row.db;
   this.information.driver = row.driver;
@@ -192,7 +178,7 @@ bindValues(row: any) {
   this.information.user = row.user;
   this.information.description = row.description;
   this.information.properties = propertiesValues;
- this.information.id = row.id;
+  this.information.id = row.id;
   this.information.created = row.created;
   this.information.member = row.member;
   this.information.modified = row.modified;
@@ -411,7 +397,7 @@ locationFormChange(type: any) {
   }
   edit(row) {
   this.ngOnInit();
-    try{
+    try {
     this.bindValues(row)
     this.information.tags = row.tags;
     this.locationFormChange(row.type)
@@ -429,13 +415,7 @@ locationFormChange(type: any) {
             accept: () => {
                 console.log('deleted')
             this.dataService.deleteLocation({'id': row.id}).subscribe(data => {
-               this.notificationService.smallBox({
-               title: 'Success',
-               content: 'Data has been deleted Successfully !',
-               color: '#739E73',
-               iconSmall: 'fa fa-check',
-               timeout: 5000
-            });
+             this.deleteNotification();
             this.ngOnInit();
            }
           );
@@ -448,7 +428,7 @@ locationFormChange(type: any) {
 }
 clearObject() {
  // tslint:disable-next-line:max-line-length
-  this.information = {url: '', id: '', type: '', tags: '', status: '', driver: '', user: '', db: '', member: '', modified: '', name: '', description: '', host: '', password: '', port: '', created: '', properties: {check_query: '', callback: '', reference_url: '', token: '', token_sec: '', zookeeper: ''}, folder: '', bucket: '', access_key: '', schema: '', secret_key: ''}
+  this.information = {properties: {}}
    this.dbAdd = true;
 }
 
@@ -506,4 +486,36 @@ addEdittag(Tagsdata: any) {
  this.ngOnInit();
 }
  
+
+//  ######################## NOTIFICATION FUNCTIONALITY STARTS #############################
+
+saveNotification() {
+  this.notificationService.smallBox({
+    title: 'Success',
+    content: 'saved Successfully',
+    color: '#739E73',
+    iconSmall: 'fa fa-check',
+    timeout: 5000
+});
+}
+updateNotification() {
+  this.notificationService.smallBox({
+    title: 'Success',
+    content: 'Updated Successfully',
+    color: '#739E73',
+    iconSmall: 'fa fa-check',
+    timeout: 5000
+});
+}
+deleteNotification() {
+  this.notificationService.smallBox({
+    title: 'Success',
+    content: 'Data has been deleted Successfully !',
+    color: '#739E73',
+    iconSmall: 'fa fa-check',
+    timeout: 5000
+ });
+}
+//  ####################### USER FUNCTIONALITY STARTS ##############################
+
 }

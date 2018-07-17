@@ -1,0 +1,52 @@
+.directory-btn {
+    margin-left:88%;
+ 
+   
+}
+    .add-btn-directory{
+        color:#333;
+        margin-top: 7px;
+    }
+    .font{
+        font-size:11px;
+    }
+    .activestatus{
+        background-color: #739e73;
+        color:white;
+    
+    }
+    .disabledstatus{
+        background-color: #999;
+        color:white;
+    }
+    .btn-group-directory{
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 14px;
+        margin-bottom: -23px
+    }
+    .modal-dialog-ManageDirectory {
+        width: 700px;
+    	margin: auto;
+         margin-top: 4%;
+    }
+    .modal-dialog-rule{
+        width: 800px;
+    	margin: auto;
+         margin-top: 4%;  
+    }
+    .rule-condition-div {
+        padding: 6px 10px;
+        float: left;
+        border: 1px solid #46b3e9;
+        background-color: #fff;
+        color: #46b3e9;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        text-transform: uppercase;
+        box-sizing: border-box;
+            width: 50px;
+        text-align: center;
+    }

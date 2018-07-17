@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UsersRoutingModule } from './users-routing.module';
-import { UsersComponent } from './users.component';
+import { DirectoryRoutingModule } from './directory-routing.module';
 import { FormsModule } from '@angular/forms';
 import {SmartadminDatatableModule} from '../../shared/ui/datatable/smartadmin-datatable.module';
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
@@ -11,11 +10,12 @@ import {SmartadminWizardsModule} from '../../shared/forms/wizards/smartadmin-wiz
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import {PickListModule} from 'primeng/picklist';
-
+import { DirectoryComponent } from './directory.component';
+import { TagsInputModule } from 'ngx-tags-input/dist';
 @NgModule({
   imports: [
     CommonModule,
-    UsersRoutingModule,
+    DirectoryRoutingModule,
     CommonModule,
     PickListModule,
     ConfirmDialogModule,
@@ -27,8 +27,13 @@ import {PickListModule} from 'primeng/picklist';
       ModalModule.forRoot(),
       CarouselModule.forRoot(),
     FormsModule,
+    TagsInputModule.forRoot()
   ],
   exports: [],
-  declarations: [UsersComponent]
+  declarations: [DirectoryComponent]
 })
-export class UsersModule { }
+
+export class DirectoryModule { }
+
+
+

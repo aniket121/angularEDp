@@ -51,6 +51,9 @@
                                             <button type="button" class="btn btn-sm btn-default fa fa-refresh" *ngIf="refresh" >
                                                 Refresh
                                                 </button>
+                                                <button type="button" class="btn btn-sm btn-default fa fa-desktop" *ngIf="showAce" (click)="jsonModal.show()" >
+                                                Json Viewer
+                                                    </button>
                                      </div>
                                     <div sa-widget [editbutton]="false" [fullscreenbutton]="false" color="white">
                                         
@@ -129,8 +132,8 @@
                                                     <div class="widget-body no-padding">
                                                         <div class="lightest-gray-bg">
                                                            
+                                                          
                                                             <div align="center" *ngIf="dataProfileLoding"><i class="fa fa-gear fa-4x fa-spin"></i></div>
-                                                            
              
                                                             <div>
                                                                 <ngx-datatable style="height: 35vh" #myTable class="table striped" [columnMode]="'force'" [headerHeight]="40" [footerHeight]="45" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true" [rows]="profiles" [cssClasses]="{
@@ -143,7 +146,7 @@
                                                                   }">
                                                                    
                                                                   <!-- Column Templates -->
-
+                                                               
                                                                   <ngx-datatable-column name="Name" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
                                                                         <ng-template let-row="row" ngx-datatable-cell-template>
                                                                            <p (click)="getRowData(row)">{{row.name}}</p>
@@ -286,7 +289,7 @@
                                     <div class="col-md-12">
                                         <div class="input-group">
                                             <div class="icon-addon">
-                                                <input type="text" id="search" class="form-control" [(ngModel)]="controls.store" placeholder='Type to filter the table...' (keyup)='updateFilterStore($event)'>
+                                                <input type="text" id="search" class="form-control"  placeholder='Type to filter the table...' (keyup)='updateFilterStore($event)'>
                                                 <label style="z-index: 22" for="search" class="fa fa-search" rel="tooltip" title="search"></label>
                                             </div>
                                         </div>
@@ -328,9 +331,15 @@
             <span class="widget-icon"> <i class="fa fa-table"></i>
              </span>
             <h2>Notes</h2>
-            <div class="align-left-location">
-                    <a  class="navTabs" (click)="addNoteModal.show()" > 
+            <div class="align-left-note">
+                    <a  class="navTabs padding-5" (click)="addNoteModal.show()" > 
                         <i class="fa fa-plus"></i> <span class="hidden-mobile">Add </span>
+                    </a> 
+                  <a  class="navTabs padding-5" (click)="addNoteModal.show()" > 
+                        <i class="fa fa-edit"></i> <span class="hidden-mobile">Edit </span>
+                    </a> 
+                    <a  class="navTabs padding-5"  > 
+                        <i class="fa fa-trash"></i> <span class="hidden-mobile">Remove</span>
                     </a> </div>
           
         </header>
@@ -341,7 +350,7 @@
                         <div class="col-md-12">
                             <div class="input-group">
                                 <div class="icon-addon">
-                                    <input type="text" id="search" class="form-control" [(ngModel)]="controls.store" placeholder='Type to filter the table...' (keyup)='updateFilterStore($event)'>
+                                    <input type="text" id="search" class="form-control" placeholder='Type to filter the table...' (keyup)='updateFilterStore($event)'>
                                     <label style="z-index: 22" for="search" class="fa fa-search" rel="tooltip" title="search"></label>
                                 </div>
                             </div>
@@ -349,7 +358,7 @@
                     </div>
 
                     <div align="center" *ngIf="handelResponseStore"><i align="center" class="fa fa-gear fa-4x fa-spin"></i></div>
-                    <ngx-datatable style="height: 35vh" #myTable class='table-striped ' [columnMode]="'force'" [headerHeight]="40" [footerHeight]="80" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true" [rows]="rows" [cssClasses]="{
+                    <ngx-datatable style="height: 35vh" #myTable class='table-striped ' [columnMode]="'force'" [headerHeight]="40" [footerHeight]="80" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true" [rows]="dataStoreNotes" [cssClasses]="{
        sortAscending: 'fa fa-sort-up',
        sortDescending: 'fa fa-sort-down',
        pagerLeftArrow: 'fa  fa-angle-left',
@@ -358,12 +367,7 @@
        pagerNext: 'fa fa-angle-double-right'
        }">
                         <!-- Column Templates -->
-                        <ngx-datatable-column name="Action" [width]="180" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
-                                <ng-template let-row="row" ngx-datatable-cell-template>
-                                <p  class="fa fa-edit padding-5"></p>
-                                <p  class="fa fa-trash padding-5"></p>
-                            </ng-template>
-                        </ngx-datatable-column>
+                      
                         <ngx-datatable-column name="Flag" [width]="180" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                 <p  class="fa fa-flag"></p>
@@ -398,10 +402,7 @@
             <span class="widget-icon"> <i class="fa fa-table"></i>
        </span>
             <h2>Properties</h2>
-            <div class="align-left-location">
-                <a  class="navTabs" (click)="lgmodaladd.show()" > 
-                    <i class="fa fa-plus"></i> <span class="hidden-mobile">Add </span>
-                </a> </div>
+            
         </header>
         <div>
             <div class="widget-body padding-5">
@@ -410,7 +411,7 @@
                         <div class="col-md-12">
                             <div class="input-group">
                                 <div class="icon-addon">
-                                    <input type="text" id="search" class="form-control" [(ngModel)]="controls.location" placeholder='Type to filter the table...' (keyup)='updateFilter($event)'>
+                                    <input type="text" id="search" class="form-control" placeholder='Type to filter the table...' (keyup)='updateFilter($event)'>
                                     <label style="z-index: 22" for="search" class="fa fa-search" rel="tooltip" title="search"></label>
                                 </div>
                             </div>
@@ -432,10 +433,10 @@
                                         </thead>
                                         <tbody>
                                             <tr (click)="editproperty = !editproperty">
-                                                <td class="col-md-2 control-label ng-binding">Data Delimeter</td>
+                                                <td class="col-md-2 control-label ng-binding">{{properties[0].data[0].name}}</td>
                                                 <td (click)="editproperty = !editproperty; $event.stopPropagation()">
-                                                    <span [hidden]="editproperty" class="ng-binding" style=""></span>
-                                                    <select (ngModelChange)="changePropertyGetDataForRemoteStore()" class="form-control ng-valid ng-touched ng-dirty ng-valid-parse " (click)="$event.stopPropagation()" [hidden]="!editproperty"    ng-model="properties[0].value" style="">
+                                                    <span [hidden]="editproperty" class="ng-binding" >{{properties[0].data[0].value}}</span>
+                                                    <select (ngModelChange)="changePropertyGetDataForRemoteStore($event)"  class="form-ctrl" (click)="$event.stopPropagation()" [hidden]="!editproperty"    [(ngModel)]="properties[0].data[0].value"  style="">
                                                          
                                                         <option value="COMMA">COMMA</option>
                                                         <option value="PIPE">PIPE</option>
@@ -446,10 +447,10 @@
                                                 </td>
                                             </tr>
                                             <tr (click)="editproperty = !editproperty">
-                                                <td class="col-md-2 control-label ng-binding">Header Delimeter</td>
+                                                <td class="col-md-2 control-label ng-binding">{{properties[0].data[1].name}}</td>
                                                 <td (click)="editproperty = !editproperty; $event.stopPropagation()">
-                                                    <span [hidden]="editproperty" class="ng-binding" style=""></span>
-                                                    <select (ngModelChange)="changePropertyGetDataForRemoteStore()" class="form-control ng-valid ng-dirty ng-valid-parse ng-touched" (click)="$event.stopPropagation()" [hidden]="!editproperty"    ng-model="properties[1].value" style="">
+                                                    <span [hidden]="editproperty" class="ng-binding">{{properties[0].data[1].value}}</span>
+                                                    <select (ngModelChange)="changePropertyGetDataForRemoteStore($event)" class="form-ctrl" (click)="$event.stopPropagation()" [hidden]="!editproperty"    [(ngModel)]="properties[0].data[1].value"  style="">
                                                         <option value="COMMA">COMMA</option>
                                                         <option value="PIPE">PIPE</option>
                                                         <option value="COLON">COLON</option>
@@ -460,17 +461,17 @@
         
                                             </tr>
                                             <tr (click)="editproperty = !editproperty; $event.stopPropagation()">
-                                                <td class="col-md-2 control-label ng-binding">Header Row</td>
+                                                <td class="col-md-2 control-label ng-binding">{{properties[0].data[2].name}}</td>
                                                 <td (click)="editproperty = !editproperty">
-                                                    <span [hidden]="editproperty" class="ng-binding" style=""></span>
-                                                    <input (blur)="changePropertyGetDataForRemoteStore()" class="form-control ng-pristine ng-valid ng-valid-min ng-touched  " type="number" string-to-number="" min="0" (click)="$event.stopPropagation()" [hidden]="!editproperty"    ng-model="properties[2].value" style="">
+                                                    <span [hidden]="editproperty" class="ng-binding" >{{properties[0].data[2].value}}</span>
+                                                    <input (blur)="changePropertyGetDataForRemoteStore($event)" class="form-ctrl"  type="number" string-to-number="" min="0" (click)="$event.stopPropagation()" [hidden]="!editproperty"  [(ngModel)]="properties[0].data[2].value"    style="">
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="col-md-2 control-label ng-binding">Skip Top Rows</td>
+                                                <td class="col-md-2 control-label ng-binding">{{properties[0].data[3].name}}</td>
                                                 <td (click)="editproperty = !editproperty">
-                                                    <span [hidden]="editproperty" class="ng-binding" style=""></span>
-                                                    <input (blur)="changePropertyGetDataForRemoteStore()" class="form-control ng-pristine ng-untouched ng-valid ng-valid-min " type="number" string-to-number="" min="0" (click)="$event.stopPropagation()" [hidden]="!editproperty"   ng-model="properties[3].value" style="">
+                                                    <span [hidden]="editproperty" class="ng-binding" >{{properties[0].data[3].value}}</span>
+                                                    <input (blur)="changePropertyGetDataForRemoteStore($event)" class="form-ctrl"  type="number" string-to-number="" min="0" (click)="$event.stopPropagation()" [hidden]="!editproperty"   [(ngModel)]="properties[0].data[3].value" style="">
                                                 </td>
                                             </tr>
                                            
@@ -767,80 +768,15 @@
     </div>
 <!-- ############################### END IMPORT MODAL ##################################### -->
 
-<!-- ############################### ADD NOTE MODAL ##################################### -->
 
-<div class="addNoteModal" id="addNoteModal" #addNoteModal>
-        <div bsModal #addNoteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog-location modal-lg" >
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" (click)="addNoteModal.hide()" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title"> Note</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form id="smart-form-information" class="smart-form client-form" #generalForm="ngForm">
-                            <fieldset>
-                                    <label class="input"> Flag <span class="text-danger">*</span></label>
-                                    <div class="inline-group">
-                                            <label class="radio">
-                                                        <input type="radio" name="flag" id="none" value="1" ng-model="rowNote.flag"  >
-                                                        <i></i>None</label>
-                                            <label class="radio">
-                                                        <input type="radio" name="flag" id="yellow" value="2" ng-model="rowNote.flag"  >
-                                                        <i></i>Yellow </label>
-                                            <label class="radio">
-                                                        <input type="radio" name="flag" id="red" value="3" ng-model="rowNote.flag"  >
-                                                        <i></i>Red</label>
-                                        </div>
-                    
-                                <section>
-                                    <label> Note <span class="text-danger">*</span></label>
-                                        
-                                     <textarea rows="4" cols="70" [(ngModel)]="information.description" name="description" placeholder="Please Write Note" id="desc" #description="ngModel">
-                                     </textarea>
-                                    
-                                </section>
-                               
-                             
-                                <section>
-                                    <label class="select">Status <span class="text-danger">*</span>
-                                        <select name="type" [(ngModel)]="information.type" #type="ngModel">
-                                            <option value="undefined" selected disabled>Select status</option>
-                                            <option value="Private">Private</option>
-                                            <option value="Public">Public</option>
-                                        
-                                        </select>
-                                    </label>
-                                </section>
-                             
-    
-                            </fieldset>
-                            <footer>
-                                <div class="actions ">
-                                    <button type="button" class="btn btn-sm btn-success btn-next">
-                                        Save
-                                    </button>
-    
-                                </div>
-                            </footer>
-                        </form>
-    
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<!-- ############################### END ADD NOTE MODAL ##################################### -->
 
 
 <!-- ############################### ADD DATA NOTE MODAL ##################################### -->
 
-<div class="adddataNoteModal" id="adddataNoteModal" #adddataNoteModal>
-    <div bsModal #adddataNoteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog-location modal-lg">
-            <div class="modal-content">
+<div class="adddataNoteModal" id="adddataNoteModal" #adddataNoteModal >
+    <div bsModal #adddataNoteModal="bs-modal"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog-note modal-lg">
+            <div class="modal-content" >
                 <div class="modal-header">
                     <button type="button" class="close" (click)="adddataNoteModal.hide()" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -850,17 +786,12 @@
                 </div>
                 <div class="modal-body" >
                         <div class=" btn-group padding-5">
-                                <button type="button" class="btn btn-sm btn-default fa fa-plus"  (click)="addNoteModal.show()">
+                                <button type="button" class="btn btn-sm btn-default fa fa-plus"   (click)="clearObject();addNoteModal.show()">
                                 Add
                                 </button>
-                                <button type="button" class="btn btn-sm btn-default fa fa-edit"  (click)="addNoteModal.show()">
-                                Edit
-                                </button>
-                                <button type="button" class="btn btn-sm btn-default fa fa-trash"  >
-                                Remove
-                                </button>
+                                
                              </div>
-                             <ngx-datatable style="height: 35vh" #myTable class='table-striped ' [columnMode]="'force'" [headerHeight]="40" [footerHeight]="80" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true" [rows]="rows" [cssClasses]="{
+                             <ngx-datatable style="height: 30vh" #myTable class='table-striped ' [columnMode]="'force'" [headerHeight]="40" [footerHeight]="80" [rowHeight]="35" [scrollbarV]="35" [scrollbarH]="true" [rows]="dataNotes.allRowNotes" [cssClasses]="{
                                 sortAscending: 'fa fa-sort-up',
                                 sortDescending: 'fa fa-sort-down',
                                 pagerLeftArrow: 'fa  fa-angle-left',
@@ -869,29 +800,30 @@
                                 pagerNext: 'fa fa-angle-double-right'
                                 }">
                                                  <!-- Column Templates -->
-                                                 <ngx-datatable-column name="Action" [width]="180" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
-                                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                                         <p  class="fa fa-edit padding-5"></p>
-                                                         <p  class="fa fa-trash padding-5"></p>
+                                                 <ngx-datatable-column name="Action" [width]="100" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
+                                                         <ng-template let-row="row" let-value="value" ngbModalContainer
+                                                         ngx-datatable-cell-template>
+                                                         <p  class="fa fa-edit padding-5"  (click)="bindNote(row)" (click)="addNoteModal.show()"></p>
+                                                         <p  class="fa fa-trash padding-5" (click)="deleteNote(row)"  (click)="adddataNoteModal.hide()"></p>
                                                      </ng-template>
                                                  </ngx-datatable-column>
                                                  <ngx-datatable-column name="Flag" [width]="180" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
-                                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                                         <p  class="fa fa-flag"></p>
+                                                         <ng-template let-row="row" let-value="value"  ngx-datatable-cell-template>
+                                                         <p class="fa fa-flag"></p>
                                                      </ng-template>
                                                  </ngx-datatable-column>
                                                  <ngx-datatable-column name="Modified" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
-                                                     <ng-template let-row="row" ngx-datatable-cell-template>
+                                                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                                                          <p >{{row.modified}}</p>
                                                      </ng-template>
                                                  </ngx-datatable-column>
                                                  <ngx-datatable-column name="Author" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
-                                                     <ng-template let-row="row" ngx-datatable-cell-template>
+                                                     <ng-template let-row="row"  let-value="value" ngx-datatable-cell-template>
                                                          <p   >{{row.author}}</p>
                                                      </ng-template>
                                                  </ngx-datatable-column>
                                                  <ngx-datatable-column name="Note" [resizeable]="true" [sortable]="true" [draggable]="true" [canAutoResize]="true">
-                                                         <ng-template let-row="row" ngx-datatable-cell-template>
+                                                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                                                              <p   >{{row.note}}</p>
                                                          </ng-template>
                                                      </ngx-datatable-column>
@@ -901,4 +833,119 @@
         </div>
     </div>
 </div>
+
+<!-- ############################### END DATA NOTE MODAL ##################################### -->
+
+<!-- ############################### ADD NOTE MODAL ##################################### -->
+
+<div class="addNoteModal" id="addNoteModal" #addNoteModal  data-backdrop="static">
+    <div bsModal #addNoteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog-location modal-lg">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" (click)="addNoteModal.hide()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"> Note</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="smart-form-information" class="smart-form client-form" #generalForm="ngForm">
+                        <fieldset>
+                                <label class="input"> Flag <span class="text-danger">*</span></label>
+                                <div class="inline-group">
+                                        <label class="radio">
+                                                    <input type="radio" name="flag" id="none" value="1" [(ngModel)]="rowNote.flag"   >
+                                                    <i></i>None</label>
+                                        <label class="radio">
+                                                    <input type="radio" name="flag" id="yellow" value="2" [(ngModel)]="rowNote.flag"  >
+                                                    <i></i>Yellow </label>
+                                        <label class="radio">
+                                                    <input type="radio" name="flag" id="red" value="3" [(ngModel)]="rowNote.flag"  >
+                                                    <i></i>Red</label>
+                                    </div>
+                
+                            <section>
+                                <label> Note <span class="text-danger">*</span></label>
+                                    
+                                 <textarea rows="4" cols="70" [(ngModel)]="rowNote.note" name="note" placeholder="Please Write Note" id="note" #note="ngModel">
+                                 </textarea>
+                                
+                            </section>
+                           
+                         
+                            <section>
+                                <label class="select">Status <span class="text-danger">*</span>
+                                    <select name="status" [(ngModel)]="rowNote.status" #status="ngModel">
+                                        <option value="undefined" selected disabled>Select status</option>
+                                        <option value="1">Private</option>
+                                        <option value="2">Public</option>
+                                    
+                                    </select>
+                                </label>
+                            </section>
+                         
+
+                        </fieldset>
+                        <footer>
+                            <div class="actions ">
+                                <button type="button" class="btn btn-sm btn-success btn-next" (click)="saveNote(rowNote);addNoteModal.hide()">
+                                    Save
+                                </button>
+
+                            </div>
+                        </footer>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- ############################### END ADD NOTE MODAL ##################################### -->
+
+
+<!-- ############################### JSON VIEWER MODAL ##################################### -->
+
+<div class="jsonModal" id="jsonModal" #jsonModal  data-backdrop="static">
+    <div bsModal #jsonModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog-location modal-lg">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" (click)="jsonModal.hide()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"> Data viewer</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="smart-form-information" class="smart-form client-form" #generalForm="ngForm">
+                        <fieldset>
+                        
+                             <ace-editor [(text)]="jsonData"
+                            theme=""
+                            [readOnly]="true"
+                            style="height:400px;" ></ace-editor> 
+                           
+                            
+                         
+                        </fieldset>
+                        <footer>
+                            <div class="actions ">
+                                <button type="button" class="btn btn-sm btn-default" (click)="jsonModal.hide()">
+                                    Ok
+                                </button>
+
+                            </div>
+                        </footer>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ############################### END JSON VIEWER MODAL ################################### -->
+
+<!--delete-->
+<p-confirmDialog></p-confirmDialog>
+<!--delete-->
+

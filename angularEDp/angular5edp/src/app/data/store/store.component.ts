@@ -63,14 +63,13 @@ export class StoreComponent implements OnInit {
    selectedFieldTag: any
   controls = {filter: '', stores: '', fields: ''}
 
- // tslint:disable-next-line:max-line-length
- public information = { id: ''}
-  // tslint:disable-next-line:max-line-length
-public storeinformation = {actualName: '', created: '', dataLocationId: '', tags: '', id: '', name: '', version: '', type: '', format: '', query: '', description: '', properties: {rowFormat: '', tableType: '', location: '', partitions: '', parameters: '', http_verb: '', what: '', replica: '', replication: '', format: '', topic: '', schema: ''}, delimeter: '', fileContent: '', fileContentLength: '', fileName: '', folder: ''}
- // tslint:disable-next-line:max-line-length
- public storeFieldsInfo = { tags: '', properties: '', id: '', dataStoreId: '', dataStoreVersion: '', name: '', position: '', dataType: '', length: '', isMandatory: '', isPiiData: '', isPhiData: '', isPciData: '', isConfidential: '', format: '', precision: '', description: '', niceName: '', fieldSpec: '', derivedDataType: '', fieldType: ''}
-  // tslint:disable-next-line:max-line-length
-  constructor(private router: Router, private dataService: DataService, private httpService: HttpClient, private notificationService: NotificationService, private confirmationService: ConfirmationService) { }
+ 
+ public information: any = {}
+ public storeinformation:any = {properties: {}}
+ public storeFieldsInfo: any = {}
+
+  constructor(private router: Router, private dataService: DataService, private httpService: HttpClient, 
+    private notificationService: NotificationService, private confirmationService: ConfirmationService) { }
   // tslint:disable-next-line:member-ordering
   @ViewChild('myTable') table: any;
   // tslint:disable-next-line:member-ordering
@@ -362,7 +361,7 @@ deleteStore(row) {
     bindStore(row) {
       console.log('id', row.id)
       // tslint:disable-next-line:max-line-length
-      var propertiesValues = {rowFormat: '', tableType: '', location: '', partitions: '', parameters: '', http_verb: '', what: '', replica: '', replication: '', format: '', topic: '', schema: ''}
+      var propertiesValues = {}
       propertiesValues = JSON.parse(row.properties)
       this.storeinformation.name = row.name;
       this.storeinformation.version = row.version;
@@ -618,9 +617,9 @@ cloneFields(row) {
 
 clearObject() {
   // tslint:disable-next-line:max-line-length
-  this. storeinformation = {actualName: '', created: '', dataLocationId: '', tags: '', id: '', name: '', version: '', type: '', format: '', query: '', description: '', properties: {rowFormat: '', tableType: '', location: '', partitions: '', parameters: '', http_verb: '', what: '', replica: '', replication: '', format: '', topic: '', schema: ''}, delimeter: '', fileContent: '', fileContentLength: '', fileName: '', folder: ''}
+  this. storeinformation = { properties: {}}
   // tslint:disable-next-line:max-line-length
-  this. storeFieldsInfo = { tags: '', properties: '', id: '', dataStoreId: '', dataStoreVersion: '', name: '', position: '', dataType: '', length: '', isMandatory: '', isPiiData: '', isPhiData: '', isPciData: '', isConfidential: '', format: '', precision: '', description: '', niceName: '', fieldSpec: '', derivedDataType: '', fieldType: ''}
+  this. storeFieldsInfo = {}
  }
 
 }

@@ -21,3 +21,6 @@ font-weight: 700 !important;
    background-image: linear-gradient(to bottom,#B1D5F2,#B1D5F2);
 
 }
+.align-menu{
+float: right; display: flex;margin-right: 163px;
+}

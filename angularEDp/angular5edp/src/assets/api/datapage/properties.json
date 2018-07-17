@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "name": "Data Delimeter",
+      "value": "COMMA"
+    },
+    {
+      "name": "Header Delimeter",
+      "value": "COMMA"
+    },
+    {
+      "name": "Header Row",
+      "value": "1"
+    },
+    {
+      "name": "Skip Top Rows",
+      "value": "0"
+    }
+  ]
+}

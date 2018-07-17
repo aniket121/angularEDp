@@ -29,6 +29,7 @@ declare var $: any;
 
 })
 export class ExploreComponent implements OnInit {
+    selectedRowNotes: any;
   temp: any[] = [];
   temp1: any[] = [];
   temp2: any[] = [];
@@ -40,7 +41,7 @@ export class ExploreComponent implements OnInit {
   public termsAgreed = false
   dataLocations: any[] = [];
   profiles: any[] = [];
-  properties: any[] = [];
+  properties = [];
   driverData: any = [];
   remoteStores: any[] = [];
   currentLocation = null;
@@ -51,9 +52,11 @@ export class ExploreComponent implements OnInit {
   editproperty = false;
   selectedTargetLocation = '';
   newnotes = [];
+  selectedNoteRowKey: any;
   editnewnote = {};
   dataObjects = [];
-  dataNotes = [];
+  jsonData = [];
+  dataNotes = {allRowNotes : [] };
   contentCategory = 'table';
   contentType = 'application/json';
   dataStoreNotes = [];
@@ -61,7 +64,7 @@ export class ExploreComponent implements OnInit {
   showAce = false;
   showSubmit = false;
   buttonText = 'Ok';
-  aceViewSession = undefined;
+  aceViewSession = undefined
   refresh = false;
   dbCheck = false;
   ftpCheck = false;
@@ -69,8 +72,10 @@ export class ExploreComponent implements OnInit {
   s3Check = false;
   fileCheck = false;
   apiCheck = false;
-    public information = { id: '', type: ''}
-  chartdata = [
+    public information: any = {}
+    public rowNote: any = {}
+
+    chartdata = [
     {salesperson: 'Bob', sales: 33},
     {salesperson: 'Robin', sales: 12},
     {salesperson: 'Anne', sales: 41},
@@ -91,10 +96,21 @@ export class ExploreComponent implements OnInit {
     @ViewChild('myTable') table: any;
 
     ngOnInit() {
-       
+
         this.httpService.get('./assets/dbDriver.json').subscribe(
             data => {
            this.driverData = data;	 // FILL THE ARRAY WITH DATA.
+            },
+            (err: HttpErrorResponse) => {
+              console.log (err.message);
+            }
+          );
+          this.httpService.get('./assets/api/datapage/properties.json ').subscribe(
+            data => {
+
+                console.log('datapage', data)
+           this.properties.push(data);	 // FILL THE ARRAY WITH DATA.
+           console.log(this.properties)
             },
             (err: HttpErrorResponse) => {
               console.log (err.message);
@@ -105,8 +121,11 @@ export class ExploreComponent implements OnInit {
     // this.generateBarChart();
     this.dataProfileLoding = false;
 
+
+
    }
-   
+
+
    getLocation() {
        this.handelResponse = true;
    this.dataService.getLocation().subscribe(
@@ -125,15 +144,15 @@ export class ExploreComponent implements OnInit {
     let margin = {top: 5, right: 20, bottom: 30, left: 40};
     let width = 600 - margin.left - margin.right;
     let height = 600 - margin.top - margin.bottom;
-    
-    //create svg
+
+    // create svg
 
     let svg = d3.select(this.el.nativeElement).append('svg')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .style('background-color', '#efefef');
 
-    //plot area
+    // plot area
 
     let chart = svg.append('g')
     .attr('class', 'bar')
@@ -215,7 +234,6 @@ updateFilterLocation(event) {
 
 // ################## ADD NEW Location Modal Functionality ##########################
 locationFormChange(type: any) {
-    console.log(type)
     switch (type) {
         case  'DB' :
             this.dbCheck = true;
@@ -268,8 +286,6 @@ console.log(row);
 }
 
 loadProfileData () {
-    alert("hello")
-     
       this.dataProfileLoding = true;
         switch (this.currentLocation.type) {
 
@@ -351,15 +367,13 @@ loadProfileData () {
     handleProfileResponse(page, res) {
       page.dataProfileLoding = false;
       page.profiles = res.data;
-      console.log("in handle response",this.profiles);
-        /*$timeout(function () {
-          this.profiles = res.data;
-        }, 500);*/
+      console.log('in handle response', this.profiles);
     }
 
      remoteStoresLoding = false;
-   
+
      getRemoteStore (loc) {
+    
       this.remoteStores = [];
       this.remoteStoresLoding = true;
         console.log('getRemoteStore called ', loc);
@@ -375,9 +389,9 @@ loadProfileData () {
 
     };
 
-    changePropertyGetDataForRemoteStore () {
-        console.log("hello")
-      this.getDataForRemoteStore(this.currentLocationRemoteStore);
+    changePropertyGetDataForRemoteStore (row) {
+
+      //this.getDataForRemoteStore(this.currentLocationRemoteStore);
     };
 
 
@@ -424,7 +438,7 @@ loadProfileData () {
                 break;
             case 'DB':
             case 'TABLE':
-          
+
                 var tableRequest = {
                     location: this.currentLocation.name,
                     table: this.currentLocationRemoteStore.name,
@@ -448,9 +462,9 @@ loadProfileData () {
                     properties: JSON.stringify(this.properties)
                 };
                 this.content = 'Hello Vijay';
-               
+
                 if (this.contentCategory != 'table') {
-               
+
                   this.dataService.getS3DataNew(s3Request).subscribe(
                     data => {
                      handleResponse(this, data);
@@ -525,6 +539,7 @@ loadProfileData () {
                 };
                 this.dataService.getApiData(apiRequest).subscribe(
                   data => {
+                      console.log("data",data)
                     handleResponse(this, data);
                     this.refresh = false;
                   });
@@ -542,8 +557,6 @@ loadProfileData () {
               console.log(page.contentCategory);
               console.log(res);
 				if (page.contentCategory == 'txt') {
-				 // var enc = new TextDecoder();
-				// page.content=enc.decode(res.data);
        			  return;
 				}
 				if (page.contentCategory == 'raw') {
@@ -573,7 +586,7 @@ loadProfileData () {
                 var targetElement = inst.find('#pivotOutput');
               var derivers = jQuery.pivotUtilities.derivers;
               var renderers = jQuery.extend(jQuery.pivotUtilities.renderers, jQuery.pivotUtilities.c3_renderers);
-        
+
                 if (!targetElement) {
                   console.log('cant find the pivot element');
                   return;
@@ -582,46 +595,43 @@ loadProfileData () {
 
               while (targetElement.firstChild) {
                   targetElement.removeChild(targetElement.firstChild);
-                  console.log("not found")
+                  console.log('not found')
                 }
 
                 // here is the magic
-                console.log("pivot data", pivotData)
-              
+                console.log('pivot data', pivotData)
+
                 targetElement.pivotUI(pivotData, {
                     renderers: jQuery.pivotUtilities.c3_renderers,
                     cols: [], rows: [],
-                    rendererName: "Bar Chart"
+                    rendererName: 'Bar Chart'
                 });
-              
-              
+
+                console.log(page.currentLocation.type)
                if (page.currentLocation.type == 'API' ) {
+
                   page.showAce = true;
-                    if (typeof res.body[0] == 'object' && JSON.parse(res.body[0]).error) {
-                    this.aceViewSession.getDocument().setValue(JSON.stringify(JSON.parse(res.body[0]).error, null, 2));
-                    } else {
-                      // tslint:disable-next-line:max-line-length
-                      page.aceViewSession.getDocument().setValue(JSON.stringify(typeof res.body[0] == 'object' ? JSON.parse(res.body) : res.body, null, 2));
-                    }
-                } else {
+                  page.jsonData = JSON.stringify(res.body, null, '\t')
+
+                 }  else {
                   page.showAce = false;
                 }
 
             page.loadNotes();
-            page.loadDataStoreNotes();
+          //  page.loadDataStoreNotes();
         }
     };
     pivotTable = [];
 
 
     //  ##############******** NOTES FUNCTIONALITY STARTS HERE **********##############
-  
+
     loadNotes () {
         this.notesService.getAllDataSourceNotes({ name: this.currentLocationRemoteStore.name }).subscribe(
         data => {
           this.dataNotes = data.data;
             console.log('Data Notes', this.dataNotes);
-            // this.setSelectedNoteRowKey();
+             this.setSelectedNoteRowKey(data);
         });
 
     };
@@ -629,6 +639,7 @@ loadProfileData () {
     loadDataStoreNotes () {
         this.notesService.getAllDataStoreNotes({ name: this.currentLocationRemoteStore.name }).subscribe(
         data => {
+            alert('in  loadDataStoreNotes')
           this.dataStoreNotes = data.data;
         });
 
@@ -641,67 +652,96 @@ loadProfileData () {
     };
 
 
-    importDataInLake () {
-        /*newDataLocation.targetLocation = selectedTargetLocation.name;
-        console.log("saveImportData called ", this.newImportData);
-        DataSourceResources.import.create(this.newImportData);*/
-    };
+    // importDataInLake () {
+    // newDataLocation.targetLocation = selectedTargetLocation.name;
+    //     console.log("saveImportData called ", this.newImportData);
+    //     DataSourceResources.import.create(this.newImportData);
+    // };
 
+bindNote(row) {
+
+    this.rowNote.flag = row.flag;
+    this.rowNote.note = row.note;
+    this.rowNote.status = row.status;
+    this.rowNote.id = row.id;
+}
     saveNote (note) {
-        note.dataStoreName = this.currentLocationRemoteStore.name;
-        //note.rowKey = this.selectedNoteRowKey;
-        this.notesService.addDataSourceNote(note).subscribe(
-          data => {
-            //this.dataNotes.allRowNotes.push(response.data);
-                this.setSelectedNoteRowKey(null);
-          });
-    };
+        if (note.id) {
+            console.log('in update');
+            this.notesService.updateDataSourceNote(note).subscribe(
+                data => {
+                    this.ngOnInit();
+                  this.setSelectedNoteRowKey(null);
+                        this.loadNotes();
+                        this.notificationService.smallBox({
+                            title: 'Success',
+                            content: 'Note has been updated Successfully',
+                            color: '#739E73',
+                            iconSmall: 'fa fa-check',
+                            timeout: 5000
+                        });
+                });
 
-    updateNote (note) {
-      this.notesService.updateDataSourceNote(note).subscribe(
-        data => {
-          this.setSelectedNoteRowKey(null);
+        } else {
+            console.log('in save note', note)
+            note.dataStoreName = this.currentLocationRemoteStore.name;
+            note.rowKey = this.selectedNoteRowKey;
+            this.notesService.addDataSourceNote(note).subscribe(
+              data => {
+                this.ngOnInit();
+                this.notificationService.smallBox({
+                    title: 'Success',
+                    content: 'Note saved Successfully',
+                    color: '#739E73',
+                    iconSmall: 'fa fa-check',
+                    timeout: 5000
+                });
+                this.dataNotes.allRowNotes.push(data.data);
+                    this.setSelectedNoteRowKey(null);
+              });
+        };
+        this.ngOnInit();
+        }
+
+    deleteNote (row) {
+        this.confirmationService.confirm({
+            message: 'Are you sure that you want to Delete?',
+            header: 'Confirmation',
+            icon: 'fa fa-question-circle',
+            accept: () => {
+                console.log('deleted note')
+            this.notesService.deleteDataSourceNote({ 'id': row.id}).subscribe(data => {
                 this.loadNotes();
-        });
-
-    }
-
-    deleteNote () {
-
-       /* $rootScope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'app/modules/common/views/common.remove.modal.html',
-            controller: 'CommonSmartFormRemoveModalCtrl',
-            resolve: {
-                title: function () {
-                    return 'Note Delete';
-                },
-                description: function () {
-                    return 'Do you really want to Delete this Note?';
-                }
+               this.notificationService.smallBox({
+               title: 'Success',
+               content: 'Data has been deleted Successfully !',
+               color: '#739E73',
+               iconSmall: 'fa fa-check',
+               timeout: 5000
+            });
+            this.ngOnInit();
+           }
+          );
+            },
+            reject: () => {
+                console.log('rejected')
             }
         });
-
-        $rootScope.modalInstance.result.then(function () {
-            DataSourceResources.getDataSourceNotes.delete({ id: selectedRowNote.id }, {}, function () {
-                setSelectedNoteRowKey(null);
-                loadNotes();
-            });
-        });*/
     }
 
-    saveStoreNote (note) {
-        note.dataStoreName = this.currentLocationRemoteStore.name;
-        //note.rowKey = this.selectedNoteRowKey;
-        this.notesService.updateDataStoreNote(note).subscribe(
-          data => {
-            this.loadDataStoreNotes();
-                this.setSelectedNoteRowKey(null);
-          });
+    // saveStoreNote (note) {
+    //     note.dataStoreName = this.currentLocationRemoteStore.name;
+    //     //note.rowKey = this.selectedNoteRowKey;
+    //     this.notesService.updateDataStoreNote(note).subscribe(
+    //       data => {
+    //         this.loadDataStoreNotes();
+    //             this.setSelectedNoteRowKey(null);
+    //       });
 
-    };
+    // };
 
     updateStoreNote (note) {
+
       this.notesService.updateDataStoreNote(note).subscribe(
         data => {
           this.setSelectedNoteRowKey(null);
@@ -735,16 +775,17 @@ loadProfileData () {
     }
 
     setSelectedNoteRowKey (record) {
-       // if (record)
-         //   this.selectedNoteRowKey = record.toString() + ':!@#:';
-        //this.selectedRowNotes = $filter('filter')(dataNotes.allRowNotes, { rowKey: selectedNoteRowKey }, true);
+       if (record) {
+           this.selectedNoteRowKey = record.toString() + ':!@#:';
+       }
+        this.selectedRowNotes = this.dataNotes.allRowNotes;
     }
 
     getNoteFlag (record) {
         /*if (record && this.dataNotes.allRowNotes) {
             var rowNotes = $filter('filter')(dataNotes.allRowNotes, { rowKey: record.toString() + ':!@#:' }, true);
 
-            if ($filter('filter')(rowNotes, { flag: 3 }, true)[0])
+            if ($filter('filter')(rowNotes, { flag: todoData3 }, true)[0])
                 return 3;
             else if (($filter('filter')(rowNotes, { flag: 2 }, true)[0]))
                 return 2;
@@ -812,59 +853,39 @@ loadProfileData () {
             row.note = actualNote;
         });*/
     };
-    todoData = [{
-        'name': 'test1',
-        'merchantid': 'test1',
-        'category': 'test1',
-        'parent': 'test1',
-        'website': 'test1',
-        'type': 'test1',
-        'contact': 'test1',
-        'phone': 'test1',
-    },
-    {
-        'name': 'test1',
-        'merchantid': 'test1',
-        'category': 'test1',
-        'parent': 'test1',
-        'website': 'test1',
-        'type': 'test1',
-        'contact': 'test1',
-        'phone': 'test1',
-    }]
 
-    aceViewLoaded(_editor) {
-      this.aceViewSession = _editor.getSession();
-        _editor.setReadOnly(true);
-        _editor.setOptions({
-            maxLines: 15,
-            fontSize: '12pt',
-            indent_size: 2
-        });
-        _editor.getSession().setTabSize(2);
-        _editor.getSession().setMode('json');
-        _editor.on('change', function (data) {
-            // var aceData = _editor.getValue();
-            // if (aceData.length > 0) {
-            //     var validate = _.isEqual(todoData, JSON.parse(aceData))
-            //     if (validate)
-            //         showSubmit = false
-            //     else
-            //         showSubmit = true;
-            //     console.log("validate:", validate);
-            // }
 
-        })
-        this.aceViewSession.getDocument().setValue(JSON.stringify(this.todoData, null, 2));
-    };
+  // tslint:disable-next-line:member-ordering
 
-    showJsonViwer() {
-        //$('#jsonViewerPopup').modal('show');
+//   todoData = [{
+//     'name': 'test1',
+//     'merchantid': 'test1',
+//     'category': 'test1',
+//     'parent': 'test1',
+//     'website': 'test1',
+//     'type': 'test1',
+//     'contact': 'test1',
+//     'phone': 'test1',
+// },
+// {
+//     'name': 'test1',
+//     'merchantid': 'test1',
+//     'category': 'test1',
+//     'parent': 'test1',
+//     'website': 'test1',
+//     'type': 'test1',
+//     'contact': 'test1',
+//     'phone': 'test1',
+// }]
+
+ clearObject() {
+        this.information = {} 
+        this. rowNote = {}
     }
 
+  
 
-
-
+  
 
 
 
